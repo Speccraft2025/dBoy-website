@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jazel 'dBoy' Isaac</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a; /* Dark navy background */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: clamp(2.5rem, 12vw, 5rem);
+      font-weight: bold;
+      color: #facc15; /* Yellow heading */
+    }
+    header h2 {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-weight: normal;
+    }
+    .image-container {
+      margin: 20px 0;
+      width: 100%;
+      max-width: 400px;
+    }
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    nav button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: 2px solid #facc15;
+      border-radius: 20px;
+      background: transparent;
+      color: #facc15;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    nav button:hover {
+      background: #facc15;
+      color: #0f172a;
+      transform: scale(1.05);
+    }
+    nav button:active {
+      transform: scale(0.95);
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #facc15;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jazel 'dBoy' Isaac</h1>
+    <h2>Creator Extraordinaire</h2>
+  </header>
+
+ <nav>
+    <button>Our Short Film</button>
+    <button>Noises - Project</button>
+    <button>Pre-Order Merch</button>
+    <button>Youtube</button>
+    <button>Spotify</button>
+  </nav>
+
+  <div class="image-container">
+    <!-- Placeholder for PNG image -->
+    <img src="dboy full profile.png" alt="Main Artist Image" id="artist-image">
+  </div>
+
+ 
+
+  <footer>
+    © 2025 | Spec Craft Media Ltd | All Rights Reserved
+  </footer>
+
+  <script>
+    // Placeholder for linking PNGs dynamically later
+    document.getElementById("artist-image").src = "dboy full profile.png";
+  </script>
+</body>
+</html>
