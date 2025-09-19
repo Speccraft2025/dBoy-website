@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jazel 'dBoy' Isaac</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Page Loader Styles */
+    .page-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .loader-logo {
+      width: 80px;
+      height: 80px;
+      border: 4px solid #facc15;
+      border-radius: 50%;
+      border-top: 4px solid transparent;
+      animation: rotate 1s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .page-loader.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Shake Animation */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+      20%, 40%, 60%, 80% { transform: translateX(2px); }
+    }
+
+    .shake:hover {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    /* Tooltip Styles */
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      background: #1e293b;
+      color: #facc15;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #facc15;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1001;
+      pointer-events: none;
+    }
+
+    .tooltip:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Nav button tooltips */
+    nav .tooltip::after {
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 8px;
+    }
+
+    /* Player button tooltips */
+    .floating-player .tooltip::after {
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-right: 8px;
+    }
+
+    /* Popup Styles */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup {
+      background-color: #1e293b;
+      border: 2px solid #facc15;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+    }
+
+    .popup h3 {
+      color: #facc15;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .popup p {
+      color: white;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .popup-close {
+      background: #facc15;
+      color: #0f172a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .popup-close:hover {
+      transform: scale(1.05);
+    }
+
+    /* Right Sticky Media Player */
+    .floating-player {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      width: 60px;
+      background-color: #1e293b;
+      border: 2px solid #facc15;
+      border-radius: 15px;
+      padding: 15px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .floating-player.expanded {
+      width: 280px;
+      padding: 20px;
+      flex-direction: row;
+      gap: 20px;
+    }
+
+    .floating-player:hover {
+      box-shadow: 0 6px 25px rgba(250, 204, 21, 0.3);
+    }
+
+    .player-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .floating-player.expanded .player-controls {
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .control-btn {
+      background: transparent;
+      border: 1px solid #facc15;
+      color: #facc15;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .control-btn:hover {
+      background: #facc15;
+      color: #0f172a;
+      transform: scale(1.1);
+    }
+
+    .expand-btn {
+      background: transparent;
+      border: 1px solid #facc15;
+      color: #facc15;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 12px;
+    }
+
+    .expand-btn:hover {
+      background: #facc15;
+      color: #0f172a;
+    }
+
+    .player-expanded-content {
+      display: none;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .floating-player.expanded .player-expanded-content {
+      display: flex;
+    }
+
+    .playlist-section {
+      flex-grow: 1;
+    }
+
+    .playlist-section h4 {
+      color: #facc15;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .playlist-item {
+      color: white;
+      font-size: 0.8rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      margin-bottom: 4px;
+    }
+
+    .playlist-item:hover {
+      background: rgba(250, 204, 21, 0.2);
+    }
+
+    .playlist-item.active {
+      background: rgba(250, 204, 21, 0.3);
+      color: #facc15;
+    }
+
+    .track-info {
+      color: white;
+      font-size: 0.7rem;
+      text-align: center;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .floating-player.expanded .track-info {
+      font-size: 0.8rem;
+      max-width: none;
+    }
+
+    .track-title {
+      font-weight: bold;
+      color: #facc15;
+    }
+
+    .volume-control {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .volume-slider {
+      width: 5px;
+      height: 60px;
+      background: #334155;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+      writing-mode: bt-lr;
+      -webkit-appearance: slider-vertical;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #facc15;
+      cursor: pointer;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      padding-right: 80px;
+      padding-bottom: 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: clamp(2.5rem, 12vw, 5rem);
+      font-weight: bold;
+      color: #facc15;
+    }
+
+    header h2 {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      font-weight: normal;
+    }
+
+    .image-container {
+      margin: 20px 0;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    nav button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: 2px solid #facc15;
+      border-radius: 20px;
+      background: transparent;
+      color: #facc15;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    nav button:hover {
+      background: #facc15;
+      color: #0f172a;
+      transform: scale(1.05);
+    }
+
+    nav button:active {
+      transform: scale(0.95);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1e293b;
+      border-top: 1px solid #facc15;
+      padding: 10px 20px;
+      font-size: 0.7rem;
+      color: #facc15;
+      text-align: center;
+      z-index: 50;
+    }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 768px) {
+      .floating-player {
+        right: 10px;
+        width: 55px;
+        padding: 12px 8px;
+        gap: 8px;
+      }
+
+      .floating-player.expanded {
+        width: 260px;
+      }
+
+      .control-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+      }
+
+      .expand-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 10px;
+      }
+
+      body {
+        padding-right: 70px;
+      }
+      
+      footer {
+        font-size: 0.6rem;
+        padding: 8px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Page Loader -->
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-logo"></div>
+  </div>
+
+  <!-- News Popup -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <h3>🎵 Latest News!</h3>
+      <p>New single "Vibes" dropping next week! Pre-order your exclusive merch bundle now and get early access to the track.</p>
+      <p>Don't miss our upcoming live performance - details coming soon!</p>
+      <button class="popup-close" onclick="closePopup()">Got It!</button>
+    </div>
+  </div>
+
+  <header class="shake">
+    <h1 class="shake">Jazel 'dBoy' Isaac</h1>
+    <h2 class="shake">Creator Extraordinaire</h2>
+  </header>
+
+  <nav class="shake">
+    <button class="shake tooltip" data-tooltip="Watch our latest creative short film">Our Short Film</button>
+    <button class="shake tooltip" data-tooltip="Explore the experimental Noises music project">Noises - Project</button>
+    <button class="shake tooltip" data-tooltip="Get exclusive merchandise and early access">Pre-Order Merch</button>
+    <button class="shake tooltip" data-tooltip="Subscribe to our YouTube channel">Youtube</button>
+    <button class="shake tooltip" data-tooltip="Stream our music on Spotify">Spotify</button>
+  </nav>
+
+  <div class="image-container shake">
+    <img src="dboy full profile.png" alt="Main Artist Image" id="artist-image" class="shake">
+  </div>
+
+  <!-- Right Sticky Media Player -->
+  <div class="floating-player" id="mediaPlayer">
+    <div class="player-controls">
+      <button class="control-btn shake tooltip" id="prevBtn" onclick="previousTrack()" data-tooltip="Previous track">⏮</button>
+      <button class="control-btn shake tooltip" id="playBtn" onclick="togglePlay()" data-tooltip="Play/Pause">▶</button>
+      <button class="control-btn shake tooltip" id="nextBtn" onclick="nextTrack()" data-tooltip="Next track">⏭</button>
+    </div>
+    
+    <button class="expand-btn tooltip" id="expandBtn" onclick="togglePlayer()" data-tooltip="Expand player">⟵</button>
+    
+    <div class="player-expanded-content">
+      <div class="track-info">
+        <div class="track-title" id="trackTitle">Select Track</div>
+      </div>
+
+      <div class="playlist-section">
+        <h4>Playlist</h4>
+        <div id="playlistContainer"></div>
+      </div>
+
+      <div class="volume-control">
+        <span style="color: #facc15; font-size: 14px;">🔊</span>
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" onchange="changeVolume()" orient="vertical">
+      </div>
+    </div>
+
+    <audio id="audioPlayer" preload="metadata"></audio>
+  </div>
+
+  <footer>
+    <p>Copyright 2025 | Spec Craft Media LTD | All rights reserved</p>
+  </footer>
+
+  <script>
+    // Page Loader
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('pageLoader').classList.add('fade-out');
+        setTimeout(function() {
+          document.getElementById('pageLoader').style.display = 'none';
+        }, 500);
+      }, 2000);
+    });
+
+    // Popup Timer
+    setTimeout(function() {
+      document.getElementById('popupOverlay').style.display = 'flex';
+    }, 5000);
+
+    function closePopup() {
+      document.getElementById('popupOverlay').style.display = 'none';
+    }
+
+    // Close popup when clicking overlay
+    document.getElementById('popupOverlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closePopup();
+      }
+    });
+
+    // Media Player
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playBtn = document.getElementById('playBtn');
+    const trackTitle = document.getElementById('trackTitle');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const mediaPlayer = document.getElementById('mediaPlayer');
+    const expandBtn = document.getElementById('expandBtn');
+    const playlistContainer = document.getElementById('playlistContainer');
+
+    // Sample playlist
+    const playlist = [
+      { title: "Track 1", src: "track1.ogg" },
+      { title: "Vibes", src: "vibes.ogg" },
+      { title: "Noises", src: "noises.ogg" },
+      { title: "Creator Flow", src: "creator-flow.ogg" }
+    ];
+
+    let currentTrack = 0;
+    let isPlaying = false;
+    let isExpanded = false;
+
+    // Initialize player
+    function initializePlayer() {
+      if (playlist.length > 0) {
+        audioPlayer.src = playlist[currentTrack].src;
+        trackTitle.textContent = playlist[currentTrack].title;
+        renderPlaylist();
+      }
+    }
+
+    // Render playlist
+    function renderPlaylist() {
+      playlistContainer.innerHTML = '';
+      playlist.forEach((track, index) => {
+        const item = document.createElement('div');
+        item.className = `playlist-item ${index === currentTrack ? 'active' : ''}`;
+        item.textContent = track.title;
+        item.onclick = () => {
+          currentTrack = index;
+          loadTrack();
+        };
+        playlistContainer.appendChild(item);
+      });
+    }
+
+    // Toggle player expanded/collapsed
+    function togglePlayer() {
+      isExpanded = !isExpanded;
+      mediaPlayer.classList.toggle('expanded', isExpanded);
+      expandBtn.textContent = isExpanded ? '⟶' : '⟵';
+      expandBtn.setAttribute('data-tooltip', isExpanded ? 'Collapse player' : 'Expand player');
+    }
+
+    function togglePlay() {
+      if (isPlaying) {
+        audioPlayer.pause();
+        playBtn.textContent = '▶';
+        playBtn.setAttribute('data-tooltip', 'Play');
+        isPlaying = false;
+      } else {
+        audioPlayer.play().catch(function(error) {
+          console.log("Audio file not found, using placeholder");
+          trackTitle.textContent = "No audio - " + playlist[currentTrack].title;
+        });
+        playBtn.textContent = '⏸';
+        playBtn.setAttribute('data-tooltip', 'Pause');
+        isPlaying = true;
+      }
+    }
+
+    function nextTrack() {
+      currentTrack = (currentTrack + 1) % playlist.length;
+      loadTrack();
+    }
+
+    function previousTrack() {
+      currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+      loadTrack();
+    }
+
+    function loadTrack() {
+      audioPlayer.src = playlist[currentTrack].src;
+      trackTitle.textContent = playlist[currentTrack].title;
+      renderPlaylist();
+      if (isPlaying) {
+        audioPlayer.play().catch(function(error) {
+          console.log("Audio file not found");
+          trackTitle.textContent = "No audio - " + playlist[currentTrack].title;
+        });
+      }
+    }
+
+    function changeVolume() {
+      audioPlayer.volume = volumeSlider.value / 100;
+    }
+
+    // Auto-play next track when current ends
+    audioPlayer.addEventListener('ended', function() {
+      nextTrack();
+      if (isPlaying) {
+        togglePlay();
+      }
+    });
+
+    // Update play button when audio pauses/plays
+    audioPlayer.addEventListener('play', function() {
+      playBtn.textContent = '⏸';
+      playBtn.setAttribute('data-tooltip', 'Pause');
+      isPlaying = true;
+    });
+
+    audioPlayer.addEventListener('pause', function() {
+      playBtn.textContent = '▶';
+      playBtn.setAttribute('data-tooltip', 'Play');
+      isPlaying = false;
+    });
+
+    // Initialize the player
+    initializePlayer();
+
+    // Placeholder for linking PNGs dynamically later
+    document.getElementById("artist-image").src = "dboy full profile.png";
+  </script>
+</body>
+</html>
