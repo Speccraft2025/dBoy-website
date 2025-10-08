@@ -69,9 +69,479 @@
       animation: elegantFloat 2s ease-in-out infinite;
     }
 
+    /* About Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.4s ease;
+      overflow-y: auto;
+      padding: 20px;
+    }
 
+    .modal-overlay.active {
+      display: flex;
+    }
 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
+    .about-modal {
+      background: linear-gradient(145deg, #1e293b, #334155);
+      border: 3px solid #facc15;
+      border-radius: 25px;
+      padding: 50px;
+      max-width: 800px;
+      width: 95%;
+      position: relative;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8);
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(80px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: 2px solid #facc15;
+      color: #facc15;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.8rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: #facc15;
+      color: #0f172a;
+      transform: rotate(90deg);
+    }
+
+    .about-modal h2 {
+      color: #facc15;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 0 0 20px rgba(250, 204, 21, 0.3);
+    }
+
+    .about-content {
+      color: white;
+      line-height: 1.9;
+      font-size: 1.1rem;
+    }
+
+    .about-content p {
+      margin-bottom: 20px;
+    }
+
+    .about-content strong {
+      color: #facc15;
+    }
+
+    .about-section {
+      margin-bottom: 30px;
+    }
+
+    .about-section h3 {
+      color: #facc15;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      margin-top: 10px;
+    }
+
+    /* Music Player Styles */
+    .music-player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border-top: 3px solid #facc15;
+      padding: 20px;
+      z-index: 1500;
+      box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.8);
+      transform: translateY(100%);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .music-player.active {
+      transform: translateY(0);
+    }
+
+    .player-toggle {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 65px;
+      height: 65px;
+      background: linear-gradient(145deg, #facc15, #fbbf24);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      z-index: 1600;
+      box-shadow: 0 8px 25px rgba(250, 204, 21, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    .player-toggle:hover {
+      transform: scale(1.15);
+      box-shadow: 0 10px 35px rgba(250, 204, 21, 0.8);
+    }
+
+    .player-toggle.active {
+      background: linear-gradient(145deg, #ef4444, #dc2626);
+    }
+
+    .player-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 300px 1fr 250px;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .track-display {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .track-artwork {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(145deg, #334155, #475569);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      border: 2px solid #facc15;
+      animation: spin 3s linear infinite paused;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .track-artwork.playing {
+      animation-play-state: running;
+    }
+
+    .track-details {
+      flex: 1;
+    }
+
+    .track-name {
+      color: #facc15;
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .track-artist {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    .player-controls-center {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .control-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .player-btn {
+      background: transparent;
+      border: 2px solid #facc15;
+      color: #facc15;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .player-btn.play-btn {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(145deg, #facc15, #fbbf24);
+      color: #0f172a;
+      border: none;
+      font-size: 24px;
+    }
+
+    .player-btn:hover {
+      background: linear-gradient(145deg, #facc15, #fbbf24);
+      color: #0f172a;
+      transform: scale(1.1);
+    }
+
+    .player-btn:active {
+      transform: scale(0.95);
+    }
+
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .time-display {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      min-width: 50px;
+      font-weight: 500;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background: #334155;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: visible;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #facc15, #fbbf24);
+      width: 0%;
+      border-radius: 10px;
+      transition: width 0.1s linear;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background: #facc15;
+      border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(250, 204, 21, 0.6);
+    }
+
+    .player-extras {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .volume-icon {
+      color: #facc15;
+      font-size: 22px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .volume-icon:hover {
+      transform: scale(1.2);
+    }
+
+    .volume-bar {
+      width: 120px;
+      height: 8px;
+      background: #334155;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .volume-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #facc15, #fbbf24);
+      width: 50%;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .volume-fill::after {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      background: #facc15;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.5);
+    }
+
+    .playlist-btn {
+      background: transparent;
+      border: 2px solid #facc15;
+      color: #facc15;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .playlist-btn:hover {
+      background: #facc15;
+      color: #0f172a;
+      transform: translateY(-2px);
+    }
+
+    /* Playlist Modal */
+    .playlist-modal {
+      position: fixed;
+      bottom: 140px;
+      right: 30px;
+      width: 380px;
+      max-height: 500px;
+      background: linear-gradient(145deg, #1e293b, #334155);
+      border: 3px solid #facc15;
+      border-radius: 20px;
+      padding: 25px;
+      display: none;
+      flex-direction: column;
+      z-index: 1700;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
+    }
+
+    .playlist-modal.active {
+      display: flex;
+      animation: slideUp 0.4s ease;
+    }
+
+    .playlist-header {
+      color: #facc15;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #475569;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .playlist-close {
+      background: transparent;
+      border: 2px solid #facc15;
+      color: #facc15;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .playlist-close:hover {
+      background: #facc15;
+      color: #0f172a;
+      transform: rotate(90deg);
+    }
+
+    .playlist-items {
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .playlist-items::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .playlist-items::-webkit-scrollbar-track {
+      background: #334155;
+      border-radius: 10px;
+    }
+
+    .playlist-items::-webkit-scrollbar-thumb {
+      background: #facc15;
+      border-radius: 10px;
+    }
+
+    .playlist-item {
+      padding: 15px;
+      margin-bottom: 10px;
+      background: rgba(250, 204, 21, 0.05);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .playlist-item:hover {
+      background: rgba(250, 204, 21, 0.15);
+      border-color: #facc15;
+      transform: translateX(8px);
+    }
+
+    .playlist-item.active {
+      background: rgba(250, 204, 21, 0.25);
+      border-color: #facc15;
+    }
+
+    .playlist-item-title {
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .playlist-item-artist {
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
 
     body {
       font-family: 'Arial', sans-serif;
@@ -83,6 +553,7 @@
       justify-content: center;
       min-height: 100vh;
       padding: 20px;
+      padding-bottom: 80px;
       overflow-x: hidden;
     }
 
@@ -144,7 +615,7 @@
       max-width: 400px;
     }
 
-    nav a {
+    nav a, nav button.nav-btn {
       width: 100%;
       text-decoration: none;
     }
@@ -209,8 +680,28 @@
     }
 
     /* Enhanced mobile responsiveness */
+    @media (max-width: 968px) {
+      .player-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .track-display {
+        justify-content: center;
+      }
+
+      .player-extras {
+        justify-content: center;
+      }
+
+      .playlist-modal {
+        right: 15px;
+        left: 15px;
+        width: auto;
+      }
+    }
+
     @media (max-width: 768px) {
-      
       nav {
         max-width: 350px;
         gap: 18px;
@@ -228,6 +719,25 @@
       header h2 {
         font-size: 1.1rem;
       }
+
+      .about-modal {
+        padding: 35px 25px;
+      }
+
+      .about-modal h2 {
+        font-size: 2rem;
+      }
+
+      .player-toggle {
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+      }
+
+      .volume-bar {
+        width: 90px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -239,6 +749,14 @@
         padding: 14px 18px;
         font-size: 0.95rem;
       }
+
+      .about-modal {
+        padding: 30px 20px;
+      }
+
+      .about-content {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -248,7 +766,41 @@
     <div class="loader-logo"></div>
   </div>
 
+  <!-- About Modal -->
+  <div class="modal-overlay" id="aboutModal">
+    <div class="about-modal">
+      <button class="modal-close" onclick="closeAboutModal()">×</button>
+      <h2>About dBoy</h2>
+      <div class="about-content">
+        <div class="about-section">
+          <p>
+            Welcome to my sonic universe. I'm <strong>Jazel 'dBoy' Isaac</strong>, a producer and artist pushing the boundaries of sound, emotion, and creativity. My music is a fusion of raw energy, intricate production, and authentic storytelling.
+          </p>
+        </div>
 
+        <div class="about-section">
+          <h3>The Journey</h3>
+          <p>
+            From late-night studio sessions to collaborative breakthroughs, my path has been defined by experimentation and passion. Every beat, every lyric, every sound is crafted to resonate deeply and inspire authentically.
+          </p>
+        </div>
+
+        <div class="about-section">
+          <h3>Musical Vision</h3>
+          <p>
+            I blend <strong>hip-hop</strong>, <strong>electronic</strong>, and <strong>experimental</strong> elements to create soundscapes that challenge conventions. My work explores themes of struggle, triumph, and the human experience—always aiming to connect on a visceral level.
+          </p>
+        </div>
+
+        <div class="about-section">
+          <h3>What Drives Me</h3>
+          <p>
+            Innovation. Authenticity. Impact. I'm not just making music—I'm building a movement. Whether it's through production, performance, or visual storytelling, every project is an opportunity to push creative boundaries and inspire others.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <header class="shake">
     <h1 class="shake">Jazel 'dBoy' Isaac</h1>
@@ -256,19 +808,10 @@
   </header>
 
   <nav>
-    <a class="shake" href="https://youtu.be/JICpg_I6Wjo" title="Watch our exclusive short film">
+    <button class="shake nav-btn" onclick="openAboutModal()">About dBoy</button>
+    <a class="shake" href="https://youtu.be/JICpg_I6Wjo" target="_blank" rel="noopener" title="Watch our exclusive short film">
       <button class="shake" title="Watch our exclusive short film">Watch 'Finalizer' Short Film</button>
     </a>
-    <!-- Noises Project Button
-    <a class="shake" href="#noises-project" title="Learn more about the Noises project">
-      <button class="shake" title="Learn more about the Noises project">Noises - Project</button>
-    </a>  -->
-
-    <!--Preorder Merch button
-    <a class="shake" href="https://speccraftmedialtd.hustlesasa.shop" title="Pre-order exclusive merch bundles">
-      <button class="shake" title="Pre-order exclusive merch bundles">Pre-Order Merch</button>
-    </a>. -->
-
     <a class="shake" href="https://www.youtube.com/@Jazel_dboy_isaac" target="_blank" rel="noopener" title="Visit our Youtube channel">
       <button class="shake" title="Visit our Youtube channel">YouTube</button>
     </a>
@@ -281,13 +824,87 @@
     <img src="dboy full profile 2.png" alt="Main Artist Image" id="artist-image" class="shake">
   </div>
 
-
-
   <footer>
     <p>&copy; 2024 Jazel 'dBoy' Isaac. All rights reserved.</p>
   </footer>
 
+  <!-- Music Player Toggle Button -->
+  <button class="player-toggle" id="playerToggle" onclick="togglePlayer()">🎵</button>
+  
+  <!-- Music Player -->
+  <div class="music-player" id="musicPlayer">
+    <div class="player-container">
+      <!-- Track Display -->
+      <div class="track-display">
+        <div class="track-artwork" id="trackArtwork">🎧</div>
+        <div class="track-details">
+          <div class="track-name" id="currentTrackName">Select a track</div>
+          <div class="track-artist">Jazel 'dBoy' Isaac</div>
+        </div>
+      </div>
+
+      <!-- Player Controls -->
+      <div class="player-controls-center">
+        <div class="control-buttons">
+          <button class="player-btn" onclick="previousSong()" title="Previous">⏮</button>
+          <button class="player-btn play-btn" id="mainPlayBtn" onclick="togglePlayPause()" title="Play/Pause">▶</button>
+          <button class="player-btn" onclick="nextSong()" title="Next">⏭</button>
+          <button class="player-btn" onclick="toggleShuffle()" id="shuffleBtn" title="Shuffle">🔀</button>
+          <button class="player-btn" onclick="toggleRepeat()" id="repeatBtn" title="Repeat">🔁</button>
+        </div>
+        
+        <div class="progress-container">
+          <span class="time-display" id="currentTime">0:00</span>
+          <div class="progress-bar" id="progressBar" onclick="seekTrack(event)">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="time-display" id="duration">0:00</span>
+        </div>
+      </div>
+
+      <!-- Volume and Playlist -->
+      <div class="player-extras">
+        <div class="volume-container">
+          <span class="volume-icon" onclick="toggleMute()" id="volumeIcon">🔊</span>
+          <div class="volume-bar" onclick="changeVolume(event)">
+            <div class="volume-fill" id="volumeFill"></div>
+          </div>
+        </div>
+        <button class="playlist-btn" onclick="togglePlaylist()">Playlist</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Playlist Modal -->
+  <div class="playlist-modal" id="playlistModal">
+    <div class="playlist-header">
+      <span>New Releases</span>
+      <button class="playlist-close" onclick="togglePlaylist()">×</button>
+    </div>
+    <div class="playlist-items" id="playlistItems">
+      <!-- Playlist items will be dynamically generated -->
+    </div>
+  </div>
+
+  <audio id="mainAudioPlayer" preload="metadata"></audio>
+
   <script>
+    // Global functions for About Modal
+    function openAboutModal() {
+      document.getElementById('aboutModal').classList.add('active');
+    }
+
+    function closeAboutModal() {
+      document.getElementById('aboutModal').classList.remove('active');
+    }
+
+    // Close modal when clicking overlay
+    document.getElementById('aboutModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeAboutModal();
+      }
+    });
+
     // Page Loader with smoother transition
     window.addEventListener('load', function() {
       setTimeout(function() {
@@ -298,9 +915,229 @@
       }, 2000);
     });
 
+    // Music Player Variables
+    const mainAudioPlayer = document.getElementById('mainAudioPlayer');
+    const mainPlayBtn = document.getElementById('mainPlayBtn');
+    const currentTrackName = document.getElementById('currentTrackName');
+    const progressFill = document.getElementById('progressFill');
+    const currentTime = document.getElementById('currentTime');
+    const duration = document.getElementById('duration');
+    const volumeFill = document.getElementById('volumeFill');
+    const playlistItems = document.getElementById('playlistItems');
+    const trackArtwork = document.getElementById('trackArtwork');
+    const playerToggle = document.getElementById('playerToggle');
+    const volumeIcon = document.getElementById('volumeIcon');
 
+    // Playlist - Add your .ogg files here
+    const playlist = [
+      { title: "Vibes", artist: "Jazel 'dBoy' Isaac", src: "vibes.ogg" },
+      { title: "Noises", artist: "Jazel 'dBoy' Isaac", src: "noises.ogg" },
+      { title: "Creator Flow", artist: "Jazel 'dBoy' Isaac", src: "creator-flow.ogg" },
+      { title: "Midnight Sessions", artist: "Jazel 'dBoy' Isaac", src: "midnight-sessions.ogg" },
+      { title: "Urban Echoes", artist: "Jazel 'dBoy' Isaac", src: "urban-echoes.ogg" }
+    ];
 
+    let currentSongIndex = 0;
+    let isPlaying = false;
+    let isShuffle = false;
+    let repeatMode = 0; // 0: no repeat, 1: repeat all, 2: repeat one
 
+    // Initialize player
+    function initPlayer() {
+      mainAudioPlayer.volume = 0.5;
+      generatePlaylist();
+      loadSong(0);
+    }
+
+    // Generate playlist UI
+    function generatePlaylist() {
+      playlistItems.innerHTML = '';
+      playlist.forEach((song, index) => {
+        const item = document.createElement('div');
+        item.className = 'playlist-item';
+        if (index === currentSongIndex) item.classList.add('active');
+        item.innerHTML = `
+          <div class="playlist-item-title">${song.title}</div>
+          <div class="playlist-item-artist">${song.artist}</div>
+        `;
+        item.onclick = () => {
+          loadSong(index);
+          if (!isPlaying) togglePlayPause();
+        };
+        playlistItems.appendChild(item);
+      });
+    }
+
+    // Load song
+    function loadSong(index) {
+      currentSongIndex = index;
+      const song = playlist[index];
+      mainAudioPlayer.src = song.src;
+      currentTrackName.textContent = song.title;
+      generatePlaylist();
+      
+      mainAudioPlayer.addEventListener('loadedmetadata', () => {
+        duration.textContent = formatTime(mainAudioPlayer.duration);
+      });
+    }
+
+    // Toggle play/pause
+    function togglePlayPause() {
+      if (isPlaying) {
+        mainAudioPlayer.pause();
+        mainPlayBtn.textContent = '▶';
+        trackArtwork.classList.remove('playing');
+        isPlaying = false;
+      } else {
+        mainAudioPlayer.play().catch(error => {
+          console.log('Audio file not found:', error);
+        });
+        mainPlayBtn.textContent = '⏸';
+        trackArtwork.classList.add('playing');
+        isPlaying = true;
+      }
+    }
+
+    // Next song
+    function nextSong() {
+      if (isShuffle) {
+        currentSongIndex = Math.floor(Math.random() * playlist.length);
+      } else {
+        currentSongIndex = (currentSongIndex + 1) % playlist.length;
+      }
+      loadSong(currentSongIndex);
+      if (isPlaying) {
+        mainAudioPlayer.play();
+      }
+    }
+
+    // Previous song
+    function previousSong() {
+      if (mainAudioPlayer.currentTime > 3) {
+        mainAudioPlayer.currentTime = 0;
+      } else {
+        currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+        loadSong(currentSongIndex);
+        if (isPlaying) {
+          mainAudioPlayer.play();
+        }
+      }
+    }
+
+    // Toggle shuffle
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+      const shuffleBtn = document.getElementById('shuffleBtn');
+      shuffleBtn.style.color = isShuffle ? '#0f172a' : '#facc15';
+      shuffleBtn.style.background = isShuffle ? 'linear-gradient(145deg, #facc15, #fbbf24)' : 'transparent';
+    }
+
+    // Toggle repeat
+    function toggleRepeat() {
+      repeatMode = (repeatMode + 1) % 3;
+      const repeatBtn = document.getElementById('repeatBtn');
+      if (repeatMode === 0) {
+        repeatBtn.textContent = '🔁';
+        repeatBtn.style.color = '#facc15';
+        repeatBtn.style.background = 'transparent';
+      } else if (repeatMode === 1) {
+        repeatBtn.textContent = '🔁';
+        repeatBtn.style.color = '#0f172a';
+        repeatBtn.style.background = 'linear-gradient(145deg, #facc15, #fbbf24)';
+      } else {
+        repeatBtn.textContent = '🔂';
+        repeatBtn.style.color = '#0f172a';
+        repeatBtn.style.background = 'linear-gradient(145deg, #facc15, #fbbf24)';
+      }
+    }
+
+    // Seek track
+    function seekTrack(event) {
+      const progressBar = document.getElementById('progressBar');
+      const clickX = event.offsetX;
+      const width = progressBar.offsetWidth;
+      const duration = mainAudioPlayer.duration;
+      mainAudioPlayer.currentTime = (clickX / width) * duration;
+    }
+
+    // Change volume
+    function changeVolume(event) {
+      const volumeBar = event.currentTarget;
+      const clickX = event.offsetX;
+      const width = volumeBar.offsetWidth;
+      const volume = clickX / width;
+      mainAudioPlayer.volume = volume;
+      volumeFill.style.width = (volume * 100) + '%';
+      volumeIcon.textContent = volume === 0 ? '🔇' : '🔊';
+    }
+
+    // Toggle mute
+    function toggleMute() {
+      if (mainAudioPlayer.volume > 0) {
+        mainAudioPlayer.volume = 0;
+        volumeFill.style.width = '0%';
+        volumeIcon.textContent = '🔇';
+      } else {
+        mainAudioPlayer.volume = 0.5;
+        volumeFill.style.width = '50%';
+        volumeIcon.textContent = '🔊';
+      }
+    }
+
+    // Format time
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Update progress
+    mainAudioPlayer.addEventListener('timeupdate', () => {
+      const percent = (mainAudioPlayer.currentTime / mainAudioPlayer.duration) * 100;
+      progressFill.style.width = percent + '%';
+      currentTime.textContent = formatTime(mainAudioPlayer.currentTime);
+    });
+
+    // Handle song end
+    mainAudioPlayer.addEventListener('ended', () => {
+      if (repeatMode === 2) {
+        mainAudioPlayer.currentTime = 0;
+        mainAudioPlayer.play();
+      } else if (repeatMode === 1 || currentSongIndex < playlist.length - 1) {
+        nextSong();
+        if (isPlaying) mainAudioPlayer.play();
+      } else {
+        mainPlayBtn.textContent = '▶';
+        trackArtwork.classList.remove('playing');
+        isPlaying = false;
+      }
+    });
+
+    // Toggle player visibility
+    function togglePlayer() {
+      const player = document.getElementById('musicPlayer');
+      player.classList.toggle('active');
+      playerToggle.classList.toggle('active');
+    }
+
+    // Toggle playlist
+    function togglePlaylist() {
+      const playlistModal = document.getElementById('playlistModal');
+      playlistModal.classList.toggle('active');
+    }
+
+    // Close playlist when clicking outside
+    document.addEventListener('click', function(e) {
+      const playlistModal = document.getElementById('playlistModal');
+      const playlistBtn = document.querySelector('.playlist-btn');
+      if (!playlistModal.contains(e.target) && e.target !== playlistBtn) {
+        playlistModal.classList.remove('active');
+      }
+    });
+
+    // Initialize on load
+    initPlayer();
 
     // Smooth scroll for internal links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
