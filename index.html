@@ -928,13 +928,10 @@
     const playerToggle = document.getElementById('playerToggle');
     const volumeIcon = document.getElementById('volumeIcon');
 
-    // Playlist - Add your .ogg files here
+    // Playlist - Add your MP3 files here
     const playlist = [
-      { title: "Vibes", artist: "Jazel 'dBoy' Isaac", src: "vibes.ogg" },
-      { title: "Noises", artist: "Jazel 'dBoy' Isaac", src: "noises.ogg" },
-      { title: "Creator Flow", artist: "Jazel 'dBoy' Isaac", src: "creator-flow.ogg" },
-      { title: "Midnight Sessions", artist: "Jazel 'dBoy' Isaac", src: "midnight-sessions.ogg" },
-      { title: "Urban Echoes", artist: "Jazel 'dBoy' Isaac", src: "urban-echoes.ogg" }
+      { title: "Bless Me", artist: "Jazel 'dBoy' Isaac", src: "Bless Me.mp3" },
+      { title: "Misunderstanding", artist: "Jazel 'dBoy' Isaac", src: "Misunderstanding.mp3" }
     ];
 
     let currentSongIndex = 0;
@@ -989,12 +986,16 @@
         trackArtwork.classList.remove('playing');
         isPlaying = false;
       } else {
-        mainAudioPlayer.play().catch(error => {
-          console.log('Audio file not found:', error);
+        console.log('Attempting to play:', mainAudioPlayer.src);
+        mainAudioPlayer.play().then(() => {
+          console.log('Playback started successfully');
+          mainPlayBtn.textContent = '⏸';
+          trackArtwork.classList.add('playing');
+          isPlaying = true;
+        }).catch(error => {
+          console.error('Playback failed:', error);
+          alert('Could not play audio. Check console for details.\nMake sure the audio files are in the correct location.');
         });
-        mainPlayBtn.textContent = '⏸';
-        trackArtwork.classList.add('playing');
-        isPlaying = true;
       }
     }
 
