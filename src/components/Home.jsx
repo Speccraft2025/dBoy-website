@@ -8,16 +8,16 @@ export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const [showPlayer, setShowPlayer] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
-  
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [volume, setVolume] = useState(0.5);
-  
+
   const navigate = useNavigate();
   const audioRef = useRef(new Audio());
-  
+
   const playlist = [
     { title: "Bless Me", artist: "Jazel 'dBoy' Isaac", src: "/Bless Me.mp3" },
     { title: "Misunderstanding", artist: "Jazel 'dBoy' Isaac", src: "/Misunderstanding.mp3" }
@@ -25,22 +25,22 @@ export default function Home() {
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
-    
+
     const audio = audioRef.current;
-    
+
     const setAudioData = () => setDuration(audio.duration);
     const setAudioTime = () => setCurrentTime(audio.currentTime);
     const handleEnded = () => nextTrack();
-    
+
     audio.addEventListener('loadedmetadata', setAudioData);
     audio.addEventListener('timeupdate', setAudioTime);
     audio.addEventListener('ended', handleEnded);
-    
+
     audio.volume = volume;
     if (playlist.length > 0) {
       audio.src = playlist[currentTrackIndex].src;
     }
-    
+
     return () => {
       audio.removeEventListener('loadedmetadata', setAudioData);
       audio.removeEventListener('timeupdate', setAudioTime);
@@ -48,7 +48,7 @@ export default function Home() {
       audio.pause();
     };
   }, [currentTrackIndex]);
-  
+
   useEffect(() => {
     audioRef.current.volume = volume;
   }, [volume]);
@@ -61,14 +61,14 @@ export default function Home() {
     }
     setIsPlaying(!isPlaying);
   };
-  
+
   const nextTrack = () => {
     setCurrentTrackIndex((prev) => (prev + 1) % playlist.length);
     if (isPlaying) {
       setTimeout(() => audioRef.current.play(), 100);
     }
   };
-  
+
   const prevTrack = () => {
     if (audioRef.current.currentTime > 3) {
       audioRef.current.currentTime = 0;
@@ -79,7 +79,7 @@ export default function Home() {
       }
     }
   };
-  
+
   const handleSeek = (e) => {
     const bar = e.currentTarget;
     const clickX = e.nativeEvent.offsetX;
@@ -87,14 +87,14 @@ export default function Home() {
     const newTime = (clickX / width) * duration;
     audioRef.current.currentTime = newTime;
   };
-  
+
   const handleVolume = (e) => {
     const bar = e.currentTarget;
     const clickX = e.nativeEvent.offsetX;
     const width = bar.offsetWidth;
     setVolume(clickX / width);
   };
-  
+
   const formatTime = (seconds) => {
     if (isNaN(seconds)) return '0:00';
     const mins = Math.floor(seconds / 60);
@@ -106,17 +106,17 @@ export default function Home() {
 
   return (
     <div className="home-container" style={{
-        fontFamily: "'Arial', sans-serif",
-        background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
-        color: "white",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        padding: "20px",
-        paddingBottom: "80px",
-        overflowX: "hidden"
+      fontFamily: "'Arial', sans-serif",
+      background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+      color: "white",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      minHeight: "100vh",
+      padding: "20px",
+      paddingBottom: "80px",
+      overflowX: "hidden"
     }}>
       {/* Page Loader */}
       <div className={`page-loader ${!loading ? 'fade-out' : ''}`} style={{ display: loading ? 'flex' : 'none' }}>
@@ -124,7 +124,7 @@ export default function Home() {
       </div>
 
       {/* About Modal */}
-      <div className={`modal-overlay ${showAbout ? 'active' : ''}`} style={{ display: showAbout ? 'flex' : 'none' }} onClick={(e) => { if(e.target === e.currentTarget) setShowAbout(false) }}>
+      <div className={`modal-overlay ${showAbout ? 'active' : ''}`} style={{ display: showAbout ? 'flex' : 'none' }} onClick={(e) => { if (e.target === e.currentTarget) setShowAbout(false) }}>
         <div className="about-modal">
           <button className="modal-close" onClick={() => setShowAbout(false)}>×</button>
           <h2>About dBoy</h2>
@@ -162,9 +162,9 @@ export default function Home() {
         <a className="shake" href="https://open.spotify.com/playlist/2pY5jxhdX5mjgLezoAf0yi" target="_blank" rel="noopener noreferrer">
           <button className="shake">Spotify</button>
         </a>
-        
-        {/* Updated routing to Beat Store */}
-        <button className="shake nav-btn" onClick={() => navigate('/beats')}>My Beats</button>
+
+        {/* Updated routing back to Soundclick temporarily */}
+        <button className="shake nav-btn" onClick={() => window.open('https://www.soundclick.com/JazeldBoyIsaac', '_blank')}>My Beats</button>
       </nav>
 
       <div className="image-container shake">
@@ -177,7 +177,7 @@ export default function Home() {
 
       {/* Music Player Toggle Button */}
       <button className={`player-toggle ${showPlayer ? 'active' : ''}`} onClick={() => setShowPlayer(!showPlayer)}>🎵</button>
-      
+
       {/* Music Player */}
       <div className={`music-player ${showPlayer ? 'active' : ''}`}>
         <div className="player-container">
@@ -215,7 +215,7 @@ export default function Home() {
                 </svg>
               </button>
             </div>
-            
+
             <div className="progress-container">
               <span className="time-display">{formatTime(currentTime)}</span>
               <div className="progress-bar" onClick={handleSeek}>
@@ -251,9 +251,9 @@ export default function Home() {
         </div>
         <div className="playlist-items">
           {playlist.map((song, idx) => (
-            <div 
-              key={idx} 
-              className={`playlist-item ${idx === currentTrackIndex ? 'active' : ''}`} 
+            <div
+              key={idx}
+              className={`playlist-item ${idx === currentTrackIndex ? 'active' : ''}`}
               onClick={() => {
                 setCurrentTrackIndex(idx);
                 if (!isPlaying) togglePlay();
@@ -268,4 +268,3 @@ export default function Home() {
     </div>
   );
 }
-  
