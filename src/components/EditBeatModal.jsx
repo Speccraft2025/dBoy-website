@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { X, Upload, Music, Image, Save, Loader } from 'lucide-react';
+import { X, Music, Image, Save, Loader, Music2, FileText } from 'lucide-react';
 import { db, storage } from '../lib/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
+const GENRES = ['Hip-Hop', 'Trap', 'Afrobeat', 'R&B', 'Pop', 'Drill', 'Jazz', 'Electronic', 'Gospel', 'Lo-fi', 'Other'];
 
 export default function EditBeatModal({ beat, onClose, onSaved }) {
     const [title, setTitle] = useState(beat.title || '');
@@ -10,6 +12,8 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
     const [beatKey, setBeatKey] = useState(beat.key || '');
     const [tags, setTags] = useState((beat.tags || []).join(', '));
     const [price, setPrice] = useState(beat.price ?? 50);
+    const [genre, setGenre] = useState(beat.genre || '');
+    const [description, setDescription] = useState(beat.description || '');
 
     const [newCoverFile, setNewCoverFile] = useState(null);
     const [newAudioFile, setNewAudioFile] = useState(null);
@@ -50,6 +54,8 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
                 key: beatKey.trim(),
                 tags: tags.split(',').map(t => t.trim()).filter(Boolean),
                 price: Number(price) || 50,
+                genre: genre.trim(),
+                description: description.trim(),
             };
 
             if (newCoverFile) {
@@ -182,6 +188,31 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
                                 placeholder="50"
                             />
                         </div>
+                    </div>
+
+                    {/* Genre */}
+                    <div>
+                        <label className="block text-gray-400 text-sm mb-1 flex items-center gap-1"><Music2 size={13} /> Genre</label>
+                        <select
+                            value={genre}
+                            onChange={e => setGenre(e.target.value)}
+                            className="w-full p-3 bg-[#0f172a] border border-gray-700 rounded-lg focus:border-[#facc15] outline-none text-white text-sm transition"
+                        >
+                            <option value="">Select genre...</option>
+                            {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
+                        </select>
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label className="block text-gray-400 text-sm mb-1 flex items-center gap-1"><FileText size={13} /> Description</label>
+                        <textarea
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                            rows={3}
+                            placeholder="Describe the vibe, mood, or inspiration..."
+                            className="w-full p-3 bg-[#0f172a] border border-gray-700 rounded-lg focus:border-[#facc15] outline-none text-white text-sm transition resize-none"
+                        />
                     </div>
 
                     {/* Audio File Replacement */}

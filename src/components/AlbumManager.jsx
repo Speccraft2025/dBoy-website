@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, FolderOpen, CheckSquare, Square, Loader, Image, ChevronDown, ChevronUp } from 'lucide-react';
+import { 
+    Plus, Trash2, FolderOpen, CheckSquare, Square, Loader, Image, ChevronDown, ChevronUp, Star 
+} from 'lucide-react';
 import { db, storage } from '../lib/firebase';
 import {
     collection, addDoc, getDocs, deleteDoc, doc,
@@ -140,6 +142,30 @@ export default function AlbumManager({ beats, onBeatsUpdated }) {
         }
     };
 
+    const toggleAlbumStar = async (album) => {
+        try {
+            if (!album.isStarred) {
+                // Check total stars limit
+                const starredBeats = await getDocs(query(collection(db, 'beats'), where('isStarred', '==', true)));
+                const starredAlbums = await getDocs(query(collection(db, 'albums'), where('isStarred', '==', true)));
+                const total = starredBeats.size + starredAlbums.size;
+
+                if (total >= 6) {
+                    alert('You can only have up to 6 featured items (beats + albums). Please unstar something else first.');
+                    return;
+                }
+            }
+
+            await updateDoc(doc(db, 'albums', album.id), {
+                isStarred: !album.isStarred
+            });
+            fetchAlbums();
+        } catch (e) {
+            console.error(e);
+            alert('Failed to update star status.');
+        }
+    };
+
     const pickerAlbum = albums.find(a => a.id === pickerAlbumId);
 
     return (
@@ -220,6 +246,13 @@ export default function AlbumManager({ beats, onBeatsUpdated }) {
 
                                     {/* Actions */}
                                     <div className="flex items-center gap-2 flex-shrink-0">
+                                        <button 
+                                            onClick={() => toggleAlbumStar(album)}
+                                            className={`p-2 rounded-lg transition ${album.isStarred ? 'text-[#facc15] bg-[#facc15]/10' : 'text-gray-600 hover:text-gray-400'}`}
+                                            title={album.isStarred ? "Unstar album" : "Star album"}
+                                        >
+                                            <Star size={16} fill={album.isStarred ? "currentColor" : "none"} />
+                                        </button>
                                         <button
                                             onClick={() => openBeatPicker(album)}
                                             className="text-xs bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white px-3 py-1.5 rounded-lg transition"
