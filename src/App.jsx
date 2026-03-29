@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import PublicStore from './components/PublicStore';
 import AdminDashboard from './components/AdminDashboard';
+import AdminDashboard2 from './components/AdminDashboard2';
 import Login from './components/Login';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
@@ -22,6 +23,11 @@ function App() {
                     <Route path="/admin" element={
                         <ProtectedRoute>
                             <AdminDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/admin2" element={
+                        <ProtectedRoute>
+                            <AdminDashboard2 />
                         </ProtectedRoute>
                     } />
                     <Route path="/login" element={<Login />} />

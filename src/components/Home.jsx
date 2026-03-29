@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { db } from '../lib/firebase';
+import { collection, getDocs, doc, getDoc, query, orderBy } from 'firebase/firestore';
 import './Home.css';
 
 export default function Home() {
@@ -18,16 +20,43 @@ export default function Home() {
   const navigate = useNavigate();
   const audioRef = useRef(new Audio());
 
-  const playlist = [
+  const [showContact, setShowContact] = useState(false);
+  const [promo, setPromo] = useState(null);
+  const [projectsData, setProjectsData] = useState([]);
+
+  const defaultPlaylist = [
     { title: "Bless Me", artist: "Jazel 'dBoy' Isaac", src: "/Bless Me.mp3" },
     { title: "Misunderstanding", artist: "Jazel 'dBoy' Isaac", src: "/Misunderstanding.mp3" }
   ];
+  const playlist = projectsData.length > 0 ? projectsData : defaultPlaylist;
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
 
-    const audio = audioRef.current;
+    // Fetch Promo
+    getDoc(doc(db, 'settings', 'promo'))
+        .then(docSnap => { 
+            if(docSnap.exists() && docSnap.data().isEnabled) {
+                setPromo(docSnap.data().text);
+            }
+        })
+        .catch(e => console.error('Promo error:', e));
 
+    // Fetch Music Projects
+    getDocs(query(collection(db, 'projects'), orderBy('createdAt', 'desc')))
+        .then(snap => {
+            const fetched = snap.docs.map(d => ({
+                id: d.id,
+                title: d.data().title,
+                artist: d.data().artist || "Jazel 'dBoy' Isaac",
+                src: d.data().audioUrl,
+                coverUrl: d.data().coverUrl
+            }));
+            if (fetched.length > 0) setProjectsData(fetched);
+        })
+        .catch(e => console.error('Projects error:', e));
+
+    const audio = audioRef.current;
     const setAudioData = () => setDuration(audio.duration);
     const setAudioTime = () => setCurrentTime(audio.currentTime);
     const handleEnded = () => nextTrack();
@@ -147,6 +176,29 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Contact Modal */}
+      <div className={`modal-overlay ${showContact ? 'active' : ''}`} style={{ display: showContact ? 'flex' : 'none' }} onClick={(e) => { if (e.target === e.currentTarget) setShowContact(false) }}>
+        <div className="about-modal" style={{ maxWidth: '400px' }}>
+          <button className="modal-close" onClick={() => setShowContact(false)}>×</button>
+          <h2 style={{ marginBottom: '5px' }}>Contact dBoy</h2>
+          <p style={{ textAlign: 'center', fontSize: '13px', color: '#a0aec0', marginBottom: '25px' }}>
+              For custom beats, collaborations, or general inquiries.
+          </p>
+          <div className="about-content" style={{ padding: '0 10px' }}>
+            <form action="https://formsubmit.co/jayzelisaac@gmail.com" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <input type="hidden" name="_subject" value="New Inquiry from dBoy Website" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="text" name="name" required placeholder="Your Name" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', boxSizing: 'border-box' }} />
+                <input type="email" name="email" required placeholder="Your Email" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', boxSizing: 'border-box' }} />
+                <textarea name="message" required placeholder="How can we build what's next?" rows="4" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', resize: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}></textarea>
+                <button type="submit" style={{ background: '#facc15', color: '#0f172a', fontWeight: 'bold', padding: '14px', borderRadius: '8px', cursor: 'pointer', border: 'none', transition: 'all 0.3s', marginTop: '5px' }} onMouseOver={e=>e.target.style.background='#eab308'} onMouseOut={e=>e.target.style.background='#facc15'}>
+                    Send Message
+                </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <header className="shake">
         <h1 className="shake">Jazel 'dBoy' Isaac</h1>
         <h2 className="shake cursor-pointer hover:text-[#facc15] transition-colors" onClick={() => navigate('/login')}>Producer/Artist Extraordinaire</h2>
@@ -166,6 +218,7 @@ export default function Home() {
 
         {/* Updated routing back to Soundclick temporarily */}
         <button className="shake nav-btn" onClick={() => navigate('/beats')}>My Beats</button>
+        <button className="shake nav-btn" onClick={() => setShowContact(true)}>Contact Me</button>
       </nav>
 
       <div className="image-container shake">
@@ -175,6 +228,19 @@ export default function Home() {
       <footer>
         <p>&copy; 2024 Jazel 'dBoy' Isaac. All rights reserved.</p>
       </footer>
+
+      {/* Promo Tooltip Balloon */}
+      {promo && !showPlayer && (
+          <div className="fixed z-[55] animate-bounce cursor-pointer flex flex-col items-center drop-shadow-2xl" 
+               style={{ bottom: '85px', right: '15px' }} 
+               onClick={() => setShowPlayer(true)}>
+              <div className="bg-[#facc15] text-[#0f172a] text-xs sm:text-sm font-black uppercase tracking-widest px-5 py-3 rounded-2xl shadow-[0_0_20px_rgba(250,204,21,0.5)] border-2 border-[#facc15]/40 text-center max-w-[200px] sm:max-w-[250px] relative backdrop-blur-md">
+                  {promo}
+                  {/* Downward triangle pointer centered manually near the right edge for the button */}
+                  <div className="absolute top-full right-5 w-0 h-0 border-[10px] border-transparent border-t-[#facc15]" />
+              </div>
+          </div>
+      )}
 
       {/* Music Player Toggle Button */}
       <button className={`player-toggle ${showPlayer ? 'active' : ''}`} onClick={() => setShowPlayer(!showPlayer)}>🎵</button>

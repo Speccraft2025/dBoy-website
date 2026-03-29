@@ -286,9 +286,14 @@ export default function AdminDashboard() {
                     <h1 className="text-3xl font-bold text-[#facc15]">Creator Dashboard</h1>
                     <p className="text-gray-400 text-sm mt-1">Manage your catalog, albums, and profile</p>
                 </div>
-                <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition rounded">
-                    <LogOut size={16} /> Logout
-                </button>
+                <div className="flex items-center gap-3">
+                    <button onClick={() => navigate('/admin2')} className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 transition rounded text-sm text-gray-300">
+                        Go to Artist Portal
+                    </button>
+                    <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition rounded">
+                        <LogOut size={16} /> Logout
+                    </button>
+                </div>
             </header>
 
             <main className="flex flex-col gap-8">

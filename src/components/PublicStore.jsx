@@ -57,6 +57,8 @@ export default function PublicStore() {
     const [filterKey,     setFilterKey]     = useState('');
     const [filterGenre,   setFilterGenre]   = useState('');
     const [filterTag,     setFilterTag]     = useState('');
+    const [currentPage,   setCurrentPage]   = useState(1);
+    const beatsPerPage = 10;
 
     // ── Embla carousel ──
     const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
@@ -157,7 +159,20 @@ export default function PublicStore() {
     }, [beats, searchText, filterBpmMin, filterBpmMax, filterKey, filterGenre, filterTag]);
 
     const activeFilters = [filterBpmMin, filterBpmMax, filterKey, filterGenre, filterTag].filter(Boolean).length;
-    const clearFilters = () => { setFilterBpmMin(''); setFilterBpmMax(''); setFilterKey(''); setFilterGenre(''); setFilterTag(''); setSearchText(''); };
+    const clearFilters = () => { setFilterBpmMin(''); setFilterBpmMax(''); setFilterKey(''); setFilterGenre(''); setFilterTag(''); setSearchText(''); setCurrentPage(1); };
+
+    // ── Pagination ──
+    useEffect(() => { setCurrentPage(1); }, [searchText, filterBpmMin, filterBpmMax, filterKey, filterGenre, filterTag]);
+    
+    const paginatedBeats = useMemo(() => {
+        const pageCount = Math.max(1, Math.ceil(filteredBeats.length / beatsPerPage));
+        const validPage = Math.min(Math.max(1, currentPage), pageCount);
+        return filteredBeats.slice((validPage - 1) * beatsPerPage, validPage * beatsPerPage);
+    }, [filteredBeats, currentPage, beatsPerPage]);
+    
+    const currentStart = Math.min((currentPage - 1) * beatsPerPage + 1, filteredBeats.length);
+    const currentEnd = Math.min(currentPage * beatsPerPage, filteredBeats.length);
+    const totalPages = Math.max(1, Math.ceil(filteredBeats.length / beatsPerPage));
 
     // ── Playback ──
     const playTrack = (beat) => {
@@ -401,7 +416,7 @@ export default function PublicStore() {
                             {beats.length === 0 ? 'No beats found.' : 'No beats match your filters.'}
                         </p>
                     ) : (
-                        filteredBeats.map((beat) => {
+                        paginatedBeats.map((beat) => {
                             const isLiked    = liked.has(beat.id);
                             const isActive   = currentTrack?.id === beat.id;
 
@@ -436,9 +451,9 @@ export default function PublicStore() {
                                                 {beat.title}
                                             </h3>
                                             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs sm:text-sm text-[#facc15]/70 font-medium">
-                                                {beat.bpm  && <span>{beat.bpm} BPM</span>}
-                                                {beat.key  && <><span className="text-gray-600">|</span><span>{beat.key}</span></>}
-                                                {beat.genre && <><span className="text-gray-600">|</span><span>{beat.genre}</span></>}
+                                                {beat.bpm && beat.bpm !== 0 && beat.bpm !== '0' && <span>{beat.bpm} BPM</span>}
+                                                {beat.key && beat.key.trim() !== '' && beat.key !== '-' && <><span className="text-gray-600">|</span><span>{beat.key}</span></>}
+                                                {beat.genre && beat.genre.trim() !== '' && beat.genre !== '-' && <><span className="text-gray-600">|</span><span>{beat.genre}</span></>}
                                             </div>
                                             {/* Tags */}
                                             {(beat.tags || []).length > 0 && (
@@ -487,6 +502,29 @@ export default function PublicStore() {
                     )}
                 </div>
 
+                {/* ── Pagination ── */}
+                {filteredBeats.length > beatsPerPage && (
+                    <div className="flex items-center justify-between mt-6 p-4 bg-[#1e293b]/40 backdrop-blur-md border border-[#facc15]/10 rounded-xl">
+                        <button 
+                            disabled={currentPage <= 1} 
+                            onClick={() => setCurrentPage(p => p - 1)}
+                            className="flex items-center gap-2 px-4 py-2 bg-[#0f172a] hover:bg-[#1e293b] rounded-lg transition text-[#facc15] disabled:opacity-50 disabled:cursor-not-allowed text-sm font-bold uppercase tracking-wider"
+                        >
+                            <ChevronLeft size={16} /> Prev
+                        </button>
+                        <div className="text-xs sm:text-sm font-medium text-gray-400">
+                            {currentStart} - {currentEnd} of {filteredBeats.length}
+                        </div>
+                        <button 
+                            disabled={currentPage >= totalPages} 
+                            onClick={() => setCurrentPage(p => p + 1)}
+                            className="flex items-center gap-2 px-4 py-2 bg-[#0f172a] hover:bg-[#1e293b] rounded-lg transition text-[#facc15] disabled:opacity-50 disabled:cursor-not-allowed text-sm font-bold uppercase tracking-wider"
+                        >
+                            Next <ChevronRight size={16} />
+                        </button>
+                    </div>
+                )}
+
                 {/* ── Licenses ── */}
                 <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-8 mt-20 sm:mt-32 w-full box-border">
                     {[
@@ -534,7 +572,11 @@ export default function PublicStore() {
                             <div className="min-w-0 flex-grow">
                                 <div className="text-[12px] sm:text-sm font-medium text-white truncate">{currentTrack.title}</div>
                                 <div className="text-[9px] sm:text-xs text-gray-500 truncate">
-                                    {[currentTrack.bpm && `${currentTrack.bpm} BPM`, currentTrack.key, currentTrack.genre].filter(Boolean).join(' · ') || 'dBoy'}
+                                    {[
+                                        (currentTrack.bpm && currentTrack.bpm !== 0 && currentTrack.bpm !== '0') ? `${currentTrack.bpm} BPM` : null, 
+                                        (currentTrack.key && currentTrack.key.trim() !== '' && currentTrack.key !== '-') ? currentTrack.key : null, 
+                                        (currentTrack.genre && currentTrack.genre.trim() !== '' && currentTrack.genre !== '-') ? currentTrack.genre : null
+                                    ].filter(Boolean).join(' · ') || 'dBoy'}
                                 </div>
                             </div>
                         </div>
