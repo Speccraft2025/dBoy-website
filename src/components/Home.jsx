@@ -148,7 +148,7 @@ export default function Home() {
 
       <header className="shake">
         <h1 className="shake">Jazel 'dBoy' Isaac</h1>
-        <h2 className="shake">Producer/Artist Extraordinaire</h2>
+        <h2 className="shake cursor-pointer hover:text-[#facc15] transition-colors" onClick={() => navigate('/login')}>Producer/Artist Extraordinaire</h2>
       </header>
 
       <nav>
@@ -164,7 +164,7 @@ export default function Home() {
         </a>
 
         {/* Updated routing back to Soundclick temporarily */}
-        <button className="shake nav-btn" onClick={() => window.open('https://www.soundclick.com/JazeldBoyIsaac', '_blank')}>My Beats</button>
+        <button className="shake nav-btn" onClick={() => navigate('/beats')}>My Beats</button>
       </nav>
 
       <div className="image-container shake">

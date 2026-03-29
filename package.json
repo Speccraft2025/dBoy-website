@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-fade": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "firebase": "^10.0.0",
     "lucide-react": "^0.300.0",
     "react": "^18.2.0",
