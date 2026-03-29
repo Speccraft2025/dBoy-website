@@ -109,7 +109,14 @@ export default function PublicStore() {
             const allAlbums = albumsSnap.docs.map(d => ({ id: d.id,  ...d.data(), type: 'album' }));
             setBeats(allBeats);
             setAlbums(allAlbums);
-            const combined = [...allBeats.filter(b => b.isStarred), ...allAlbums.filter(a => a.isStarred)].slice(0, 6);
+            
+            let combined = [...allBeats.filter(b => b.isStarred), ...allAlbums.filter(a => a.isStarred)];
+            if (combined.length === 0) {
+                // Fallback: if they haven't starred anything, show the 6 newest beats so the carousel isn't blank
+                combined = allBeats.slice(0, 6);
+            } else {
+                combined = combined.slice(0, 6);
+            }
             setFeatured(combined);
         } catch (e) { console.error(e); }
         finally { setLoading(false); }
@@ -214,7 +221,7 @@ export default function PublicStore() {
                         <span className="text-sm font-medium uppercase tracking-widest">Back to Main Page</span>
                     </button>
                     <div className="flex flex-col items-center text-center">
-                        <h1 className="text-4xl sm:text-6xl font-black text-[#facc15] tracking-[8px] uppercase drop-shadow-[0_0_15px_rgba(250,204,21,0.3)] mb-2">
+                        <h1 className="text-3xl sm:text-6xl font-black text-[#facc15] tracking-[4px] sm:tracking-[8px] uppercase drop-shadow-[0_0_15px_rgba(250,204,21,0.3)] mb-2">
                             Beats Unlimited
                         </h1>
                         <div className="h-1 w-24 bg-gradient-to-r from-transparent via-[#facc15] to-transparent opacity-50" />
@@ -235,30 +242,30 @@ export default function PublicStore() {
                                 <div className="flex">
                                     {featured.map((item, idx) => (
                                         <div key={`feat-${item.id}`} className="flex-[0_0_100%] min-w-0 relative">
-                                            {/* Full-bleed image */}
-                                            <div className="relative aspect-[16/7] sm:aspect-[21/9] overflow-hidden">
+                                            {/* Full-bleed image mobile aspect 4:3 ensures text fits */}
+                                            <div className="relative aspect-[4/3] sm:aspect-[21/9] overflow-hidden">
                                                 <img
                                                     src={item.coverUrl || 'https://via.placeholder.com/1600x700'}
                                                     alt={item.title || item.name}
                                                     className="w-full h-full object-cover"
                                                 />
                                                 {/* Gradient overlay */}
-                                                <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-[#0f172a]/60 to-transparent" />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent opacity-60" />
+                                                <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a] via-[#0f172a]/70 to-transparent" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent opacity-70" />
 
                                                 {/* Type badge */}
-                                                <div className="absolute top-5 left-5 sm:top-8 sm:left-8">
+                                                <div className="absolute top-4 left-4 sm:top-8 sm:left-8">
                                                     <span className="bg-[#0f172a]/80 backdrop-blur-md text-[#facc15] text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded border border-[#facc15]/20">
                                                         {item.type}
                                                     </span>
                                                 </div>
 
                                                 {/* Content */}
-                                                <div className="absolute bottom-5 left-5 sm:bottom-10 sm:left-10 max-w-[60%]">
-                                                    <h3 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2 drop-shadow-lg">
+                                                <div className="absolute bottom-5 left-5 sm:bottom-10 sm:left-10 max-w-[85%] sm:max-w-[60%]">
+                                                    <h3 className="text-xl sm:text-4xl font-black text-white leading-tight mb-1.5 drop-shadow-lg truncate">
                                                         {item.title || item.name}
                                                     </h3>
-                                                    <p className="text-[#facc15]/80 text-xs sm:text-sm font-bold uppercase tracking-widest mb-4">
+                                                    <p className="text-[#facc15]/80 text-[10px] sm:text-sm font-bold uppercase tracking-widest mb-3 sm:mb-4 truncate">
                                                         {item.type === 'beat'
                                                             ? `${item.bpm ? item.bpm + ' BPM' : ''} ${item.key ? '| ' + item.key : ''} ${item.genre ? '| ' + item.genre : ''}`
                                                             : `${item.beatIds?.length || 0} Tracks`}
@@ -266,11 +273,11 @@ export default function PublicStore() {
                                                     {item.type === 'beat' && (
                                                         <button
                                                             onClick={() => playTrack(item)}
-                                                            className="flex items-center gap-2 bg-[#facc15] text-[#0f172a] font-black px-5 py-2.5 rounded-full hover:bg-yellow-300 active:scale-95 transition-all shadow-2xl text-sm uppercase tracking-wider"
+                                                            className="flex w-fit items-center gap-2 bg-[#facc15] text-[#0f172a] font-black px-4 py-2 sm:px-5 sm:py-2.5 rounded-full hover:bg-yellow-300 active:scale-95 transition-all shadow-2xl text-[11px] sm:text-sm uppercase tracking-wider"
                                                         >
                                                             {currentTrack?.id === item.id && isPlaying
-                                                                ? <><Pause size={16} /> Pause</>
-                                                                : <><Play size={16} /> Play</>}
+                                                                ? <><Pause size={14} className="sm:w-4 sm:h-4" /> Pause</>
+                                                                : <><Play size={14} className="sm:w-4 sm:h-4" /> Play</>}
                                                         </button>
                                                     )}
                                                 </div>
