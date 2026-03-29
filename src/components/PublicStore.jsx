@@ -408,7 +408,8 @@ export default function PublicStore() {
                             return (
                                 <div
                                     key={beat.id}
-                                    className={`group flex flex-col sm:flex-row items-center justify-between p-3 sm:p-4 backdrop-blur-md border rounded-xl transition-all duration-300 gap-4 sm:gap-0 ${isActive ? 'bg-[#facc15]/5 border-[#facc15]/30 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'bg-[#1e293b]/40 border-[#facc15]/10 hover:border-[#facc15]/40 hover:shadow-[0_0_20px_rgba(250,204,21,0.08)]'}`}
+                                    onClick={() => playTrack(beat)}
+                                    className={`cursor-pointer group flex flex-col sm:flex-row items-center justify-between p-3 sm:p-4 backdrop-blur-md border rounded-xl transition-all duration-300 gap-4 sm:gap-0 ${isActive ? 'bg-[#facc15]/5 border-[#facc15]/30 shadow-[0_0_20px_rgba(250,204,21,0.1)]' : 'bg-[#1e293b]/40 border-[#facc15]/10 hover:border-[#facc15]/40 hover:shadow-[0_0_20px_rgba(250,204,21,0.08)]'}`}
                                 >
                                     {/* Left: Cover + Info */}
                                     <div className="flex items-center gap-4 w-full sm:w-auto min-w-0">
@@ -421,7 +422,7 @@ export default function PublicStore() {
                                                 />
                                             </div>
                                             <button
-                                                onClick={() => playTrack(beat)}
+                                                onClick={(e) => { e.stopPropagation(); playTrack(beat); }}
                                                 className="absolute inset-0 flex items-center justify-center bg-[#facc15]/20 opacity-0 group-hover/artwork:opacity-100 transition-opacity rounded-lg"
                                             >
                                                 {isActive && isPlaying
@@ -456,7 +457,7 @@ export default function PublicStore() {
                                     <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto mt-2 sm:mt-0 px-2 sm:px-0 flex-wrap sm:flex-nowrap">
                                         {/* Like button */}
                                         <button
-                                            onClick={() => handleLike(beat)}
+                                            onClick={(e) => { e.stopPropagation(); handleLike(beat); }}
                                             disabled={isLiked}
                                             title={isLiked ? 'Already liked' : 'Like this beat'}
                                             className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border transition-all text-xs font-bold ${isLiked ? 'text-red-400 border-red-400/30 bg-red-400/5 cursor-default' : 'text-gray-400 border-gray-700 hover:text-red-400 hover:border-red-400/30 hover:bg-red-400/5'}`}
@@ -466,14 +467,14 @@ export default function PublicStore() {
                                         </button>
 
                                         <button
-                                            onClick={() => handleDownload(beat)}
+                                            onClick={(e) => { e.stopPropagation(); handleDownload(beat); }}
                                             className="flex-1 sm:flex-none flex items-center justify-center gap-2 border border-[#facc15]/40 text-[#facc15] hover:bg-[#facc15] hover:text-[#0f172a] px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm"
                                         >
                                             <Download size={16} />
                                             <span>free</span>
                                         </button>
                                         <button
-                                            onClick={() => alert('Checkout coming soon')}
+                                            onClick={(e) => { e.stopPropagation(); alert('Checkout coming soon'); }}
                                             className="flex-1 sm:flex-none flex items-center justify-center gap-2 border border-[#facc15]/40 text-[#facc15] hover:bg-[#facc15] hover:text-[#0f172a] px-5 py-2 rounded-lg transition-all duration-300 font-bold text-sm"
                                         >
                                             <ShoppingCart size={16} />
