@@ -25,6 +25,20 @@ export default function AdminDashboard2() {
     const [audioFile, setAudioFile] = useState(null);
     const [coverFile, setCoverFile] = useState(null);
 
+    // ── TEMPORARY INIT SEED ──
+    useEffect(() => {
+        const seedHardcodedProjects = async () => {
+            if (localStorage.getItem('seeded_hardcoded_v1')) return;
+            try {
+                await addDoc(collection(db, 'projects'), { title: 'Bless Me', artist: "Jazel 'dBoy' Isaac", coverUrl: '', audioUrl: '/Bless Me.mp3', createdAt: serverTimestamp() });
+                await addDoc(collection(db, 'projects'), { title: 'Misunderstanding', artist: "Jazel 'dBoy' Isaac", coverUrl: '', audioUrl: '/MISUNDERSTANDING.mp3', createdAt: serverTimestamp() });
+                localStorage.setItem('seeded_hardcoded_v1', 'true');
+                fetchProjects();
+            } catch(e) { console.error('Seed Error:', e); }
+        };
+        seedHardcodedProjects();
+    }, []);
+
     useEffect(() => { 
         fetchProjects(); 
         fetchPromo();
