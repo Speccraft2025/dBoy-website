@@ -131,16 +131,17 @@ export default function Home() {
           <div className="about-content">
             <div className="about-section">
               <p>
-                I'm <strong>Jazel "dBoy" Isaac</strong> — a Nairobi-based producer and artist whose eclectic sound fuses hip-hop, pop, electronic, and African rhythms into a rich, boundary-pushing experience.
+                <strong>Jazel ‘dBoy’ Isaac</strong> is a Nairobi-based music producer, artist, and entrepreneur building more than just music—he’s building platforms for growth.
               </p>
             </div>
             <div className="about-section">
-              <h3>The Journey</h3>
-              <p>From late-night sessions in Mombasa to building a creative home in Nairobi, my path has been one of experimentation, collaboration, and growth.</p>
+              <p>He started in the studio, developing his craft in writing, recording, and production, with a strong focus on quality and consistency. Today, he works closely with artists to shape records that stand out—offering a professional, structured environment for serious creators ready to level up.</p>
             </div>
             <div className="about-section">
-              <h3>Musical Vision</h3>
-              <p>I craft eclectic soundscapes that explore resilience, faith, identity, and connection.</p>
+              <p>Beyond music, Jazel is actively developing systems and ventures designed to empower artists and streamline how creative and business processes work. His approach blends creativity with strategy, making him not just a producer, but a long-term partner in growth.</p>
+            </div>
+            <div className="about-section">
+              <p>Whether you’re an artist looking to create, a brand looking to collaborate, or someone interested in building what’s next—this is where it starts.</p>
             </div>
           </div>
         </div>
