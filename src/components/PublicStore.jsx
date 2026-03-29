@@ -215,16 +215,16 @@ export default function PublicStore() {
             <main className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full box-border">
 
                 {/* Back Button & Header */}
-                <div className="flex flex-col gap-6 mb-12">
+                <div className="flex flex-col gap-6 mb-12 max-w-full overflow-hidden">
                     <button onClick={() => navigate('/')} className="flex items-center gap-2 text-[#facc15]/70 hover:text-[#facc15] transition-colors group w-fit">
-                        <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-sm font-medium uppercase tracking-widest">Back to Main Page</span>
+                        <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform flex-shrink-0" />
+                        <span className="text-sm font-medium uppercase tracking-widest truncate">Back to Main Page</span>
                     </button>
-                    <div className="flex flex-col items-center text-center">
-                        <h1 className="text-3xl sm:text-6xl font-black text-[#facc15] tracking-[4px] sm:tracking-[8px] uppercase drop-shadow-[0_0_15px_rgba(250,204,21,0.3)] mb-2">
+                    <div className="flex flex-col items-center text-center max-w-full">
+                        <h1 className="text-3xl sm:text-6xl font-black text-[#facc15] tracking-[4px] sm:tracking-[8px] uppercase drop-shadow-[0_0_15px_rgba(250,204,21,0.3)] mb-2 max-w-full break-normal text-center whitespace-normal">
                             Beats Unlimited
                         </h1>
-                        <div className="h-1 w-24 bg-gradient-to-r from-transparent via-[#facc15] to-transparent opacity-50" />
+                        <div className="h-1 w-24 bg-gradient-to-r from-transparent via-[#facc15] to-transparent opacity-50 flex-shrink-0" />
                     </div>
                 </div>
 
