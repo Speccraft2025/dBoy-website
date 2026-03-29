@@ -24,11 +24,8 @@ export default function Home() {
   const [promo, setPromo] = useState(null);
   const [projectsData, setProjectsData] = useState([]);
 
-  const defaultPlaylist = [
-    { title: "Bless Me", artist: "Jazel 'dBoy' Isaac", src: "/Bless Me.mp3" },
-    { title: "Misunderstanding", artist: "Jazel 'dBoy' Isaac", src: "/Misunderstanding.mp3" }
-  ];
-  const playlist = projectsData.length > 0 ? projectsData : defaultPlaylist;
+  // The playlist is entirely driven by the projects fetched from Firestore (Admin2).
+  const playlist = projectsData;
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
@@ -92,6 +89,7 @@ export default function Home() {
   };
 
   const nextTrack = () => {
+    if (playlist.length === 0) return;
     setCurrentTrackIndex((prev) => (prev + 1) % playlist.length);
     if (isPlaying) {
       setTimeout(() => audioRef.current.play(), 100);
@@ -99,6 +97,7 @@ export default function Home() {
   };
 
   const prevTrack = () => {
+    if (playlist.length === 0) return;
     if (audioRef.current.currentTime > 3) {
       audioRef.current.currentTime = 0;
     } else {
