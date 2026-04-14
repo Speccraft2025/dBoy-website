@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
-    Upload, Plus, Trash2, LogOut, Loader, Settings, MessageSquare, Link as LinkIcon
+    Upload, Plus, Trash2, LogOut, Loader, Settings, MessageSquare, Link as LinkIcon, Edit2
 } from 'lucide-react';
+import EditProjectModal from './EditProjectModal';
 import { auth, db, storage } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
 import { 
@@ -17,6 +18,7 @@ export default function AdminDashboard2() {
     const [loadingProjects, setLoadingProjects] = useState(false);
     const [loadingPromo, setLoadingPromo] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
+    const [editingProject, setEditingProject] = useState(null);
     const navigate = useNavigate();
 
     // ── Upload form state ──
@@ -140,6 +142,10 @@ export default function AdminDashboard2() {
         }
     };
 
+    const handleProjectSaved = (updatedProj) => {
+        setProjects(prev => prev.map(p => p.id === updatedProj.id ? updatedProj : p));
+    };
+
     const handleLogout = async () => {
         await signOut(auth);
         navigate('/login');
@@ -147,6 +153,14 @@ export default function AdminDashboard2() {
 
     return (
         <div className="min-h-screen bg-[#0f172a] text-white p-4 sm:p-6 font-sans">
+            {/* Edit Modal */}
+            {editingProject && (
+                <EditProjectModal 
+                    project={editingProject} 
+                    onClose={() => setEditingProject(null)} 
+                    onSaved={handleProjectSaved} 
+                />
+            )}
             {/* Header */}
             <header className="flex justify-between items-center mb-10 border-b border-gray-800 pb-4">
                 <div>
@@ -291,7 +305,14 @@ export default function AdminDashboard2() {
                                             <h3 className="font-bold text-white truncate">{proj.title}</h3>
                                             <p className="text-sm text-gray-400 truncate">{proj.artist}</p>
                                         </div>
-                                        <div className="flex-shrink-0 pl-3 border-l border-gray-800 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="flex-shrink-0 pl-3 border-l border-gray-800 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2">
+                                            <button 
+                                                onClick={() => setEditingProject(proj)} 
+                                                className="p-2.5 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-lg transition" 
+                                                title="Edit project"
+                                            >
+                                                <Edit2 size={16} />
+                                            </button>
                                             <button 
                                                 onClick={() => handleDeleteProject(proj.id)} 
                                                 className="p-2.5 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition" 
