@@ -249,7 +249,11 @@ export default function Home() {
         <div className="player-container">
           <div className="track-display">
             <div className={`track-artwork ${isPlaying ? 'playing' : ''}`}>
-              <span className="artwork-icon">♪</span>
+              {currentTrack?.coverUrl ? (
+                <img src={currentTrack.coverUrl} alt={currentTrack.title} className="track-artwork-img" />
+              ) : (
+                <span className="artwork-icon">♪</span>
+              )}
             </div>
             <div className="track-details">
               <div className="track-name">{currentTrack?.title || "Select a track"}</div>
