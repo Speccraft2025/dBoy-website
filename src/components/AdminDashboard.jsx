@@ -174,6 +174,23 @@ export default function AdminDashboard() {
         if (audioFiles.length === 0 || !coverFile) { alert('Audio file(s) and Cover Art are required!'); return; }
         if (audioFiles.length === 1 && !title)       { alert('Beat Title is required for single uploads!'); return; }
 
+        // Duplicate check
+        const existingTitles = new Set(beats.map(b => b.title.toLowerCase()));
+        const newTitles = audioFiles.map(file => 
+            audioFiles.length > 1 ? file.name.replace(/\.[^/.]+$/, '').toLowerCase() : title.toLowerCase().trim()
+        );
+        const duplicates = [...new Set(newTitles.filter(t => existingTitles.has(t)))];
+
+        if (duplicates.length > 0) {
+            const msg = duplicates.length === 1 
+                ? `The beat "${duplicates[0]}" already exists.`
+                : `The following ${duplicates.length} beats already exist:\n${duplicates.map(d => `• ${d}`).join('\n')}`;
+            
+            if (!window.confirm(`${msg}\n\nAre you sure you want to upload anyway?`)) {
+                return;
+            }
+        }
+
         setLoading(true);
         setFileQueue(audioFiles.map(f => ({ name: f.name, status: 'waiting', progress: 0 })));
 

@@ -82,6 +82,20 @@ export default function AdminDashboard2() {
             return; 
         }
 
+        // Duplicate check
+        const normalizedTitle = title.trim().toLowerCase();
+        const normalizedArtist = (artist.trim() || "Jazel 'dBoy' Isaac").toLowerCase();
+        const isDuplicate = projects.some(p => 
+            p.title.toLowerCase() === normalizedTitle && 
+            p.artist.toLowerCase() === normalizedArtist
+        );
+
+        if (isDuplicate) {
+            if (!window.confirm(`A project titled "${title.trim()}" by "${artist.trim() || "Jazel 'dBoy' Isaac"}" already exists.\n\nUpload anyway?`)) {
+                return;
+            }
+        }
+
         setIsUploading(true);
 
         try {
