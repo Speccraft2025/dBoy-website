@@ -1,0 +1,319 @@
+const { onCall, onRequest, HttpsError } = require("firebase-functions/v2/https");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+const admin = require("firebase-admin");
+const pesapalConfig = require("./src/config");
+const pesapalApi = require("./src/pesapal");
+
+admin.initializeApp();
+const db = getFirestore();
+
+// Helper to calculate exact order totals on the server to prevent spoofing
+function calculateOrderTotal(items) {
+    let subtotal = 0;
+    let discount = 0;
+    
+    const premiumItems = [];
+    const otherItems = [];
+
+    items.forEach(item => {
+        // Enforce server-side pricing structure based on tier
+        if (item.licenseType === 'basic') item.price = 0;
+        else if (item.licenseType === 'premium') item.price = 50;
+        else if (item.licenseType === 'exclusive') item.price = 100;
+
+        if (item.licenseType === 'premium') premiumItems.push(item);
+        else otherItems.push(item);
+    });
+
+    otherItems.forEach(item => { subtotal += item.price; });
+    premiumItems.sort((a, b) => b.price - a.price);
+
+    for (let i = 0; i < premiumItems.length; i++) {
+        subtotal += premiumItems[i].price;
+        if (i % 3 === 1 || i % 3 === 2) discount += premiumItems[i].price;
+    }
+
+    return subtotal - discount;
+}
+
+/**
+ * createOrder (Callable via Frontend SDK)
+ * Generates the Pesapal Order Link
+ */
+exports.createOrder = onCall({ cors: true }, async (request) => {
+    try {
+        const { items, userEmail, callbackUrl } = request.data;
+        const uid = request.auth ? request.auth.uid : 'guest';
+
+        if (!items || items.length === 0) {
+            throw new Error("Cart is empty");
+        }
+
+        const totalAmount = calculateOrderTotal(items);
+
+        // Track order in Firestore before attempting Pesapal (state: pending)
+        const orderRef = db.collection("orders").doc();
+        const orderId = orderRef.id;
+
+        await orderRef.set({
+            items,
+            totalAmount,
+            currency: 'KES',
+            status: 'pending',
+            userEmail: userEmail || 'guest@example.com',
+            userId: uid,
+            createdAt: FieldValue.serverTimestamp()
+        });
+
+        // 1. Get Auth Token
+        const token = await pesapalApi.getAuthToken();
+
+        // 2. Register IPN webhook URL
+        // In reality, this IPN URL would be your deployed domain URL.
+        const ipnUrl = `https://${process.env.GCLOUD_PROJECT}.cloudfunctions.net/pesapalIpnCallback`;
+        const ipnId = await pesapalApi.registerIPN(token, ipnUrl);
+
+        // 3. Build Pesapal payload
+        const pesapalPayload = {
+            id: orderId,
+            currency: "KES",
+            amount: totalAmount,
+            description: `Beat Licensing x${items.length}`,
+            callback_url: callbackUrl,
+            notification_id: ipnId,
+            billing_address: {
+                email_address: userEmail || 'guest@example.com',
+                phone_number: "",
+                country_code: "KE",
+                first_name: "Customer",
+                middle_name: "",
+                last_name: ""
+            }
+        };
+
+        // 4. Submit Order Request
+        const response = await pesapalApi.submitOrderRequest(token, pesapalPayload);
+
+        // Update tracking ID on order
+        await orderRef.update({
+            pesapalTrackingId: response.order_tracking_id
+        });
+
+        return {
+            redirectUrl: response.redirect_url,
+            orderId: orderId
+        };
+    } catch (error) {
+        console.error("CreateOrder Error:", error);
+        throw new HttpsError("internal", error.message);
+    }
+});
+
+/**
+ * pesapalIpnCallback (Webhook from Pesapal)
+ * Triggers when a payment resolves. Validates status directly with Pesapal API.
+ */
+exports.pesapalIpnCallback = onRequest(async (req, res) => {
+    try {
+        const { OrderTrackingId, OrderNotificationType, MerchantReference } = req.query;
+
+        console.log(`[IPN] Received webhook for Tracking ID: ${OrderTrackingId}`);
+
+        if (!OrderTrackingId) {
+            return res.status(400).send("Missing OrderTrackingId");
+        }
+
+        // Validate directly from the source to prevent spoofing
+        const token = await pesapalApi.getAuthToken();
+        const statusResponse = await pesapalApi.getTransactionStatus(token, OrderTrackingId);
+
+        const paymentStatus = statusResponse.payment_status_description;
+
+        // Fetch our existing order
+        const orderRef = db.collection("orders").doc(MerchantReference);
+        const orderSnap = await orderRef.get();
+
+        if (!orderSnap.exists) {
+            console.error(`[IPN] Order not found: ${MerchantReference}`);
+            return res.status(404).send("Order not found");
+        }
+
+        // Allowed statuses: COMPLETED, FAILED, INVALID
+        let localStatus = 'pending';
+        if (paymentStatus === 'Completed') localStatus = 'paid';
+        if (paymentStatus === 'Failed') localStatus = 'failed';
+
+        // Securely update order
+        await orderRef.update({
+            status: localStatus,
+            pesapalStatusDetail: paymentStatus,
+            pesapalRaw: statusResponse,
+            updatedAt: FieldValue.serverTimestamp()
+        });
+
+        console.log(`[IPN] Order ${MerchantReference} updated to ${localStatus}`);
+
+        // Acknowledge the webhook successfully
+        res.status(200).json({
+            OrderTrackingId: OrderTrackingId,
+            OrderNotificationType: OrderNotificationType,
+            OrderMerchantReference: MerchantReference,
+            status: 200
+        });
+    } catch (error) {
+        console.error("[IPN] Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+const PDFDocument = require('pdfkit');
+
+function getStoragePathFromUrl(downloadUrl) {
+    if (!downloadUrl) return null;
+    try {
+        const decoded = decodeURIComponent(downloadUrl);
+        return decoded.split('/o/')[1].split('?')[0];
+    } catch (e) {
+        return null; // fallback or failed parse
+    }
+}
+
+/**
+ * getOrderedAssets (Callable)
+ * Generates secure, short-lived signed URLs for paid orders and custom PDFs.
+ */
+exports.getOrderedAssets = onCall({ cors: true }, async (request) => {
+    try {
+        const { orderId, userEmail } = request.data;
+        
+        if (!orderId) throw new Error("Missing orderId");
+
+        const orderRef = db.collection("orders").doc(orderId);
+        const orderSnap = await orderRef.get();
+
+        if (!orderSnap.exists) throw new Error("Order not found");
+
+        const orderData = orderSnap.data();
+
+        // Security check
+        if (orderData.status !== 'paid') throw new Error("Order is not marked as paid");
+        
+        const uid = request.auth ? request.auth.uid : null;
+        if (orderData.userEmail !== userEmail && orderData.userId !== uid) {
+            throw new Error("Unauthorized access to this order");
+        }
+
+        const bucket = admin.storage().bucket();
+        const assets = [];
+
+        // Generate Assets per item
+        for (const item of orderData.items) {
+            // 1. Fetch exact beat document to get uploaded URL references
+            const beatSnap = await db.collection("beats").doc(item.beatId).get();
+            const beatData = beatSnap.exists ? beatSnap.data() : null;
+            
+            // Determine the target URL based on license type
+            let targetDownloadUrl = null;
+            let secondaryUrl = null;
+            
+            if (beatData) {
+                if (item.licenseType === 'basic') {
+                    // Standard stream MP3
+                    targetDownloadUrl = beatData.audioUrl;
+                } else if (item.licenseType === 'premium') {
+                    // High quality untagged
+                    targetDownloadUrl = beatData.untaggedUrl || beatData.audioUrl;
+                } else if (item.licenseType === 'exclusive') {
+                    // Untagged + Stems
+                    targetDownloadUrl = beatData.untaggedUrl || beatData.audioUrl;
+                    secondaryUrl = beatData.stemsUrl;
+                }
+            }
+
+            const filesToSign = [];
+            
+            if (targetDownloadUrl) {
+                const p = getStoragePathFromUrl(targetDownloadUrl);
+                if (p) filesToSign.push({ path: p, type: 'audio' });
+            }
+            if (secondaryUrl) {
+                const p = getStoragePathFromUrl(secondaryUrl);
+                if (p) filesToSign.push({ path: p, type: 'stems' });
+            }
+
+            const itemUrls = [];
+
+            for (const f of filesToSign) {
+                try {
+                    const file = bucket.file(f.path);
+                    const [exists] = await file.exists();
+                    if (exists) {
+                        const [url] = await file.getSignedUrl({
+                            version: 'v4', action: 'read', expires: Date.now() + 1000 * 60 * 60 * 24 * 7 // 7 days
+                        });
+                        itemUrls.push({ type: f.type, url });
+                    }
+                } catch (e) { console.error("Sign error:", e); }
+            }
+
+            // 2. Dynamic PDF License Generator
+            let licensePdfUrl = null;
+            try {
+                const pdfBuffer = await new Promise((resolve, reject) => {
+                    const doc = new PDFDocument({ margin: 50 });
+                    const chunks = [];
+                    doc.on('data', chunk => chunks.push(chunk));
+                    doc.on('end', () => resolve(Buffer.concat(chunks)));
+                    doc.on('error', reject);
+
+                    // Build PDF
+                    doc.fontSize(24).font('Helvetica-Bold').text('BEAT LICENSE AGREEMENT', { align: 'center' });
+                    doc.moveDown();
+                    doc.fontSize(12).font('Helvetica').text(`Order ID: ${orderId}`);
+                    doc.text(`Date: ${new Date().toLocaleDateString()}`);
+                    doc.text(`Licensee (Buyer Email): ${userEmail}`);
+                    doc.moveDown();
+                    doc.fontSize(16).font('Helvetica-Bold').text(`Beat Title: ${item.title}`);
+                    doc.fontSize(14).text(`License Tier: ${item.licenseType.toUpperCase()}`);
+                    doc.moveDown();
+                    
+                    doc.fontSize(11).font('Helvetica').text('By purchasing this license, the Licensee agrees to the following terms:');
+                    doc.moveDown(0.5);
+                    
+                    if (item.licenseType === 'basic') {
+                        doc.text('• Non-Exclusive MP3 Distribution Rights.\n• Up to 50,000 Audio Streams.\n• Required Credit: "Prod. by Jazel \'dBoy\' Isaac".');
+                    } else if (item.licenseType === 'premium') {
+                        doc.text('• High-Quality Untagged WAV.\n• Up to 500,000 Audio Streams.\n• Commercial Use Allowed.\n• Required Credit: "Prod. by Jazel \'dBoy\' Isaac".');
+                    } else if (item.licenseType === 'exclusive') {
+                        doc.text('• Unlimited Commercial Rights & Track Stems.\n• Ownership transferred to Licensee.\n• Must remove beat from public marketplace.\n• Required Co-Producer Credit: "Prod. by Jazel \'dBoy\' Isaac".');
+                    }
+                    doc.end();
+                });
+
+                const pdfFile = bucket.file(`licenses/orders/${orderId}_${item.beatId}.pdf`);
+                await pdfFile.save(pdfBuffer, { contentType: 'application/pdf' });
+                
+                const [url] = await pdfFile.getSignedUrl({
+                    version: 'v4', action: 'read', expires: Date.now() + 1000 * 60 * 60 * 24 * 7
+                });
+                licensePdfUrl = url;
+
+            } catch (err) {
+                console.error("PDF Gen Error:", err);
+            }
+
+            assets.push({
+                title: item.title,
+                licenseType: item.licenseType,
+                audioUrl: itemUrls.find(i => i.type === 'audio')?.url,
+                stemsUrl: itemUrls.find(i => i.type === 'stems')?.url,
+                licensePdfUrl: licensePdfUrl
+            });
+        }
+
+        return { assets };
+    } catch (error) {
+        console.error("getOrderedAssets Error:", error);
+        throw new HttpsError("internal", error.message);
+    }
+});

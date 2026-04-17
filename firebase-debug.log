@@ -1,0 +1,642 @@
+[debug] [2026-04-17T05:07:27.634Z] ----------------------------------------------------------------------
+[debug] [2026-04-17T05:07:27.636Z] Command:       /usr/local/bin/node /usr/local/bin/firebase emulators:start
+[debug] [2026-04-17T05:07:27.636Z] CLI Version:   15.15.0
+[debug] [2026-04-17T05:07:27.636Z] Platform:      darwin
+[debug] [2026-04-17T05:07:27.636Z] Node Version:  v22.19.0
+[debug] [2026-04-17T05:07:27.636Z] Time:          Fri Apr 17 2026 08:07:27 GMT+0300 (East Africa Time)
+[debug] [2026-04-17T05:07:27.636Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-17T05:07:28.034Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-17T05:07:28.035Z] > authorizing via signed-in user (specmediastudio@gmail.com)
+[debug] [2026-04-17T05:07:28.069Z] java version "24.0.2" 2025-07-15
+
+[debug] [2026-04-17T05:07:28.069Z] Java(TM) SE Runtime Environment (build 24.0.2+12-54)
+Java HotSpot(TM) 64-Bit Server VM (build 24.0.2+12-54, mixed mode, sharing)
+
+[debug] [2026-04-17T05:07:28.072Z] Parsed Java major version: 24
+[info] i  emulators: Starting emulators: functions, firestore, storage, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, firestore, storage, extensions"}}
+[debug] [2026-04-17T05:07:28.073Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:07:28.073Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:07:28.074Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite [none]
+[debug] [2026-04-17T05:07:28.722Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite 200
+[debug] [2026-04-17T05:07:28.722Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite {"projectNumber":"865131472051","projectId":"dboywebsite","lifecycleState":"ACTIVE","name":"dBoyWebsite","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-03-07T05:11:35.258722Z"}
+[debug] [2026-04-17T05:07:29.617Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:07:29.617Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:07:29.617Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:07:29.617Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:07:29.617Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2026-04-17T05:07:29.621Z] Found emulator hub locator: {"version":"15.15.0","origins":["http://127.0.0.1:4400","http://[::1]:4400"],"pid":70980}
+[debug] [2026-04-17T05:07:29.621Z] Write emulator hub locator at /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/hub-dboywebsite.json
+[debug] [2026-04-17T05:07:29.622Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2026-04-17T05:07:30.066Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:07:30.066Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:07:30.066Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:07:30.066Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, database, hosting, pubsub, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, auth, database, hosting, pubsub, dataconnect\u001b[22m"}}
+[debug] [2026-04-17T05:07:33.074Z] defaultcredentials: writing to file /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json
+[debug] [2026-04-17T05:07:33.077Z] Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json"}}
+[debug] [2026-04-17T05:07:33.077Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:07:33.077Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:07:33.078Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig [none]
+[debug] [2026-04-17T05:07:33.952Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig 200
+[debug] [2026-04-17T05:07:33.953Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig {"projectId":"dboywebsite","storageBucket":"dboywebsite.firebasestorage.app"}
+[debug] [2026-04-17T05:07:33.971Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2026-04-17T05:07:33.971Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2026-04-17T05:07:33.971Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--database-edition","standard","--project_id","dboywebsite","--rules","/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","database-edition","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--database-edition\",\"standard\",\"--project_id\",\"dboywebsite\",\"--rules\",\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"database-edition\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2026-04-17T05:07:34.150Z] WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar)
+WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2
+WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
+ {"metadata":{"emulator":{"name":"firestore"},"message":"WARNING: A terminally deprecated method in sun.misc.Unsafe has been called\nWARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar)\nWARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2\nWARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release\n"}}
+[debug] [2026-04-17T05:07:34.522Z] Apr 17, 2026 8:07:34 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:9150
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 17, 2026 8:07:34 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:9150\n"}}
+[debug] [2026-04-17T05:07:34.534Z] 
+API endpoint: http:// {"metadata":{"emulator":{"name":"firestore"},"message":"\nAPI endpoint: http://"}}
+[debug] [2026-04-17T05:07:34.534Z] 127.0.0.1:8080
+Database Edition: STANDARD
+Database Mode: CLOUD_FIRESTORE
+
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+If you are running a Firestore in Datastore Mode project, run:
+
+   export DATASTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Note: Support for Datastore Mode is in preview. If you encounter any bugs please file at https://github.com/firebase/firebase-tools/issues.
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"127.0.0.1:8080\nDatabase Edition: STANDARD\nDatabase Mode: CLOUD_FIRESTORE\n\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nIf you are running a Firestore in Datastore Mode project, run:\n\n   export DATASTORE_EMULATOR_HOST=127.0.0.1:8080\n\nNote: Support for Datastore Mode is in preview. If you encounter any bugs please file at https://github.com/firebase/firebase-tools/issues.\nDev App Server is now running.\n\n"}}
+[info] ✔  firestore: Firestore Emulator was started in standard edition. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator was started in standard edition."}}
+[info] ✔  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2026-04-17T05:07:34.579Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[warn] ⚠  Unexpected rules runtime error: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::arrayBaseOffset has been called by com.google.protobuf.UnsafeUtil$MemoryAccessor (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-storage-rules-runtime-v1.1.3.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.protobuf.UnsafeUtil$MemoryAccessor
+WARNING: sun.misc.Unsafe::arrayBaseOffset will be removed in a future release
+ {"metadata":{"emulator":{"name":"storage"},"message":"Unexpected rules runtime error: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called\nWARNING: sun.misc.Unsafe::arrayBaseOffset has been called by com.google.protobuf.UnsafeUtil$MemoryAccessor (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-storage-rules-runtime-v1.1.3.jar)\nWARNING: Please consider reporting this to the maintainers of class com.google.protobuf.UnsafeUtil$MemoryAccessor\nWARNING: sun.misc.Unsafe::arrayBaseOffset will be removed in a future release\n"}}
+[debug] [2026-04-17T05:07:34.986Z] Temp file directory for storage emulator: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/firebase/storage/blobs"}}
+[debug] [2026-04-17T05:07:34.988Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions\" for Cloud Functions..."}}
+[debug] [2026-04-17T05:07:34.989Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-04-17T05:07:35.980Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^5.0.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2026-04-17T05:07:35.980Z] Building nodejs source
+[debug] [2026-04-17T05:07:35.981Z] Failed to find version of module node: reached end of search path /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "18" doesn't match your global version "22". Using node@22 from host. 
+[info] i  functions: Loaded environment variables from .env.local. 
+[debug] [2026-04-17T05:07:35.982Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-04-17T05:07:35.985Z] Found firebase-functions binary at '/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8924
+
+[debug] [2026-04-17T05:07:36.181Z] Got response from /__/functions.yaml {"endpoints":{"createOrder":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"createOrder"},"pesapalIpnCallback":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"pesapalIpnCallback"},"getOrderedAssets":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getOrderedAssets"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{},"params":[{"name":"PESAPAL_CONSUMER_KEY","type":"string","default":"YOUR_TEST_KEY"},{"name":"PESAPAL_CONSUMER_SECRET","type":"string","default":"YOUR_TEST_SECRET"},{"name":"PESAPAL_ENV","type":"string","default":"sandbox"}]}
+[debug] [2026-04-17T05:07:40.200Z] defaultcredentials: writing to file /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json
+[debug] [2026-04-17T05:07:40.201Z] Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json"}}
+[info] ✔  functions: Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets."}}
+[info] ✔  functions[us-central1-createOrder]: http function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/createOrder). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/createOrder)."}}
+[info] ✔  functions[us-central1-pesapalIpnCallback]: http function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/pesapalIpnCallback). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/pesapalIpnCallback)."}}
+[info] ✔  functions[us-central1-getOrderedAssets]: http function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/getOrderedAssets). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/getOrderedAssets)."}}
+[debug] [2026-04-17T05:07:40.211Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase SQL Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator   │ Host:Port      │ View in Emulator UI              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Functions  │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions  │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Firestore  │ 127.0.0.1:8080 │ http://127.0.0.1:4000/firestore  │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Storage    │ 127.0.0.1:9199 │ http://127.0.0.1:4000/storage    │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/extensions │
+└────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
+  Other reserved ports: 4500, 9150
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2026-04-17T05:07:47.911Z] Apr 17, 2026 8:07:47 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 17, 2026 8:07:47 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2026-04-17T05:07:52.963Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:07:52.963Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:07:52.964Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:07:52.963Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:07:52.964Z] Accepted request OPTIONS /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:07:52.965Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:07:52.965Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[info] i  functions: Loaded environment variables from .env.local. 
+[debug] [2026-04-17T05:07:52.969Z] [worker-pool] addWorker(us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-createOrder)"}}
+[debug] [2026-04-17T05:07:52.970Z] [worker-pool] Adding worker with key us-central1-createOrder, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-createOrder, total=1"}}
+[debug] [2026-04-17T05:07:53.250Z] [runtime-status] [72374] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-04-17T05:07:53.250Z] [runtime-status] [72374] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:07:53.250Z] [runtime-status] [72374] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2026-04-17T05:07:53.251Z] [runtime-status] [72374] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:07:53.287Z] [runtime-status] [72374] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-04-17T05:07:53.288Z] [runtime-status] [72374] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:07:53.339Z] [runtime-status] [72374] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2026-04-17T05:07:53.340Z] [runtime-status] [72374] initializeApp(DEFAULT) {"storageBucket":"dboywebsite.firebasestorage.app","projectId":"dboywebsite"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] initializeApp(DEFAULT) {\"storageBucket\":\"dboywebsite.firebasestorage.app\",\"projectId\":\"dboywebsite\"}"}}
+[debug] [2026-04-17T05:07:53.344Z] [runtime-status] [72374] Functions runtime initialized. {"cwd":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions","node_version":"22.19.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Functions runtime initialized. {\"cwd\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions\",\"node_version\":\"22.19.0\"}"}}
+[debug] [2026-04-17T05:07:53.344Z] [runtime-status] [72374] Listening to port: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/fire_emu_c06a0cbe741259a9.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72374] Listening to port: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/fire_emu_c06a0cbe741259a9.sock"}}
+[debug] [2026-04-17T05:07:53.379Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE"}}
+[debug] [2026-04-17T05:07:53.379Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:07:53.379Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY"}}
+[debug] [2026-04-17T05:07:53.381Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 2.265042ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 2.265042ms"}}
+[debug] [2026-04-17T05:07:53.382Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE"}}
+[debug] [2026-04-17T05:07:53.382Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:07:53.382Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:07:53.382Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:07:53.383Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:07:53.383Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:07:53.383Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:07:53.383Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:07:53.383Z] Accepted request POST /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:07:53.383Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:07:53.384Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:07:53.384Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:07:53.384Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-04-17T05:07:53.532Z] Apr 17, 2026 8:07:53 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 17, 2026 8:07:53 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected HTTP/2 connection.\n"}}
+[info] >  [Pesapal Auth Failure Data] {"error":{"error_type":"api_error","code":"invalid_consumer_key_or_secret_provided","message":""},"status":"500"} {"user":"[Pesapal Auth Failure Data] {\"error\":{\"error_type\":\"api_error\",\"code\":\"invalid_consumer_key_or_secret_provided\",\"message\":\"\"},\"status\":\"500\"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m [Pesapal Auth Failure Data] {\"error\":{\"error_type\":\"api_error\",\"code\":\"invalid_consumer_key_or_secret_provided\",\"message\":\"\"},\"status\":\"500\"}"}}
+[info] >  CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys {"user":"CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys"}}
+[info] >      at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11) {"user":"    at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11)"}}
+[info] >      at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {"user":"    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}}
+[info] >      at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23 {"user":"    at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23"}}
+[info] >      at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26 {"user":"    at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26"}}
+[info] >      at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9) {"user":"    at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9)"}}
+[info] >      at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5) {"user":"    at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5)"}}
+[info] >      at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21 {"user":"    at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21"}}
+[debug] [2026-04-17T05:07:55.138Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 1753.8688339999999ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 1753.8688339999999ms"}}
+[debug] [2026-04-17T05:07:55.138Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE"}}
+[debug] [2026-04-17T05:07:55.138Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:07:55.138Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:07:55.138Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:08:06.632Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:08:06.632Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:08:06.633Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:08:06.632Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:08:06.633Z] Accepted request OPTIONS /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:08:06.633Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:08:06.633Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:08:06.634Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:08:06.634Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY"}}
+[debug] [2026-04-17T05:08:06.638Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 3.8395ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 3.8395ms"}}
+[debug] [2026-04-17T05:08:06.638Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE"}}
+[debug] [2026-04-17T05:08:06.639Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:08:06.639Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:08:06.639Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:08:06.640Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:08:06.640Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:08:06.640Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:08:06.640Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:08:06.640Z] Accepted request POST /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:08:06.640Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:08:06.640Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:08:06.640Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:08:06.641Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[info] >  [Pesapal Auth Failure Data] {"error":{"error_type":"api_error","code":"invalid_consumer_key_or_secret_provided","message":""},"status":"500"} {"user":"[Pesapal Auth Failure Data] {\"error\":{\"error_type\":\"api_error\",\"code\":\"invalid_consumer_key_or_secret_provided\",\"message\":\"\"},\"status\":\"500\"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m [Pesapal Auth Failure Data] {\"error\":{\"error_type\":\"api_error\",\"code\":\"invalid_consumer_key_or_secret_provided\",\"message\":\"\"},\"status\":\"500\"}"}}
+[info] >  CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys {"user":"CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys"}}
+[info] >      at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11) {"user":"    at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11)"}}
+[info] >      at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {"user":"    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}}
+[info] >      at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23 {"user":"    at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23"}}
+[info] >      at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26 {"user":"    at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26"}}
+[info] >      at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9) {"user":"    at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9)"}}
+[info] >      at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5) {"user":"    at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5)"}}
+[info] >      at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21 {"user":"    at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21"}}
+[debug] [2026-04-17T05:08:08.071Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 1431.042459ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 1431.042459ms"}}
+[debug] [2026-04-17T05:08:08.072Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE"}}
+[debug] [2026-04-17T05:08:08.072Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:08:08.072Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:08:08.072Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:10:25.008Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:10:25.008Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:10:25.009Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:10:25.008Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:10:25.009Z] Accepted request OPTIONS /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:10:25.009Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:10:25.009Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:10:25.009Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:10:25.009Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY"}}
+[debug] [2026-04-17T05:10:25.013Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 4.098209ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 4.098209ms"}}
+[debug] [2026-04-17T05:10:25.014Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE"}}
+[debug] [2026-04-17T05:10:25.014Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:10:25.014Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:10:25.014Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:10:25.014Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:10:25.014Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:10:25.015Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:10:25.014Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:10:25.015Z] Accepted request POST /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:10:25.015Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:10:25.015Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:10:25.015Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:10:25.015Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[info] >  [Pesapal Auth Failure Data] {"error":{"error_type":"api_error","code":"invalid_consumer_key_or_secret_provided","message":""},"status":"500"} {"user":"[Pesapal Auth Failure Data] {\"error\":{\"error_type\":\"api_error\",\"code\":\"invalid_consumer_key_or_secret_provided\",\"message\":\"\"},\"status\":\"500\"}","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m [Pesapal Auth Failure Data] {\"error\":{\"error_type\":\"api_error\",\"code\":\"invalid_consumer_key_or_secret_provided\",\"message\":\"\"},\"status\":\"500\"}"}}
+[info] >  CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys {"user":"CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m CreateOrder Error: Error: Failed to retrieve Pesapal Auth Token - Check consumer keys"}}
+[info] >      at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11) {"user":"    at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at Object.getAuthToken (/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/src/pesapal.js:46:11)"}}
+[info] >      at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {"user":"    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}}
+[info] >      at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23 {"user":"    at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js:69:23"}}
+[info] >      at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26 {"user":"    at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/common/providers/https.js:467:26"}}
+[info] >      at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9) {"user":"    at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async runFunction (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:399:9)"}}
+[info] >      at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5) {"user":"    at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5)","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async runHTTPS (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:424:5)"}}
+[info] >      at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21 {"user":"    at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m     at async /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:585:21"}}
+[debug] [2026-04-17T05:10:29.060Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 4044.988375ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 4044.988375ms"}}
+[debug] [2026-04-17T05:10:29.060Z] [worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-66f96f44-e2a3-48f1-acb5-378b0893959c]: IDLE"}}
+[debug] [2026-04-17T05:10:29.060Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:10:29.061Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:10:29.061Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:16:03.152Z] ----------------------------------------------------------------------
+[debug] [2026-04-17T05:16:03.154Z] Command:       /usr/local/bin/node /usr/local/bin/firebase emulators:start
+[debug] [2026-04-17T05:16:03.154Z] CLI Version:   15.15.0
+[debug] [2026-04-17T05:16:03.154Z] Platform:      darwin
+[debug] [2026-04-17T05:16:03.154Z] Node Version:  v22.19.0
+[debug] [2026-04-17T05:16:03.154Z] Time:          Fri Apr 17 2026 08:16:03 GMT+0300 (East Africa Time)
+[debug] [2026-04-17T05:16:03.154Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-17T05:16:03.496Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-17T05:16:03.496Z] > authorizing via signed-in user (specmediastudio@gmail.com)
+[debug] [2026-04-17T05:16:03.529Z] java version "24.0.2" 2025-07-15
+
+[debug] [2026-04-17T05:16:03.530Z] Java(TM) SE Runtime Environment (build 24.0.2+12-54)
+Java HotSpot(TM) 64-Bit Server VM (build 24.0.2+12-54, mixed mode, sharing)
+
+[debug] [2026-04-17T05:16:03.532Z] Parsed Java major version: 24
+[info] i  emulators: Starting emulators: functions, firestore, storage, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, firestore, storage, extensions"}}
+[debug] [2026-04-17T05:16:03.533Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:16:03.533Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:16:03.534Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite [none]
+[debug] [2026-04-17T05:16:05.176Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite 200
+[debug] [2026-04-17T05:16:05.176Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite {"projectNumber":"865131472051","projectId":"dboywebsite","lifecycleState":"ACTIVE","name":"dBoyWebsite","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-03-07T05:11:35.258722Z"}
+[debug] [2026-04-17T05:16:06.069Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:16:06.069Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:16:06.069Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:16:06.069Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:16:06.069Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2026-04-17T05:16:06.071Z] Found emulator hub locator: {"version":"15.15.0","origins":["http://127.0.0.1:4400","http://[::1]:4400"],"pid":72268}
+[debug] [2026-04-17T05:16:06.071Z] Write emulator hub locator at /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/hub-dboywebsite.json
+[debug] [2026-04-17T05:16:06.073Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2026-04-17T05:16:06.517Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:16:06.518Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:16:06.518Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-04-17T05:16:06.518Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, database, hosting, pubsub, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mapphosting, auth, database, hosting, pubsub, dataconnect\u001b[22m"}}
+[debug] [2026-04-17T05:16:09.526Z] defaultcredentials: writing to file /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json
+[debug] [2026-04-17T05:16:09.529Z] Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json"}}
+[debug] [2026-04-17T05:16:09.530Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:16:09.530Z] Checked if tokens are valid: true, expires at: 1776403953230
+[debug] [2026-04-17T05:16:09.530Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig [none]
+[debug] [2026-04-17T05:16:10.414Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig 200
+[debug] [2026-04-17T05:16:10.414Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig {"projectId":"dboywebsite","storageBucket":"dboywebsite.firebasestorage.app"}
+[debug] [2026-04-17T05:16:10.432Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2026-04-17T05:16:10.433Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2026-04-17T05:16:10.433Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--database-edition","standard","--project_id","dboywebsite","--rules","/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","database-edition","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--database-edition\",\"standard\",\"--project_id\",\"dboywebsite\",\"--rules\",\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"database-edition\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2026-04-17T05:16:10.627Z] WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar)
+WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2
+WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
+ {"metadata":{"emulator":{"name":"firestore"},"message":"WARNING: A terminally deprecated method in sun.misc.Unsafe has been called\nWARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-firestore-emulator-v1.20.4.jar)\nWARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2\nWARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release\n"}}
+[debug] [2026-04-17T05:16:11.011Z] Apr 17, 2026 8:16:11 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:9150
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 17, 2026 8:16:11 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:9150\n"}}
+[debug] [2026-04-17T05:16:11.024Z] 
+API endpoint: http:// {"metadata":{"emulator":{"name":"firestore"},"message":"\nAPI endpoint: http://"}}
+[debug] [2026-04-17T05:16:11.024Z] 127.0.0.1:8080
+Database Edition: STANDARD
+Database Mode: CLOUD_FIRESTORE
+
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+If you are running a Firestore in Datastore Mode project, run:
+
+   export DATASTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Note: Support for Datastore Mode is in preview. If you encounter any bugs please file at https://github.com/firebase/firebase-tools/issues.
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"127.0.0.1:8080\nDatabase Edition: STANDARD\nDatabase Mode: CLOUD_FIRESTORE\n\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nIf you are running a Firestore in Datastore Mode project, run:\n\n   export DATASTORE_EMULATOR_HOST=127.0.0.1:8080\n\nNote: Support for Datastore Mode is in preview. If you encounter any bugs please file at https://github.com/firebase/firebase-tools/issues.\nDev App Server is now running.\n\n"}}
+[info] ✔  firestore: Firestore Emulator was started in standard edition. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator was started in standard edition."}}
+[info] ✔  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[debug] [2026-04-17T05:16:11.040Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[warn] ⚠  Unexpected rules runtime error: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::arrayBaseOffset has been called by com.google.protobuf.UnsafeUtil$MemoryAccessor (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-storage-rules-runtime-v1.1.3.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.protobuf.UnsafeUtil$MemoryAccessor
+WARNING: sun.misc.Unsafe::arrayBaseOffset will be removed in a future release
+ {"metadata":{"emulator":{"name":"storage"},"message":"Unexpected rules runtime error: WARNING: A terminally deprecated method in sun.misc.Unsafe has been called\nWARNING: sun.misc.Unsafe::arrayBaseOffset has been called by com.google.protobuf.UnsafeUtil$MemoryAccessor (file:/Users/speccraftmedialtd./.cache/firebase/emulators/cloud-storage-rules-runtime-v1.1.3.jar)\nWARNING: Please consider reporting this to the maintainers of class com.google.protobuf.UnsafeUtil$MemoryAccessor\nWARNING: sun.misc.Unsafe::arrayBaseOffset will be removed in a future release\n"}}
+[debug] [2026-04-17T05:16:11.442Z] Temp file directory for storage emulator: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/firebase/storage/blobs"}}
+[debug] [2026-04-17T05:16:11.445Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions\" for Cloud Functions..."}}
+[debug] [2026-04-17T05:16:11.446Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-04-17T05:16:13.750Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^5.0.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2026-04-17T05:16:13.750Z] Building nodejs source
+[debug] [2026-04-17T05:16:13.750Z] Failed to find version of module node: reached end of search path /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "18" doesn't match your global version "22". Using node@22 from host. 
+[info] i  functions: Loaded environment variables from .env.local. 
+[debug] [2026-04-17T05:16:13.753Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-04-17T05:16:13.755Z] Found firebase-functions binary at '/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8659
+
+[debug] [2026-04-17T05:16:13.883Z] Got response from /__/functions.yaml {"endpoints":{"createOrder":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"createOrder"},"pesapalIpnCallback":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"pesapalIpnCallback"},"getOrderedAssets":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getOrderedAssets"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{},"params":[{"name":"PESAPAL_CONSUMER_KEY","type":"string","default":"YOUR_TEST_KEY"},{"name":"PESAPAL_CONSUMER_SECRET","type":"string","default":"YOUR_TEST_SECRET"},{"name":"PESAPAL_ENV","type":"string","default":"sandbox"}]}
+[debug] [2026-04-17T05:16:17.903Z] defaultcredentials: writing to file /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json
+[debug] [2026-04-17T05:16:17.904Z] Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json"}}
+[info] ✔  functions: Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets."}}
+[info] ✔  functions[us-central1-createOrder]: http function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/createOrder). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/createOrder)."}}
+[info] ✔  functions[us-central1-pesapalIpnCallback]: http function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/pesapalIpnCallback). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/pesapalIpnCallback)."}}
+[info] ✔  functions[us-central1-getOrderedAssets]: http function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/getOrderedAssets). {"metadata":{"emulator":{"name":"functions"},"message":"\u001b[1mhttp\u001b[22m function initialized (http://127.0.0.1:5001/dboywebsite/us-central1/getOrderedAssets)."}}
+[debug] [2026-04-17T05:16:17.913Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase SQL Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator   │ Host:Port      │ View in Emulator UI              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Functions  │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions  │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Firestore  │ 127.0.0.1:8080 │ http://127.0.0.1:4000/firestore  │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Storage    │ 127.0.0.1:9199 │ http://127.0.0.1:4000/storage    │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/extensions │
+└────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
+  Other reserved ports: 4500, 9150
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2026-04-17T05:16:47.909Z] Apr 17, 2026 8:16:47 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 17, 2026 8:16:47 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2026-04-17T05:16:48.323Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:16:48.322Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:16:48.323Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:16:48.322Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:16:48.323Z] Accepted request OPTIONS /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:16:48.324Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:16:48.324Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[info] i  functions: Loaded environment variables from .env.local. 
+[debug] [2026-04-17T05:16:48.329Z] [worker-pool] addWorker(us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-createOrder)"}}
+[debug] [2026-04-17T05:16:48.330Z] [worker-pool] Adding worker with key us-central1-createOrder, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-createOrder, total=1"}}
+[debug] [2026-04-17T05:16:48.614Z] [runtime-status] [72856] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-04-17T05:16:48.614Z] [runtime-status] [72856] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:16:48.614Z] [runtime-status] [72856] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2026-04-17T05:16:48.614Z] [runtime-status] [72856] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:16:48.650Z] [runtime-status] [72856] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-04-17T05:16:48.651Z] [runtime-status] [72856] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:16:48.692Z] [runtime-status] [72856] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2026-04-17T05:16:48.693Z] [runtime-status] [72856] initializeApp(DEFAULT) {"storageBucket":"dboywebsite.firebasestorage.app","projectId":"dboywebsite"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] initializeApp(DEFAULT) {\"storageBucket\":\"dboywebsite.firebasestorage.app\",\"projectId\":\"dboywebsite\"}"}}
+[debug] [2026-04-17T05:16:48.697Z] [runtime-status] [72856] Functions runtime initialized. {"cwd":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions","node_version":"22.19.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Functions runtime initialized. {\"cwd\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions\",\"node_version\":\"22.19.0\"}"}}
+[debug] [2026-04-17T05:16:48.697Z] [runtime-status] [72856] Listening to port: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/fire_emu_11a80e65aae98689.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [72856] Listening to port: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/fire_emu_11a80e65aae98689.sock"}}
+[debug] [2026-04-17T05:16:48.738Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE"}}
+[debug] [2026-04-17T05:16:48.738Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:16:48.738Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY"}}
+[debug] [2026-04-17T05:16:48.740Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 1.697291ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 1.697291ms"}}
+[debug] [2026-04-17T05:16:48.740Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE"}}
+[debug] [2026-04-17T05:16:48.740Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:16:48.741Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:16:48.741Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:16:48.742Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:16:48.742Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:16:48.742Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:16:48.742Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:16:48.742Z] Accepted request POST /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:16:48.742Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:16:48.742Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:16:48.742Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:16:48.743Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-04-17T05:16:48.859Z] Apr 17, 2026 8:16:48 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 17, 2026 8:16:48 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected HTTP/2 connection.\n"}}
+[debug] [2026-04-17T05:16:51.700Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 2957.652167ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 2957.652167ms"}}
+[debug] [2026-04-17T05:16:51.700Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE"}}
+[debug] [2026-04-17T05:16:51.700Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:16:51.701Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:16:51.701Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:26:55.997Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:26:55.997Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:26:55.997Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:26:55.997Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:26:55.997Z] Accepted request OPTIONS /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:26:55.998Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:26:55.998Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:26:55.998Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:26:55.999Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY"}}
+[debug] [2026-04-17T05:26:56.002Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 3.630709ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 3.630709ms"}}
+[debug] [2026-04-17T05:26:56.003Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE"}}
+[debug] [2026-04-17T05:26:56.003Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:26:56.003Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:26:56.003Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:26:56.004Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:26:56.004Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:26:56.004Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:26:56.004Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:26:56.004Z] Accepted request POST /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:26:56.004Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:26:56.004Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:26:56.004Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:26:56.004Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-04-17T05:26:58.938Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 2933.947041ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 2933.947041ms"}}
+[debug] [2026-04-17T05:26:58.939Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: IDLE"}}
+[debug] [2026-04-17T05:26:58.939Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:26:58.939Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:26:58.939Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:36:17.851Z] File /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/package.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/package.json changed, reloading triggers"}}
+[debug] [2026-04-17T05:36:17.952Z] File /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/package-lock.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/package-lock.json changed, reloading triggers"}}
+[debug] [2026-04-17T05:36:18.955Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-04-17T05:36:19.699Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^5.0.0",
+    "pdfkit": "^0.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2026-04-17T05:36:19.699Z] Building nodejs source
+[debug] [2026-04-17T05:36:19.699Z] Failed to find version of module node: reached end of search path /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "18" doesn't match your global version "22". Using node@22 from host. 
+[info] i  functions: Loaded environment variables from .env.local. 
+[debug] [2026-04-17T05:36:19.700Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-04-17T05:36:19.701Z] Found firebase-functions binary at '/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8896
+
+[debug] [2026-04-17T05:36:19.866Z] Got response from /__/functions.yaml {"endpoints":{"createOrder":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"createOrder"},"pesapalIpnCallback":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"pesapalIpnCallback"},"getOrderedAssets":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getOrderedAssets"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{},"params":[{"name":"PESAPAL_CONSUMER_KEY","type":"string","default":"YOUR_TEST_KEY"},{"name":"PESAPAL_CONSUMER_SECRET","type":"string","default":"YOUR_TEST_SECRET"},{"name":"PESAPAL_ENV","type":"string","default":"sandbox"}]}
+[debug] [2026-04-17T05:36:23.876Z] defaultcredentials: writing to file /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json
+[debug] [2026-04-17T05:36:23.877Z] Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json"}}
+[info] ✔  functions: Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets."}}
+[debug] [2026-04-17T05:36:23.878Z] [worker-pool] Shutting down IDLE worker (us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (us-central1-createOrder)"}}
+[debug] [2026-04-17T05:36:23.878Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: FINISHING {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: FINISHING"}}
+[debug] [2026-04-17T05:36:23.883Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: exited"}}
+[debug] [2026-04-17T05:36:23.883Z] [worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: FINISHED {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-5033a817-77dd-4ce4-b356-1cf8f6bea59e]: FINISHED"}}
+[debug] [2026-04-17T05:37:09.395Z] File /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/index.js changed, reloading triggers"}}
+[debug] [2026-04-17T05:37:10.397Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-04-17T05:37:10.997Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^5.0.0",
+    "pdfkit": "^0.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2026-04-17T05:37:10.998Z] Building nodejs source
+[debug] [2026-04-17T05:37:10.998Z] Failed to find version of module node: reached end of search path /Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "18" doesn't match your global version "22". Using node@22 from host. 
+[info] i  functions: Loaded environment variables from .env.local. 
+[debug] [2026-04-17T05:37:10.998Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-04-17T05:37:10.999Z] Found firebase-functions binary at '/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8094
+
+[debug] [2026-04-17T05:37:11.169Z] Got response from /__/functions.yaml {"endpoints":{"createOrder":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"createOrder"},"pesapalIpnCallback":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"pesapalIpnCallback"},"getOrderedAssets":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getOrderedAssets"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{},"params":[{"name":"PESAPAL_CONSUMER_KEY","type":"string","default":"YOUR_TEST_KEY"},{"name":"PESAPAL_CONSUMER_SECRET","type":"string","default":"YOUR_TEST_SECRET"},{"name":"PESAPAL_ENV","type":"string","default":"sandbox"}]}
+[debug] [2026-04-17T05:37:15.184Z] defaultcredentials: writing to file /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json
+[debug] [2026-04-17T05:37:15.185Z] Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/speccraftmedialtd./.config/firebase/specmediastudio_gmail_com_application_default_credentials.json"}}
+[info] ✔  functions: Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: createOrder, pesapalIpnCallback, getOrderedAssets."}}
+[debug] [2026-04-17T05:39:20.604Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:39:20.604Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:39:20.605Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:39:20.604Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:39:20.605Z] Accepted request OPTIONS /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:39:20.606Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:39:20.606Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:39:20.606Z] [worker-pool] Cleaned up workers for us-central1-createOrder: 1 --> 0 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Cleaned up workers for us-central1-createOrder: 1 --> 0"}}
+[info] i  functions: Loaded environment variables from .env.local. 
+[debug] [2026-04-17T05:39:20.608Z] [worker-pool] addWorker(us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-createOrder)"}}
+[debug] [2026-04-17T05:39:20.608Z] [worker-pool] Adding worker with key us-central1-createOrder, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-createOrder, total=1"}}
+[debug] [2026-04-17T05:39:20.944Z] [runtime-status] [73722] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-04-17T05:39:20.944Z] [runtime-status] [73722] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:39:20.944Z] [runtime-status] [73722] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2026-04-17T05:39:20.945Z] [runtime-status] [73722] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:39:20.983Z] [runtime-status] [73722] Resolved module firebase-admin {"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-04-17T05:39:20.984Z] [runtime-status] [73722] Resolved module firebase-functions {"declared":true,"installed":true,"version":"5.1.1","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"5.1.1\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-functions/lib/v1/index.js\"}"}}
+[debug] [2026-04-17T05:39:21.031Z] [runtime-status] [73722] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"12.7.0","resolution":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"12.7.0\",\"resolution\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2026-04-17T05:39:21.032Z] [runtime-status] [73722] initializeApp(DEFAULT) {"storageBucket":"dboywebsite.firebasestorage.app","projectId":"dboywebsite"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] initializeApp(DEFAULT) {\"storageBucket\":\"dboywebsite.firebasestorage.app\",\"projectId\":\"dboywebsite\"}"}}
+[debug] [2026-04-17T05:39:21.077Z] [runtime-status] [73722] Functions runtime initialized. {"cwd":"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions","node_version":"22.19.0"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Functions runtime initialized. {\"cwd\":\"/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions\",\"node_version\":\"22.19.0\"}"}}
+[debug] [2026-04-17T05:39:21.077Z] [runtime-status] [73722] Listening to port: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/fire_emu_038dcc8eae0aa623.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[runtime-status] [73722] Listening to port: /var/folders/s5/jn_18jtj5hg30kk8yjp0przc0000gn/T/fire_emu_038dcc8eae0aa623.sock"}}
+[debug] [2026-04-17T05:39:21.118Z] [worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: IDLE"}}
+[debug] [2026-04-17T05:39:21.118Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:39:21.118Z] [worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: BUSY"}}
+[debug] [2026-04-17T05:39:21.119Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 1.517458ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 1.517458ms"}}
+[debug] [2026-04-17T05:39:21.120Z] [worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: IDLE"}}
+[debug] [2026-04-17T05:39:21.120Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:39:21.120Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:39:21.120Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:39:21.120Z] [work-queue] {"queuedWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:39:21.120Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-04-17T05:39:21.120Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/dboywebsite/us-central1/createOrder-2026-04-17T05:39:21.120Z"],"workRunningCount":1}
+[debug] [2026-04-17T05:39:21.120Z] Accepted request POST /dboywebsite/us-central1/createOrder --> us-central1-createOrder
+[debug] [2026-04-17T05:39:21.120Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-04-17T05:39:21.121Z] [functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/dboywebsite/us-central1/createOrder, mapping to path=/"}}
+[debug] [2026-04-17T05:39:21.121Z] [worker-pool] submitRequest(triggerId=us-central1-createOrder) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-createOrder)"}}
+[info] i  functions: Beginning execution of "us-central1-createOrder" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Beginning execution of \"us-central1-createOrder\""}}
+[debug] [2026-04-17T05:39:21.121Z] [worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"\u001b[90m> \u001b[39m {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-04-17T05:39:21.262Z] Apr 17, 2026 8:39:21 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Apr 17, 2026 8:39:21 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected HTTP/2 connection.\n"}}
+[debug] [2026-04-17T05:39:23.980Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-createOrder" in 2859.336333ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finished \"us-central1-createOrder\" in 2859.336333ms"}}
+[debug] [2026-04-17T05:39:23.980Z] [worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"[worker-us-central1-createOrder-4cfd2e91-2e85-475c-8817-107fbee08a52]: IDLE"}}
+[debug] [2026-04-17T05:39:23.980Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-04-17T05:39:23.980Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-createOrder"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-04-17T05:39:23.980Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}

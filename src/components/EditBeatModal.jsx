@@ -17,6 +17,8 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
 
     const [newCoverFile, setNewCoverFile] = useState(null);
     const [newAudioFile, setNewAudioFile] = useState(null);
+    const [newUntaggedFile, setNewUntaggedFile] = useState(null);
+    const [newStemsFile, setNewStemsFile] = useState(null);
     const [coverPreview, setCoverPreview] = useState(beat.coverUrl || null);
 
     const [saving, setSaving] = useState(false);
@@ -73,6 +75,26 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
                 updates.audioUrl = await uploadFile(
                     newAudioFile,
                     `beats/${Date.now()}_${newAudioFile.name}`,
+                    setProgress
+                );
+            }
+
+            if (newUntaggedFile) {
+                setStatusMsg('Uploading untagged WAV...');
+                setProgress(0);
+                updates.untaggedUrl = await uploadFile(
+                    newUntaggedFile,
+                    `beats/untagged/${Date.now()}_${newUntaggedFile.name}`,
+                    setProgress
+                );
+            }
+
+            if (newStemsFile) {
+                setStatusMsg('Uploading stems ZIP...');
+                setProgress(0);
+                updates.stemsUrl = await uploadFile(
+                    newStemsFile,
+                    `beats/stems/${Date.now()}_${newStemsFile.name}`,
                     setProgress
                 );
             }
@@ -217,16 +239,36 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
 
                     {/* Audio File Replacement */}
                     <div>
-                        <label className="block text-gray-400 text-sm mb-2">Replace Audio File</label>
+                        <label className="block text-gray-400 text-sm mb-2 font-bold text-[#facc15]">Standard Audio (MP3 Stream)</label>
                         <button
                             type="button"
-                            onClick={() => audioInputRef.current.click()}
+                            onClick={() => audioInputRef.current?.click()}
                             className="text-sm bg-[#0f172a] border border-gray-600 text-gray-300 hover:border-[#facc15] px-4 py-2 rounded-lg transition flex items-center gap-2"
                         >
-                            <Music size={14} /> {newAudioFile ? newAudioFile.name : 'Choose new audio...'}
+                            <Music size={14} /> {newAudioFile ? newAudioFile.name : (beat.audioUrl ? 'Replace MP3 File...' : 'Choose Audio File...')}
                         </button>
-                        {!newAudioFile && <p className="text-xs text-gray-600 mt-1">Leave blank to keep current audio.</p>}
                         <input ref={audioInputRef} type="file" accept="audio/*" className="hidden" onChange={e => setNewAudioFile(e.target.files[0] || null)} />
+                    </div>
+
+                    {/* Premium/Exclusive Asset Uploads */}
+                    <div className="bg-[#0f172a] p-4 rounded-xl border border-gray-700/50 flex flex-col gap-4">
+                        <h3 className="font-bold text-white text-sm uppercase tracking-wider mb-1">High-Quality Assets <span className="text-gray-500 font-normal lowercase">(For Purchases)</span></h3>
+                        
+                        <div>
+                            <label className="block text-gray-400 text-xs mb-1 uppercase tracking-wider text-green-400">Untagged WAV (Premium)</label>
+                            <label className="text-sm bg-[#1e293b] border border-gray-600 text-gray-300 hover:border-green-400 px-4 py-2 rounded-lg transition flex items-center gap-2 cursor-pointer w-fit">
+                                <Music size={14} /> {newUntaggedFile ? newUntaggedFile.name : (beat.untaggedUrl ? 'Replace Untagged WAV...' : 'Upload Untagged WAV...')}
+                                <input type="file" accept="audio/wav, audio/x-wav" className="hidden" onChange={e => setNewUntaggedFile(e.target.files[0] || null)} />
+                            </label>
+                        </div>
+
+                        <div>
+                            <label className="block text-gray-400 text-xs mb-1 uppercase tracking-wider text-purple-400">Track Stems (Exclusive)</label>
+                            <label className="text-sm bg-[#1e293b] border border-gray-600 text-gray-300 hover:border-purple-400 px-4 py-2 rounded-lg transition flex items-center gap-2 cursor-pointer w-fit">
+                                <FileText size={14} /> {newStemsFile ? newStemsFile.name : (beat.stemsUrl ? 'Replace Stems ZIP...' : 'Upload Stems ZIP...')}
+                                <input type="file" accept=".zip, application/zip" className="hidden" onChange={e => setNewStemsFile(e.target.files[0] || null)} />
+                            </label>
+                        </div>
                     </div>
 
                     {/* Upload Progress */}

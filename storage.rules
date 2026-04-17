@@ -2,7 +2,8 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
     match /{allPaths=**} {
-      allow read: if true;
+      // Secure the digital delivery assets from public access
+      allow read: if !resource.name.matches('^assets/untagged/.*') && !resource.name.matches('^assets/stems/.*');
       allow write: if request.auth != null;
     }
   }

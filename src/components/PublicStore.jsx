@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { 
     ShoppingCart, Download, Play, Pause, SkipForward, SkipBack, Volume2, ChevronLeft,
-    Star, Heart, Search, Filter, ChevronDown, X, ChevronRight, Music2
+    Star, Heart, Search, Filter, ChevronDown, X, ChevronRight, Music2, ShoppingBag
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../lib/firebase';
-import { collection, getDocs, orderBy, query, doc, updateDoc, increment } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, doc, updateDoc, increment, addDoc, serverTimestamp } from 'firebase/firestore';
+import { trackEvent } from '../lib/tracking';
+import { getUTMParams } from '../lib/utm';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
+import { useCart, LICENSE_TIERS } from '../contexts/CartContext';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const GENRES  = ['Hip-Hop', 'Trap', 'Afrobeat', 'R&B', 'Pop', 'Drill', 'Jazz', 'Electronic', 'Gospel', 'Lo-fi', 'Other'];
@@ -39,6 +42,8 @@ export default function PublicStore() {
     const [albums,   setAlbums]   = useState([]);
     const [featured, setFeatured] = useState([]);
     const [loading,  setLoading]  = useState(true);
+    const { addToCart, setIsCartOpen, itemCount } = useCart();
+    const [selectedLicenses, setSelectedLicenses] = useState({});
     const [liked,    setLiked]    = useState(getLikedSet);
 
     // Audio Player
@@ -186,6 +191,15 @@ export default function PublicStore() {
         audio.play().catch(console.error);
         setCurrentTrack(beat);
         setIsPlaying(true);
+
+        const itemData = {
+            item_id: beat.id,
+            item_name: beat.title,
+            value: Number(beat.price || 50),
+            currency: 'KES'
+        };
+        trackEvent('view_item', itemData);
+        trackEvent('play_audio', itemData);
     };
 
     const playNext = () => {
@@ -230,11 +244,23 @@ export default function PublicStore() {
             <main className="max-w-[1400px] mx-auto px-6 sm:px-12 w-full box-border">
 
                 {/* Back Button & Header */}
-                <div className="flex flex-col gap-6 mb-12 max-w-full overflow-hidden">
-                    <button onClick={() => navigate('/')} className="flex items-center gap-2 text-[#facc15]/70 hover:text-[#facc15] transition-colors group w-fit">
-                        <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform flex-shrink-0" />
-                        <span className="text-sm font-medium uppercase tracking-widest truncate">Back to Main Page</span>
-                    </button>
+                <div className="flex flex-col gap-6 mb-12 max-w-full overflow-hidden relative">
+                    <div className="flex justify-between items-center w-full">
+                        <button onClick={() => navigate('/')} className="flex items-center gap-2 text-[#facc15]/70 hover:text-[#facc15] transition-colors group w-fit">
+                            <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform flex-shrink-0" />
+                            <span className="text-sm font-medium uppercase tracking-widest truncate">Back to Main Page</span>
+                        </button>
+                        <button 
+                            onClick={() => setIsCartOpen(true)}
+                            className="flex items-center gap-2 bg-[#facc15] text-[#0f172a] hover:bg-yellow-400 px-4 py-2 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105"
+                        >
+                            <ShoppingBag size={18} />
+                            <span className="hidden sm:inline">Cart</span>
+                            {itemCount > 0 && (
+                                <span className="bg-[#0f172a] text-[#facc15] px-2 py-0.5 rounded-full text-xs">{itemCount}</span>
+                            )}
+                        </button>
+                    </div>
                     <div className="flex flex-col items-center text-center max-w-full">
                         <h1 className="text-3xl sm:text-6xl font-black text-[#facc15] tracking-[4px] sm:tracking-[8px] uppercase drop-shadow-[0_0_15px_rgba(250,204,21,0.3)] mb-2 max-w-full break-normal text-center whitespace-normal">
                             Beats Unlimited
@@ -419,6 +445,8 @@ export default function PublicStore() {
                         paginatedBeats.map((beat) => {
                             const isLiked    = liked.has(beat.id);
                             const isActive   = currentTrack?.id === beat.id;
+                            const currentLicense = selectedLicenses[beat.id] || 'premium';
+                            const licenseConfig = LICENSE_TIERS[currentLicense];
 
                             return (
                                 <div
@@ -488,13 +516,33 @@ export default function PublicStore() {
                                             <Download size={16} />
                                             <span>free</span>
                                         </button>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); alert('Checkout coming soon'); }}
-                                            className="flex-1 sm:flex-none flex items-center justify-center gap-2 border border-[#facc15]/40 text-[#facc15] hover:bg-[#facc15] hover:text-[#0f172a] px-5 py-2 rounded-lg transition-all duration-300 font-bold text-sm"
-                                        >
-                                            <ShoppingCart size={16} />
-                                            <span>${beat.price || 50}</span>
-                                        </button>
+                                        
+                                        <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-1">
+                                            <select 
+                                                value={currentLicense} 
+                                                onChange={(e) => setSelectedLicenses(prev => ({...prev, [beat.id]: e.target.value}))}
+                                                className="bg-[#0f172a] text-xs text-[#facc15] border border-[#facc15]/40 rounded-l-lg px-2 py-2.5 h-full outline-none cursor-pointer appearance-none text-center font-bold"
+                                            >
+                                                {Object.entries(LICENSE_TIERS).map(([key, tier]) => (
+                                                    <option key={key} value={key}>{tier.label} ${tier.price}</option>
+                                                ))}
+                                            </select>
+                                            <button
+                                                onClick={() => {
+                                                    addToCart({
+                                                        beatId: beat.id,
+                                                        title: beat.title,
+                                                        coverUrl: beat.coverUrl,
+                                                        licenseType: currentLicense,
+                                                        price: licenseConfig.price
+                                                    });
+                                                }}
+                                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-[#facc15]/10 border border-[#facc15]/40 border-l-0 text-[#facc15] hover:bg-[#facc15] hover:text-[#0f172a] px-4 py-2 rounded-r-lg transition-all duration-300 font-bold text-sm h-full"
+                                            >
+                                                <ShoppingCart size={16} />
+                                                <span>Add</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             );
