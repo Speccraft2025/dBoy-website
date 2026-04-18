@@ -40,7 +40,10 @@ function calculateOrderTotal(items) {
  * createOrder (Callable via Frontend SDK)
  * Generates the Pesapal Order Link
  */
-exports.createOrder = onCall({ cors: true }, async (request) => {
+exports.createOrder = onCall({ 
+    cors: true,
+    secrets: ["PESAPAL_CONSUMER_KEY", "PESAPAL_CONSUMER_SECRET", "PESAPAL_ENV"]
+}, async (request) => {
     try {
         const { items, userEmail, callbackUrl } = request.data;
         const uid = request.auth ? request.auth.uid : 'guest';
@@ -113,7 +116,9 @@ exports.createOrder = onCall({ cors: true }, async (request) => {
  * pesapalIpnCallback (Webhook from Pesapal)
  * Triggers when a payment resolves. Validates status directly with Pesapal API.
  */
-exports.pesapalIpnCallback = onRequest(async (req, res) => {
+exports.pesapalIpnCallback = onRequest({
+    secrets: ["PESAPAL_CONSUMER_KEY", "PESAPAL_CONSUMER_SECRET", "PESAPAL_ENV"]
+}, async (req, res) => {
     try {
         const { OrderTrackingId, OrderNotificationType, MerchantReference } = req.query;
 
@@ -182,7 +187,10 @@ function getStoragePathFromUrl(downloadUrl) {
  * getOrderedAssets (Callable)
  * Generates secure, short-lived signed URLs for paid orders and custom PDFs.
  */
-exports.getOrderedAssets = onCall({ cors: true }, async (request) => {
+exports.getOrderedAssets = onCall({ 
+    cors: true, 
+    secrets: ["PESAPAL_CONSUMER_KEY", "PESAPAL_CONSUMER_SECRET", "PESAPAL_ENV"]
+}, async (request) => {
     try {
         const { orderId, userEmail } = request.data;
         
