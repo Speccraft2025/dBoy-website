@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { db, app } from '../lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { CheckCircle, XCircle, Loader, Download, ChevronLeft } from 'lucide-react';
 import { trackEvent } from '../lib/tracking';
@@ -27,36 +27,30 @@ export default function CheckoutSuccess() {
             return;
         }
 
-        const verifyOrder = async () => {
-            try {
-                // Fetch the order from Firestore
-                const orderRef = doc(db, 'orders', merchantReference);
-                const orderSnap = await getDoc(orderRef);
-
-                if (!orderSnap.exists()) {
-                    setStatus('failed');
-                    return;
-                }
-
-                const orderData = orderSnap.data();
-                setOrderInfo(orderData);
-
-                // Check status
-                if (orderData.status === 'paid') {
-                    handleSuccess(orderData);
-                } else if (orderData.status === 'failed') {
-                    setStatus('failed');
-                } else {
-                    setStatus('pending');
-                    // In a production app, we would setup an onSnapshot listener here to wait for IPN to resolve
-                }
-            } catch (error) {
-                console.error("Verification error:", error);
+        const orderRef = doc(db, 'orders', merchantReference);
+        
+        const unsubscribe = onSnapshot(orderRef, (snapshot) => {
+            if (!snapshot.exists()) {
                 setStatus('failed');
+                return;
             }
-        };
 
-        verifyOrder();
+            const orderData = snapshot.data();
+            setOrderInfo(orderData);
+
+            if (orderData.status === 'paid') {
+                handleSuccess(orderData);
+            } else if (orderData.status === 'failed') {
+                setStatus('failed');
+            } else {
+                setStatus('pending');
+            }
+        }, (error) => {
+            console.error("Snapshot error:", error);
+            setStatus('failed');
+        });
+
+        return () => unsubscribe();
     }, [merchantReference]);
 
     const handleSuccess = async (orderData) => {

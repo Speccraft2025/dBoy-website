@@ -72,8 +72,8 @@ exports.createOrder = onCall({
         const token = await pesapalApi.getAuthToken();
 
         // 2. Register IPN webhook URL
-        // In reality, this IPN URL would be your deployed domain URL.
-        const ipnUrl = `https://${process.env.GCLOUD_PROJECT}.cloudfunctions.net/pesapalIpnCallback`;
+        // Regional URL required for Firebase Functions v2 (us-central1)
+        const ipnUrl = `https://us-central1-dboywebsite.cloudfunctions.net/pesapalIpnCallback`;
         const ipnId = await pesapalApi.registerIPN(token, ipnUrl);
 
         // 3. Build Pesapal payload
