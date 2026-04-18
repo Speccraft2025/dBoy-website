@@ -217,6 +217,11 @@ exports.getOrderedAssets = onCall({
         // Generate Assets per item
         for (const item of orderData.items) {
             // 1. Fetch exact beat document to get uploaded URL references
+            if (!item.beatId) {
+                console.warn(`Item in order ${orderId} missing beatId. Skipping file retrieval for this item.`);
+                continue;
+            }
+            
             const beatSnap = await db.collection("beats").doc(item.beatId).get();
             const beatData = beatSnap.exists ? beatSnap.data() : null;
             
