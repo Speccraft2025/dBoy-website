@@ -330,3 +330,54 @@ exports.getOrderedAssets = onCall({
         throw new HttpsError("internal", error.message);
     }
 });
+
+/**
+ * findAndFixOrders (Temporary Maintenance)
+ * Finds the specific beat by title and patches the 'Recovered' orders.
+ */
+exports.findAndFixOrders = onCall({ cors: true }, async (request) => {
+    try {
+        // 1. Find the actual beat ID by Title
+        const beatsSnap = await db.collection('beats')
+            .where('title', '==', 'AFRO-LATIN-DANCEHALL_2_BEAT')
+            .limit(1)
+            .get();
+        
+        if (beatsSnap.empty) {
+             // Fallback: search case-insensitive or partial if needed, but let's try exact first
+             throw new Error("Could not find beat with title 'AFRO-LATIN-DANCEHALL_2_BEAT'");
+        }
+        
+        const beatDoc = beatsSnap.docs[0];
+        const beatId = beatDoc.id;
+        const beatData = beatDoc.data();
+
+        // 2. List of Order IDs to fix
+        const orderIds = [
+            'ZZUBvWM49Ujfz1tsHu5H',
+            '7ebnMNcgopPUDdM2F75K',
+            'Pt90X7tm06NsQjGPMN2n',
+            '3XY0xa3FDodHVnQt8AO5'
+        ];
+
+        const batch = db.batch();
+        for (const id of orderIds) {
+            batch.set(db.collection('orders').doc(id), {
+                items: [{
+                    beatId: beatId,
+                    title: beatData.title,
+                    price: 50,
+                    licenseType: 'premium'
+                }],
+                updatedAt: FieldValue.serverTimestamp(),
+                status: 'paid'
+            }, { merge: true });
+        }
+        
+        await batch.commit();
+
+        return { success: true, message: `Linked 4 orders to beat ${beatId} (${beatData.title})` };
+    } catch (error) {
+        throw new HttpsError('internal', error.message);
+    }
+});
