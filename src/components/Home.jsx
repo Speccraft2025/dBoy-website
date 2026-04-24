@@ -128,17 +128,22 @@ export default function Home() {
 
   const handleSeek = (e) => {
     const bar = e.currentTarget;
-    const clickX = e.nativeEvent.offsetX;
-    const width = bar.offsetWidth;
-    const newTime = (clickX / width) * duration;
-    audioRef.current.currentTime = newTime;
+    const rect = bar.getBoundingClientRect();
+    const clientX = e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
+    const clickX = clientX - rect.left;
+    const newTime = Math.max(0, Math.min(1, clickX / rect.width)) * duration;
+    if (!isNaN(newTime)) {
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
   };
 
   const handleVolume = (e) => {
     const bar = e.currentTarget;
-    const clickX = e.nativeEvent.offsetX;
-    const width = bar.offsetWidth;
-    setVolume(clickX / width);
+    const rect = bar.getBoundingClientRect();
+    const clientX = e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
+    const clickX = clientX - rect.left;
+    setVolume(Math.max(0, Math.min(1, clickX / rect.width)));
   };
 
   const formatTime = (seconds) => {
@@ -306,7 +311,13 @@ export default function Home() {
 
             <div className="progress-container">
               <span className="time-display">{formatTime(currentTime)}</span>
-              <div className="progress-bar" onClick={handleSeek}>
+              <div 
+                className="progress-bar" 
+                style={{ touchAction: 'none' }}
+                onClick={handleSeek}
+                onTouchStart={handleSeek}
+                onTouchMove={handleSeek}
+              >
                 <div className="progress-fill" style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}></div>
               </div>
               <span className="time-display">{formatTime(duration)}</span>
@@ -322,7 +333,13 @@ export default function Home() {
                   ) : <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />}
                 </svg>
               </span>
-              <div className="volume-bar" onClick={handleVolume}>
+              <div 
+                className="volume-bar" 
+                style={{ touchAction: 'none' }}
+                onClick={handleVolume}
+                onTouchStart={handleVolume}
+                onTouchMove={handleVolume}
+              >
                 <div className="volume-fill" style={{ width: `${volume * 100}%` }}></div>
               </div>
             </div>
