@@ -20,10 +20,47 @@ export const CartProvider = ({ children }) => {
         return [];
     });
     const [isCartOpen, setIsCartOpen] = useState(false);
+    
+    const [currency, setCurrency] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('dboy_currency') || 'USD';
+        }
+        return 'USD';
+    });
+    const exchangeRate = 130;
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && !localStorage.getItem('dboy_currency')) {
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.country_code === 'KE') {
+                        setCurrency('KES');
+                        localStorage.setItem('dboy_currency', 'KES');
+                    } else {
+                        setCurrency('USD');
+                        localStorage.setItem('dboy_currency', 'USD');
+                    }
+                })
+                .catch(err => console.error('Geolocation failed:', err));
+        }
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('dboy_cart', JSON.stringify(cart));
     }, [cart]);
+
+    useEffect(() => {
+        localStorage.setItem('dboy_currency', currency);
+    }, [currency]);
+
+    const formatPrice = (baseUsdPrice) => {
+        if (baseUsdPrice === 0) return 'Free';
+        if (currency === 'KES') {
+            return `KES ${baseUsdPrice * exchangeRate}`;
+        }
+        return `$${baseUsdPrice}`;
+    };
 
     const addToCart = (item) => {
         setCart(prev => {
@@ -76,10 +113,15 @@ export const CartProvider = ({ children }) => {
             }
         }
 
-        const total = subtotal - discount;
+        const rate = currency === 'KES' ? exchangeRate : 1;
 
-        return { subtotal, discount, total, itemCount: cart.length };
-    }, [cart]);
+        return { 
+            subtotal: subtotal * rate, 
+            discount: discount * rate, 
+            total: (subtotal - discount) * rate, 
+            itemCount: cart.length 
+        };
+    }, [cart, currency]);
 
     return (
         <CartContext.Provider value={{
@@ -89,6 +131,10 @@ export const CartProvider = ({ children }) => {
             clearCart,
             isCartOpen,
             setIsCartOpen,
+            currency,
+            setCurrency,
+            exchangeRate,
+            formatPrice,
             ...cartAnalysis
         }}>
             {children}

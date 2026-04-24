@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { db, app } from '../lib/firebase';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
-import { CheckCircle, XCircle, Loader, Download, ChevronLeft } from 'lucide-react';
+import { CheckCircle, XCircle, Loader, Download, ChevronLeft, FileText } from 'lucide-react';
 import { trackEvent } from '../lib/tracking';
 import { useCart } from '../contexts/CartContext';
 
@@ -15,6 +15,7 @@ export default function CheckoutSuccess() {
     const [status, setStatus] = useState('loading'); // loading, paid, failed, pending
     const [orderInfo, setOrderInfo] = useState(null);
     const [downloadLinks, setDownloadLinks] = useState([]);
+    const [downloadError, setDownloadError] = useState(null);
     
     // Pesapal passes OrderTrackingId and OrderMerchantReference
     const orderTrackingId = searchParams.get('OrderTrackingId');
@@ -71,11 +72,12 @@ export default function CheckoutSuccess() {
             const getOrderedAssets = httpsCallable(functions, 'getOrderedAssets');
             const res = await getOrderedAssets({ 
                 orderId: merchantReference,
-                userEmail: userEmail 
+                userEmail: orderData.userEmail || userEmail 
             });
             setDownloadLinks(res.data.assets || []);
         } catch (error) {
             console.error("Failed to generate secure links:", error);
+            setDownloadError("Could not fetch secure links. Please check your email or contact support.");
         }
     };
 
@@ -122,7 +124,11 @@ export default function CheckoutSuccess() {
                         <div className="w-full bg-[#0f172a] rounded-2xl p-6 border border-white/5 shadow-inner mt-4">
                             <h3 className="font-bold text-[#facc15] uppercase tracking-widest text-sm mb-4">Your Downloads</h3>
                             
-                            {downloadLinks.length === 0 ? (
+                            {downloadError ? (
+                                <div className="text-center py-6 text-red-500 font-bold">
+                                    {downloadError}
+                                </div>
+                            ) : downloadLinks.length === 0 ? (
                                 <div className="text-center py-6 text-gray-500 flex flex-col items-center">
                                     <Loader className="animate-spin mb-2" size={24} />
                                     <p className="text-sm uppercase tracking-widest">Generating Secure Links...</p>

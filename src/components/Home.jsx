@@ -19,6 +19,7 @@ export default function Home() {
 
   const navigate = useNavigate();
   const audioRef = useRef(new Audio());
+  const lastSrcRef = useRef('');
 
   const [showContact, setShowContact] = useState(false);
   const [promo, setPromo] = useState(null);
@@ -27,73 +28,93 @@ export default function Home() {
   // The playlist is entirely driven by the projects fetched from Firestore (Admin2).
   const playlist = projectsData;
 
+  // 1. Initial data fetch
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
 
     // Fetch Promo
     getDoc(doc(db, 'settings', 'promo'))
-        .then(docSnap => { 
-            if(docSnap.exists() && docSnap.data().isEnabled) {
-                setPromo(docSnap.data().text);
-            }
-        })
-        .catch(e => console.error('Promo error:', e));
+      .then(docSnap => {
+        if (docSnap.exists() && docSnap.data().isEnabled) {
+          setPromo(docSnap.data().text);
+        }
+      })
+      .catch(e => console.error('Promo error:', e));
 
     // Fetch Music Projects
     getDocs(query(collection(db, 'projects'), orderBy('createdAt', 'desc')))
-        .then(snap => {
-            const fetched = snap.docs.map(d => ({
-                id: d.id,
-                title: d.data().title,
-                artist: d.data().artist || "Jazel 'dBoy' Isaac",
-                src: d.data().audioUrl,
-                coverUrl: d.data().coverUrl
-            }));
-            if (fetched.length > 0) setProjectsData(fetched);
-        })
-        .catch(e => console.error('Projects error:', e));
+      .then(snap => {
+        const fetched = snap.docs.map(d => ({
+          id: d.id,
+          title: d.data().title,
+          artist: d.data().artist || "Jazel 'dBoy' Isaac",
+          src: d.data().audioUrl,
+          coverUrl: d.data().coverUrl
+        }));
+        if (fetched.length > 0) setProjectsData(fetched);
+      })
+      .catch(e => console.error('Projects error:', e));
+  }, []);
 
+  // 2. Audio event listeners
+  useEffect(() => {
     const audio = audioRef.current;
     const setAudioData = () => setDuration(audio.duration);
     const setAudioTime = () => setCurrentTime(audio.currentTime);
-    const handleEnded = () => nextTrack();
 
     audio.addEventListener('loadedmetadata', setAudioData);
     audio.addEventListener('timeupdate', setAudioTime);
-    audio.addEventListener('ended', handleEnded);
-
-    audio.volume = volume;
-    if (playlist.length > 0) {
-      audio.src = playlist[currentTrackIndex].src;
-    }
 
     return () => {
       audio.removeEventListener('loadedmetadata', setAudioData);
       audio.removeEventListener('timeupdate', setAudioTime);
-      audio.removeEventListener('ended', handleEnded);
-      audio.pause();
     };
-  }, [currentTrackIndex]);
+  }, []);
+
+  // 3. Audio ended handler
+  useEffect(() => {
+    const audio = audioRef.current;
+    const handleEnded = () => {
+      if (playlist.length === 0) return;
+      setCurrentTrackIndex((prev) => (prev + 1) % playlist.length);
+    };
+
+    audio.addEventListener('ended', handleEnded);
+    return () => audio.removeEventListener('ended', handleEnded);
+  }, [playlist.length]);
+
+  // 4. Handle track source and playback state
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (playlist.length > 0 && playlist[currentTrackIndex]) {
+      const newSrc = playlist[currentTrackIndex].src;
+      if (lastSrcRef.current !== newSrc) {
+        audio.src = newSrc;
+        lastSrcRef.current = newSrc;
+      }
+      
+      if (isPlaying) {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(e => console.error("Playback error:", e));
+        }
+      } else {
+        audio.pause();
+      }
+    }
+  }, [currentTrackIndex, playlist, isPlaying]);
 
   useEffect(() => {
     audioRef.current.volume = volume;
   }, [volume]);
 
   const togglePlay = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch(e => console.error(e));
-    }
     setIsPlaying(!isPlaying);
   };
 
   const nextTrack = () => {
     if (playlist.length === 0) return;
     setCurrentTrackIndex((prev) => (prev + 1) % playlist.length);
-    if (isPlaying) {
-      setTimeout(() => audioRef.current.play(), 100);
-    }
   };
 
   const prevTrack = () => {
@@ -102,9 +123,6 @@ export default function Home() {
       audioRef.current.currentTime = 0;
     } else {
       setCurrentTrackIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
-      if (isPlaying) {
-        setTimeout(() => audioRef.current.play(), 100);
-      }
     }
   };
 
@@ -181,18 +199,18 @@ export default function Home() {
           <button className="modal-close" onClick={() => setShowContact(false)}>×</button>
           <h2 style={{ marginBottom: '5px' }}>Contact dBoy</h2>
           <p style={{ textAlign: 'center', fontSize: '13px', color: '#a0aec0', marginBottom: '25px' }}>
-              For custom beats, collaborations, or general inquiries.
+            For custom beats, collaborations, or general inquiries.
           </p>
           <div className="about-content" style={{ padding: '0 10px' }}>
             <form action="https://formsubmit.co/jayzelisaac@gmail.com" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <input type="hidden" name="_subject" value="New Inquiry from dBoy Website" />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="text" name="name" required placeholder="Your Name" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', boxSizing: 'border-box' }} />
-                <input type="email" name="email" required placeholder="Your Email" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', boxSizing: 'border-box' }} />
-                <textarea name="message" required placeholder="How can we build what's next?" rows="4" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', resize: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}></textarea>
-                <button type="submit" style={{ background: '#facc15', color: '#0f172a', fontWeight: 'bold', padding: '14px', borderRadius: '8px', cursor: 'pointer', border: 'none', transition: 'all 0.3s', marginTop: '5px' }} onMouseOver={e=>e.target.style.background='#eab308'} onMouseOut={e=>e.target.style.background='#facc15'}>
-                    Send Message
-                </button>
+              <input type="hidden" name="_subject" value="New Inquiry from dBoy Website" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="text" name="name" required placeholder="Your Name" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', boxSizing: 'border-box' }} />
+              <input type="email" name="email" required placeholder="Your Email" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', boxSizing: 'border-box' }} />
+              <textarea name="message" required placeholder="How can we build what's next?" rows="4" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', resize: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}></textarea>
+              <button type="submit" style={{ background: '#facc15', color: '#0f172a', fontWeight: 'bold', padding: '14px', borderRadius: '8px', cursor: 'pointer', border: 'none', transition: 'all 0.3s', marginTop: '5px' }} onMouseOver={e => e.target.style.background = '#eab308'} onMouseOut={e => e.target.style.background = '#facc15'}>
+                Send Message
+              </button>
             </form>
           </div>
         </div>
@@ -200,7 +218,7 @@ export default function Home() {
 
       <header className="shake">
         <h1 className="shake">Jazel 'dBoy' Isaac</h1>
-        <h2 className="shake cursor-pointer hover:text-[#facc15] transition-colors" onClick={() => navigate('/login')}>Producer/Artist Extraordinaire</h2>
+        <h2 className="shake cursor-pointer hover:text-[#facc15] transition-colors" onClick={() => navigate('/login')}>Producer Extraordinaire</h2>
       </header>
 
       <nav>
@@ -230,15 +248,15 @@ export default function Home() {
 
       {/* Promo Tooltip Balloon */}
       {promo && !showPlayer && (
-          <div className="fixed z-[55] animate-bounce cursor-pointer flex flex-col items-center drop-shadow-2xl" 
-               style={{ bottom: '85px', right: '15px' }} 
-               onClick={() => setShowPlayer(true)}>
-              <div className="bg-[#facc15] text-[#0f172a] text-xs sm:text-sm font-black uppercase tracking-widest px-5 py-3 rounded-2xl shadow-[0_0_20px_rgba(250,204,21,0.5)] border-2 border-[#facc15]/40 text-center max-w-[200px] sm:max-w-[250px] relative backdrop-blur-md">
-                  {promo}
-                  {/* Downward triangle pointer centered manually near the right edge for the button */}
-                  <div className="absolute top-full right-5 w-0 h-0 border-[10px] border-transparent border-t-[#facc15]" />
-              </div>
+        <div className="fixed z-[55] animate-bounce cursor-pointer flex flex-col items-center drop-shadow-2xl"
+          style={{ bottom: '85px', right: '15px' }}
+          onClick={() => setShowPlayer(true)}>
+          <div className="bg-[#facc15] text-[#0f172a] text-xs sm:text-sm font-black uppercase tracking-widest px-5 py-3 rounded-2xl shadow-[0_0_20px_rgba(250,204,21,0.5)] border-2 border-[#facc15]/40 text-center max-w-[200px] sm:max-w-[250px] relative backdrop-blur-md">
+            {promo}
+            {/* Downward triangle pointer centered manually near the right edge for the button */}
+            <div className="absolute top-full right-5 w-0 h-0 border-[10px] border-transparent border-t-[#facc15]" />
           </div>
+        </div>
       )}
 
       {/* Music Player Toggle Button */}
