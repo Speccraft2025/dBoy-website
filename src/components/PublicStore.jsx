@@ -112,7 +112,7 @@ export default function PublicStore() {
                 getDocs(query(collection(db, 'beats'),  orderBy('createdAt', 'desc'))),
                 getDocs(query(collection(db, 'albums'), orderBy('createdAt', 'desc'))),
             ]);
-            const allBeats  = beatsSnap.docs.map(d  => ({ id: d.id,  ...d.data(), type: 'beat'  }));
+            const allBeats  = beatsSnap.docs.map(d  => ({ id: d.id,  ...d.data(), type: 'beat'  })).filter(b => b.isAvailable !== false);
             const allAlbums = albumsSnap.docs.map(d => ({ id: d.id,  ...d.data(), type: 'album' }));
             setBeats(allBeats);
             setAlbums(allAlbums);
@@ -445,6 +445,15 @@ export default function PublicStore() {
                     )}
                 </div>
 
+                {/* ── Security Message ── */}
+                <div className="mb-6 p-4 sm:p-5 bg-red-900/20 border border-red-500/20 rounded-xl text-center shadow-lg backdrop-blur-sm max-w-3xl mx-auto">
+                    <p className="text-red-400 text-xs sm:text-sm font-medium tracking-wide leading-relaxed">
+                        <span className="font-bold uppercase mr-1">Warning:</span>
+                        Uploading songs using unlicensed beats may result in takedowns or loss of monetization. 
+                        All licenses from <span className="text-[#facc15] font-bold">Beats Unlimited</span> are safe for official release.
+                    </p>
+                </div>
+
                 {/* ── Tracklist ── */}
                 <div className="flex flex-col gap-3 sm:gap-2 w-full">
                     {loading ? (
@@ -457,7 +466,7 @@ export default function PublicStore() {
                         paginatedBeats.map((beat) => {
                             const isLiked    = liked.has(beat.id);
                             const isActive   = currentTrack?.id === beat.id;
-                            const currentLicense = selectedLicenses[beat.id] || 'premium';
+                            const currentLicense = selectedLicenses[beat.id] || 'standard';
                             const licenseConfig = LICENSE_TIERS[currentLicense];
 
                             return (
@@ -588,14 +597,40 @@ export default function PublicStore() {
                 {/* ── Licenses ── */}
                 <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-8 mt-20 sm:mt-32 w-full box-border">
                     {[
-                        { label: 'Basic',    price: 0, format: 'Mp3',        perks: ['Contains Audio Tags', '1000 sales', '50,000 streams', 'Non exclusive Rights'] },
-                        { label: 'Premium',  price: 50,  format: 'MP3 + WAV',  perks: ['Contains 1 Audio Tag', '50,000 sales', '250,000 streams', 'Non exclusive Rights'], promo: 'Buy 1 Get 2 Free' },
-                        { label: 'Exclusive', price: 100, format: 'MP3 + WAV', perks: ['Contains 1 Producer Tag', 'Unlimited Sales', 'Unlimited Streams', 'Exclusive Rights'] },
+                        { 
+                            id: 'starter',
+                            label: 'Starter',    
+                            price: 1000, 
+                            format: 'Mp3',        
+                            perks: ['Non-exclusive license', 'Max 5,000 streams', 'No monetization allowed', 'Credit required'], 
+                            promo: 'Buy 1 Get 1 Free | Buy 3 Get 2' 
+                        },
+                        { 
+                            id: 'standard',
+                            label: 'Standard',  
+                            price: 4000,  
+                            format: 'MP3 + WAV',  
+                            perks: ['Max 100,000 streams', 'Monetization allowed', '1 music video allowed', 'Live performance rights'], 
+                            promo: 'Buy 2 Get 1 Free | Buy 4 Get 2',
+                            popular: true
+                        },
+                        { 
+                            id: 'custom',
+                            label: 'Custom', 
+                            price: 10000, 
+                            format: 'MP3 + WAV + STEMS', 
+                            perks: ['Fully custom beat', 'Max 250,000 streams', 'Monetization allowed', 'Includes 2 revisions'] 
+                        },
                     ].map(tier => (
-                        <div key={tier.label} className="flex-1 bg-[#1e293b]/40 backdrop-blur-md border border-[#facc15]/10 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:border-[#facc15]/40 flex flex-col items-center w-full group/tier">
-                            <div className="w-full bg-[#facc15] text-[#0f172a] py-5 text-center shadow-inner">
-                                <div className="font-bold text-xs uppercase tracking-[3px] opacity-80 mb-1">{tier.label}</div>
-                                <div className="text-3xl font-black italic">{formatPrice(tier.price)}</div>
+                        <div key={tier.label} className={`flex-1 bg-[#1e293b]/40 backdrop-blur-md border ${tier.popular ? 'border-[#facc15] shadow-[0_0_20px_rgba(250,204,21,0.2)] transform md:-translate-y-4' : 'border-[#facc15]/10'} rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:border-[#facc15]/40 flex flex-col items-center w-full group/tier relative`}>
+                            {tier.popular && (
+                                <div className="absolute top-0 left-0 w-full bg-[#facc15] text-black text-[10px] font-black uppercase tracking-widest py-1.5 text-center">
+                                    Most Popular
+                                </div>
+                            )}
+                            <div className={`w-full ${tier.popular ? 'pt-10 pb-6 bg-[#facc15]' : 'bg-[#1e293b] pt-8 pb-6 border-b border-[#facc15]/10'} text-center`}>
+                                <div className={`font-bold text-xs uppercase tracking-[3px] opacity-80 mb-2 ${tier.popular ? 'text-black' : 'text-[#facc15]'}`}>{tier.label}</div>
+                                <div className={`text-4xl font-black italic ${tier.popular ? 'text-[#0f172a]' : 'text-white'}`}>{formatPrice(tier.price)}</div>
                             </div>
                             <div className="py-8 px-6 text-center w-full">
                                 <div className="text-sm font-black text-white/90 mb-6 uppercase tracking-widest border-b border-[#facc15]/20 pb-2 inline-block">FOR {tier.format}</div>
@@ -608,11 +643,11 @@ export default function PublicStore() {
                                 </div>
                                 {tier.promo && (
                                     <div className="mt-6 bg-[#facc15]/10 border border-[#facc15]/30 py-1.5 rounded-full">
-                                        <p className="text-[#facc15] text-[11px] font-black uppercase tracking-tighter">{tier.promo}</p>
+                                        <p className="text-[#facc15] text-[10px] font-black uppercase tracking-tighter">{tier.promo}</p>
                                     </div>
                                 )}
                             </div>
-                            <button className="mt-auto w-full group-hover/tier:bg-[#facc15] group-hover/tier:text-[#0f172a] text-[#facc15] border-t border-[#facc15]/20 transition-all duration-300 py-4 font-black uppercase tracking-widest text-xs">
+                            <button className={`mt-auto w-full ${tier.popular ? 'bg-[#facc15] text-[#0f172a] hover:bg-yellow-400' : 'group-hover/tier:bg-[#facc15] group-hover/tier:text-[#0f172a] text-[#facc15] border-t border-[#facc15]/20'} transition-all duration-300 py-4 font-black uppercase tracking-widest text-xs`}>
                                 Choose {tier.label}
                             </button>
                         </div>

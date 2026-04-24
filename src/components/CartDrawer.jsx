@@ -7,7 +7,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { app } from '../lib/firebase';
 
 export default function CartDrawer() {
-    const { cart, isCartOpen, setIsCartOpen, removeFromCart, subtotal, discount, total, itemCount, currency, formatPrice } = useCart();
+    const { cart, isCartOpen, setIsCartOpen, removeFromCart, toggleExclusive, subtotal, discount, total, itemCount, currency, formatPrice } = useCart();
     const [isProcessing, setIsProcessing] = useState(false);
 
     if (!isCartOpen) return null;
@@ -43,7 +43,8 @@ export default function CartDrawer() {
                     beatId: i.beatId,
                     title: i.title,
                     price: i.price,
-                    licenseType: i.licenseType
+                    licenseType: i.licenseType,
+                    isExclusive: i.isExclusive || false
                 })),
                 userEmail: userEmail,
                 callbackUrl: `${window.location.origin}/success`,
@@ -113,9 +114,27 @@ export default function CartDrawer() {
                                 <div className="flex flex-col flex-1 min-w-0 justify-center">
                                     <h3 className="text-white font-bold text-sm truncate">{item.title}</h3>
                                     <p className="text-xs text-[#facc15] uppercase tracking-wider font-semibold mt-0.5">
-                                        {LICENSE_TIERS[item.licenseType]?.label} License
+                                        {LICENSE_TIERS[item.licenseType]?.label} License {item.isExclusive && '(Exclusive)'}
                                     </p>
-                                    <p className="text-xs text-gray-400 mt-1">{formatPrice(item.price)}</p>
+                                    <p className="text-xs text-gray-400 mt-1">
+                                        {item.isExclusive ? formatPrice(10000) : formatPrice(item.price)}
+                                    </p>
+                                    {(item.licenseType === 'standard' || item.licenseType === 'custom') && (
+                                        <label className="flex items-center gap-2 mt-2 cursor-pointer group/toggle w-fit">
+                                            <input 
+                                                type="checkbox" 
+                                                checked={!!item.isExclusive}
+                                                onChange={() => toggleExclusive(item.beatId)}
+                                                className="hidden"
+                                            />
+                                            <div className={`w-8 h-4 rounded-full transition-colors relative ${item.isExclusive ? 'bg-[#facc15]' : 'bg-gray-600'}`}>
+                                                <div className={`absolute w-3 h-3 bg-white rounded-full top-0.5 transition-transform ${item.isExclusive ? 'left-1 translate-x-[14px]' : 'left-0.5 translate-x-0'}`} />
+                                            </div>
+                                            <span className="text-[10px] uppercase font-bold text-gray-400 group-hover/toggle:text-white transition-colors">
+                                                Upgrade Exclusive
+                                            </span>
+                                        </label>
+                                    )}
                                 </div>
                                 <button 
                                     onClick={() => removeFromCart(item.beatId)}
@@ -135,17 +154,17 @@ export default function CartDrawer() {
                         <div className="space-y-2 text-sm">
                             <div className="flex justify-between text-gray-400">
                                 <span>Subtotal</span>
-                                <span>{currency === 'KES' ? 'KES' : '$'} {subtotal}</span>
+                                <span>{currency === 'KES' ? 'KES ' : '$'}{subtotal.toLocaleString()}</span>
                             </div>
                             {discount > 0 && (
                                 <div className="flex justify-between text-green-400 font-medium">
-                                    <span>Promo Discount (Buy 1 Get 2)</span>
-                                    <span>- {currency === 'KES' ? 'KES' : '$'} {discount}</span>
+                                    <span>Promo Discount</span>
+                                    <span>- {currency === 'KES' ? 'KES ' : '$'}{discount.toLocaleString()}</span>
                                 </div>
                             )}
                             <div className="flex justify-between text-white text-lg font-black pt-2 border-t border-white/10">
                                 <span>Total</span>
-                                <span className="text-[#facc15]">{currency === 'KES' ? 'KES' : '$'} {total}</span>
+                                <span className="text-[#facc15]">{currency === 'KES' ? 'KES ' : '$'}{total.toLocaleString()}</span>
                             </div>
                         </div>
 

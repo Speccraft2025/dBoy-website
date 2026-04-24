@@ -14,30 +14,43 @@ function calculateOrderTotal(items, currency) {
     let subtotal = 0;
     let discount = 0;
     
-    const premiumItems = [];
-    const otherItems = [];
+    const starterItems = [];
+    const standardItems = [];
 
-    const rate = currency === 'KES' ? EXCHANGE_RATE : 1;
+    const rate = currency === 'KES' ? 1 : (1 / EXCHANGE_RATE);
 
     items.forEach(item => {
-        // Enforce server-side pricing structure based on tier
-        if (item.licenseType === 'basic') item.price = 0;
-        else if (item.licenseType === 'premium') item.price = 50 * rate;
-        else if (item.licenseType === 'exclusive') item.price = 100 * rate;
+        // Enforce server-side pricing structure based on tier (Base KES)
+        if (item.licenseType === 'starter') item.price = 1000;
+        else if (item.licenseType === 'standard') item.price = 4000;
+        else if (item.licenseType === 'custom') item.price = 10000;
+        else item.price = 1000;
 
-        if (item.licenseType === 'premium') premiumItems.push(item);
-        else otherItems.push(item);
+        if (item.isExclusive) {
+            item.price = 10000;
+            subtotal += item.price;
+        } else {
+            subtotal += item.price;
+            if (item.licenseType === 'starter') starterItems.push(item);
+            if (item.licenseType === 'standard') standardItems.push(item);
+        }
     });
 
-    otherItems.forEach(item => { subtotal += item.price; });
-    premiumItems.sort((a, b) => b.price - a.price);
-
-    for (let i = 0; i < premiumItems.length; i++) {
-        subtotal += premiumItems[i].price;
-        if (i % 3 === 1 || i % 3 === 2) discount += premiumItems[i].price;
+    starterItems.sort((a, b) => b.price - a.price);
+    let starterFreeCount = Math.floor(starterItems.length / 5) * 2 + Math.floor((starterItems.length % 5) / 2);
+    for (let i = 0; i < starterFreeCount; i++) {
+        discount += starterItems[starterItems.length - 1 - i].price;
     }
 
-    return subtotal - discount;
+    standardItems.sort((a, b) => b.price - a.price);
+    let standardFreeCount = Math.floor(standardItems.length / 3);
+    for (let i = 0; i < standardFreeCount; i++) {
+        discount += standardItems[standardItems.length - 1 - i].price;
+    }
+
+    const finalSubtotal = Math.round(subtotal * rate);
+    const finalDiscount = Math.round(discount * rate);
+    return finalSubtotal - finalDiscount;
 }
 
 /**
@@ -152,6 +165,8 @@ exports.pesapalIpnCallback = onRequest({
         if (paymentStatus === 'Completed') localStatus = 'paid';
         if (paymentStatus === 'Failed') localStatus = 'failed';
 
+        const orderData = orderSnap.data();
+
         // Securely update order
         await orderRef.update({
             status: localStatus,
@@ -159,6 +174,20 @@ exports.pesapalIpnCallback = onRequest({
             pesapalRaw: statusResponse,
             updatedAt: FieldValue.serverTimestamp()
         });
+
+        // If newly paid, check for exclusive items to remove from store
+        if (localStatus === 'paid' && orderData.status !== 'paid' && orderData.items) {
+            const exclusiveItems = orderData.items.filter(i => i.isExclusive);
+            if (exclusiveItems.length > 0) {
+                const batch = db.batch();
+                exclusiveItems.forEach(item => {
+                    if (item.beatId) {
+                        batch.update(db.collection('beats').doc(item.beatId), { isAvailable: false });
+                    }
+                });
+                await batch.commit().catch(e => console.error("[IPN] Error making beats unavailable:", e));
+            }
+        }
 
         console.log(`[IPN] Order ${MerchantReference} updated to ${localStatus}`);
 
@@ -234,16 +263,16 @@ exports.getOrderedAssets = onCall({
             let secondaryUrl = null;
             
             if (beatData) {
-                if (item.licenseType === 'basic') {
-                    // Standard stream MP3
-                    targetDownloadUrl = beatData.audioUrl;
-                } else if (item.licenseType === 'premium') {
-                    // High quality untagged
-                    targetDownloadUrl = beatData.untaggedUrl || beatData.audioUrl;
-                } else if (item.licenseType === 'exclusive') {
+                if (item.isExclusive || item.licenseType === 'custom') {
                     // Untagged + Stems
                     targetDownloadUrl = beatData.untaggedUrl || beatData.audioUrl;
                     secondaryUrl = beatData.stemsUrl;
+                } else if (item.licenseType === 'standard') {
+                    // High quality untagged
+                    targetDownloadUrl = beatData.untaggedUrl || beatData.audioUrl;
+                } else if (item.licenseType === 'starter') {
+                    // Standard stream MP3
+                    targetDownloadUrl = beatData.audioUrl;
                 }
             }
 
@@ -297,12 +326,14 @@ exports.getOrderedAssets = onCall({
                     doc.fontSize(11).font('Helvetica').text('By purchasing this license, the Licensee agrees to the following terms:');
                     doc.moveDown(0.5);
                     
-                    if (item.licenseType === 'basic') {
-                        doc.text('• Non-Exclusive MP3 Distribution Rights.\n• Up to 50,000 Audio Streams.\n• Required Credit: "Prod. by Jazel \'dBoy\' Isaac".');
-                    } else if (item.licenseType === 'premium') {
-                        doc.text('• High-Quality Untagged WAV.\n• Up to 500,000 Audio Streams.\n• Commercial Use Allowed.\n• Required Credit: "Prod. by Jazel \'dBoy\' Isaac".');
-                    } else if (item.licenseType === 'exclusive') {
-                        doc.text('• Unlimited Commercial Rights & Track Stems.\n• Ownership transferred to Licensee.\n• Must remove beat from public marketplace.\n• Required Co-Producer Credit: "Prod. by Jazel \'dBoy\' Isaac".');
+                    if (item.isExclusive) {
+                        doc.text('• Full rights granted to Licensee.\n• Beat is removed from all future sales.\n• Unlimited streams and monetization.\n• Rights are non-transferable.');
+                    } else if (item.licenseType === 'starter') {
+                        doc.text('• Non-exclusive license (MP3 format only).\n• Limited to 5,000 streams.\n• Not permitted for monetized distribution.\n• Credit required: "Prod. by Jazel \'dBoy\' Isaac".');
+                    } else if (item.licenseType === 'standard') {
+                        doc.text('• Non-exclusive license (MP3 + WAV files).\n• Up to 100,000 streams & Monetization allowed.\n• One (1) music video & Live performances permitted.\n• Credit required: "Prod. by Jazel \'dBoy\' Isaac".');
+                    } else if (item.licenseType === 'custom') {
+                        doc.text('• Non-exclusive by default (MP3 + WAV + Stems).\n• Up to 250,000 streams & Monetization allowed.\n• Includes agreed revisions.\n• Credit required: "Prod. by Jazel \'dBoy\' Isaac".');
                     }
                     doc.end();
                 });

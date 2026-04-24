@@ -6,9 +6,9 @@ export const useCart = () => useContext(CartContext);
 
 // Pricing Rules config
 export const LICENSE_TIERS = {
-    basic: { label: 'Basic', price: 0, format: 'MP3' },
-    premium: { label: 'Premium', price: 50, format: 'MP3 + WAV' },
-    exclusive: { label: 'Exclusive', price: 100, format: 'MP3 + WAV + Stems' }
+    starter: { label: 'Starter', price: 1000, format: 'MP3' },
+    standard: { label: 'Standard', price: 4000, format: 'MP3 + WAV' },
+    custom: { label: 'Custom', price: 10000, format: 'MP3 + WAV + Stems' }
 };
 
 export const CartProvider = ({ children }) => {
@@ -54,12 +54,12 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem('dboy_currency', currency);
     }, [currency]);
 
-    const formatPrice = (baseUsdPrice) => {
-        if (baseUsdPrice === 0) return 'Free';
+    const formatPrice = (baseKesPrice) => {
+        if (baseKesPrice === 0) return 'Free';
         if (currency === 'KES') {
-            return `KES ${baseUsdPrice * exchangeRate}`;
+            return `KES ${baseKesPrice.toLocaleString()}`;
         }
-        return `$${baseUsdPrice}`;
+        return `$${Math.round(baseKesPrice / exchangeRate)}`;
     };
 
     const addToCart = (item) => {
@@ -82,43 +82,63 @@ export const CartProvider = ({ children }) => {
         setCart(prev => prev.filter(i => i.beatId !== beatId));
     };
 
+    const toggleExclusive = (beatId) => {
+        setCart(prev => prev.map(item => {
+            if (item.beatId === beatId && (item.licenseType === 'standard' || item.licenseType === 'custom')) {
+                return { ...item, isExclusive: !item.isExclusive };
+            }
+            return item;
+        }));
+    };
+
     const clearCart = () => setCart([]);
 
-    // Calculate totals & discounts
     const cartAnalysis = useMemo(() => {
         let subtotal = 0;
         let discount = 0;
         
-        // Group items by license type
-        const premiumItems = [];
-        const otherItems = [];
+        const starterItems = [];
+        const standardItems = [];
 
         cart.forEach(item => {
-            if (item.licenseType === 'premium') premiumItems.push(item);
-            else otherItems.push(item);
+            let itemPrice = item.price;
+            
+            // Exclusive Upgrade overrides base price (total must be 10,000 KES)
+            if (item.isExclusive) {
+                itemPrice = 10000;
+                subtotal += itemPrice;
+            } else {
+                subtotal += itemPrice;
+                // Only non-exclusive items are eligible for bulk discounts
+                if (item.licenseType === 'starter') starterItems.push(item);
+                if (item.licenseType === 'standard') standardItems.push(item);
+            }
         });
 
-        // Calculate other items
-        otherItems.forEach(item => { subtotal += item.price; });
-
-        // Calculate Premium items (Buy 1 Get 2 Free)
-        // Sort descending so the highest price is paid if prices differ
-        premiumItems.sort((a, b) => b.price - a.price);
-
-        for (let i = 0; i < premiumItems.length; i++) {
-            subtotal += premiumItems[i].price;
-            // Every 2nd and 3rd item in a group of 3 is free
-            if (i % 3 === 1 || i % 3 === 2) {
-                discount += premiumItems[i].price;
-            }
+        // ── Bulk Discounts ──
+        // Starter: Buy 1 Get 1 Free, Buy 3 Get 2 Free (Every 5th gives 2 free, remaining pairs give 1 free)
+        starterItems.sort((a, b) => b.price - a.price);
+        let starterFreeCount = Math.floor(starterItems.length / 5) * 2 + Math.floor((starterItems.length % 5) / 2);
+        for (let i = 0; i < starterFreeCount; i++) {
+            discount += starterItems[starterItems.length - 1 - i].price;
         }
 
-        const rate = currency === 'KES' ? exchangeRate : 1;
+        // Standard: Buy 2 Get 1 Free, Buy 4 Get 2 Free (Every 3rd item is free)
+        standardItems.sort((a, b) => b.price - a.price);
+        let standardFreeCount = Math.floor(standardItems.length / 3);
+        for (let i = 0; i < standardFreeCount; i++) {
+            discount += standardItems[standardItems.length - 1 - i].price;
+        }
+
+        const rate = currency === 'KES' ? 1 : (1 / exchangeRate);
+        const finalSubtotal = Math.round(subtotal * rate);
+        const finalDiscount = Math.round(discount * rate);
+        const finalTotal = finalSubtotal - finalDiscount;
 
         return { 
-            subtotal: subtotal * rate, 
-            discount: discount * rate, 
-            total: (subtotal - discount) * rate, 
+            subtotal: finalSubtotal, 
+            discount: finalDiscount, 
+            total: finalTotal, 
             itemCount: cart.length 
         };
     }, [cart, currency]);
@@ -128,6 +148,7 @@ export const CartProvider = ({ children }) => {
             cart,
             addToCart,
             removeFromCart,
+            toggleExclusive,
             clearCart,
             isCartOpen,
             setIsCartOpen,
