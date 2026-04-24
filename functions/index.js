@@ -114,6 +114,11 @@ exports.createOrder = onCall({
         // 4. Submit Order Request
         const response = await pesapalApi.submitOrderRequest(token, pesapalPayload);
 
+        if (!response || !response.order_tracking_id) {
+            console.error("Pesapal Submit Error Response:", response);
+            throw new Error(`Pesapal rejected the order: ${response?.error?.message || response?.message || JSON.stringify(response)}`);
+        }
+
         // Update tracking ID on order
         await orderRef.update({
             pesapalTrackingId: response.order_tracking_id
@@ -137,12 +142,17 @@ exports.pesapalIpnCallback = onRequest({
     secrets: ["PESAPAL_CONSUMER_KEY", "PESAPAL_CONSUMER_SECRET", "PESAPAL_ENV"]
 }, async (req, res) => {
     try {
-        const { OrderTrackingId, OrderNotificationType, MerchantReference } = req.query;
+        const OrderTrackingId = req.query.OrderTrackingId || req.body?.OrderTrackingId;
+        const OrderNotificationType = req.query.OrderNotificationType || req.body?.OrderNotificationType;
+        const MerchantReference = req.query.OrderMerchantReference || req.body?.OrderMerchantReference || req.query.MerchantReference;
 
-        console.log(`[IPN] Received webhook for Tracking ID: ${OrderTrackingId}`);
+        console.log(`[IPN] Received webhook for Tracking ID: ${OrderTrackingId}, Ref: ${MerchantReference}`);
 
         if (!OrderTrackingId) {
             return res.status(400).send("Missing OrderTrackingId");
+        }
+        if (!MerchantReference) {
+            return res.status(400).send("Missing MerchantReference");
         }
 
         // Validate directly from the source to prevent spoofing
@@ -368,50 +378,52 @@ exports.getOrderedAssets = onCall({
 
 /**
  * findAndFixOrders (Temporary Maintenance)
- * Finds the specific beat by title and patches the 'Recovered' orders.
+ * Rescues a specific stuck order by manually checking Pesapal status
  */
-exports.findAndFixOrders = onCall({ cors: true }, async (request) => {
+exports.findAndFixOrders = onCall({ 
+    cors: true,
+    secrets: ["PESAPAL_CONSUMER_KEY", "PESAPAL_CONSUMER_SECRET", "PESAPAL_ENV"]
+}, async (request) => {
     try {
-        // 1. Find the actual beat ID by Title
-        const beatsSnap = await db.collection('beats')
-            .where('title', '==', 'AFRO-LATIN-DANCEHALL_2_BEAT')
-            .limit(1)
-            .get();
+        const orderId = 'Wd3fCrjqvYH2DAANMXtu';
+        const trackingId = '593403ce-5df8-42d4-a90b-da76daa7a8e8';
+
+        const token = await pesapalApi.getAuthToken();
+        const statusResponse = await pesapalApi.getTransactionStatus(token, trackingId);
+        const paymentStatus = statusResponse.payment_status_description;
+
+        const orderRef = db.collection("orders").doc(orderId);
+        const orderSnap = await orderRef.get();
+        if (!orderSnap.exists) throw new Error("Order not found");
         
-        if (beatsSnap.empty) {
-             // Fallback: search case-insensitive or partial if needed, but let's try exact first
-             throw new Error("Could not find beat with title 'AFRO-LATIN-DANCEHALL_2_BEAT'");
+        let localStatus = 'pending';
+        if (paymentStatus === 'Completed') localStatus = 'paid';
+        if (paymentStatus === 'Failed') localStatus = 'failed';
+
+        const orderData = orderSnap.data();
+
+        await orderRef.update({
+            status: localStatus,
+            pesapalStatusDetail: paymentStatus,
+            pesapalRaw: statusResponse,
+            updatedAt: FieldValue.serverTimestamp()
+        });
+
+        // If newly paid, check for exclusive items to remove from store
+        if (localStatus === 'paid' && orderData.status !== 'paid' && orderData.items) {
+            const exclusiveItems = orderData.items.filter(i => i.isExclusive);
+            if (exclusiveItems.length > 0) {
+                const batch = db.batch();
+                exclusiveItems.forEach(item => {
+                    if (item.beatId) {
+                        batch.update(db.collection('beats').doc(item.beatId), { isAvailable: false });
+                    }
+                });
+                await batch.commit();
+            }
         }
-        
-        const beatDoc = beatsSnap.docs[0];
-        const beatId = beatDoc.id;
-        const beatData = beatDoc.data();
 
-        // 2. List of Order IDs to fix
-        const orderIds = [
-            'ZZUBvWM49Ujfz1tsHu5H',
-            '7ebnMNcgopPUDdM2F75K',
-            'Pt90X7tm06NsQjGPMN2n',
-            '3XY0xa3FDodHVnQt8AO5'
-        ];
-
-        const batch = db.batch();
-        for (const id of orderIds) {
-            batch.set(db.collection('orders').doc(id), {
-                items: [{
-                    beatId: beatId,
-                    title: beatData.title,
-                    price: 50,
-                    licenseType: 'premium'
-                }],
-                updatedAt: FieldValue.serverTimestamp(),
-                status: 'paid'
-            }, { merge: true });
-        }
-        
-        await batch.commit();
-
-        return { success: true, message: `Linked 4 orders to beat ${beatId} (${beatData.title})` };
+        return { success: true, message: `Order ${orderId} synced. Status: ${localStatus}` };
     } catch (error) {
         throw new HttpsError('internal', error.message);
     }
