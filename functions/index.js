@@ -299,17 +299,35 @@ exports.getOrderedAssets = onCall({
 
             const itemUrls = [];
 
+            console.log(`[Assets] Processing item: ${item.title}, ID: ${item.beatId}, License: ${item.licenseType}`);
+
             for (const f of filesToSign) {
                 try {
                     const file = bucket.file(f.path);
-                    const [exists] = await file.exists();
+                    const [exists] = await file.exists().catch(e => {
+                        console.error(`[Assets] Error checking file existence for ${f.path}:`, e.message);
+                        return [false];
+                    });
+                    
                     if (exists) {
                         const [url] = await file.getSignedUrl({
                             version: 'v4', action: 'read', expires: Date.now() + 1000 * 60 * 60 * 24 * 7 // 7 days
                         });
                         itemUrls.push({ type: f.type, url });
+                    } else {
+                        console.warn(`[Assets] File NOT found in bucket: ${f.path}`);
+                        // Fallback: If it doesn't exist in the new bucket, maybe it's in the default one?
+                        const defaultBucket = admin.storage().bucket('dboywebsite.appspot.com');
+                        const defaultFile = defaultBucket.file(f.path);
+                        const [defExists] = await defaultFile.exists().catch(() => [false]);
+                        if (defExists) {
+                             const [url] = await defaultFile.getSignedUrl({
+                                version: 'v4', action: 'read', expires: Date.now() + 1000 * 60 * 60 * 24 * 7
+                            });
+                            itemUrls.push({ type: f.type, url });
+                        }
                     }
-                } catch (e) { console.error("Sign error:", e); }
+                } catch (e) { console.error(`[Assets] Sign error for ${f.path}:`, e); }
             }
 
             // 2. Dynamic PDF License Generator
@@ -363,8 +381,8 @@ exports.getOrderedAssets = onCall({
             assets.push({
                 title: item.title,
                 licenseType: item.licenseType,
-                audioUrl: itemUrls.find(i => i.type === 'audio')?.url,
-                stemsUrl: itemUrls.find(i => i.type === 'stems')?.url,
+                audioUrl: itemUrls.find(i => i.type === 'audio')?.url || targetDownloadUrl,
+                stemsUrl: itemUrls.find(i => i.type === 'stems')?.url || secondaryUrl,
                 licensePdfUrl: licensePdfUrl
             });
         }
@@ -422,9 +440,23 @@ exports.findAndFixOrders = onCall({
                 await batch.commit();
             }
         }
-
         return { success: true, message: `Order ${orderId} synced. Status: ${localStatus}` };
     } catch (error) {
         throw new HttpsError('internal', error.message);
+    }
+});
+
+/**
+ * debugBeat (Maintenance)
+ * Inspects a beat document
+ */
+exports.debugBeat = onCall({ cors: true }, async (request) => {
+    try {
+        const title = request.data.title || 'AFRO-LATIN-DANCEHALL_2_BEAT';
+        const beatsSnap = await db.collection('beats').where('title', '==', title).limit(1).get();
+        if (beatsSnap.empty) return { error: "Beat not found" };
+        return { id: beatsSnap.docs[0].id, data: beatsSnap.docs[0].data() };
+    } catch (e) {
+        return { error: e.message };
     }
 });
