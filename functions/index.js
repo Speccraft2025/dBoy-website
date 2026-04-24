@@ -381,8 +381,8 @@ exports.getOrderedAssets = onCall({
             assets.push({
                 title: item.title,
                 licenseType: item.licenseType,
-                audioUrl: itemUrls.find(i => i.type === 'audio')?.url,
-                stemsUrl: itemUrls.find(i => i.type === 'stems')?.url,
+                audioUrl: itemUrls.find(i => i.type === 'audio')?.url || targetDownloadUrl,
+                stemsUrl: itemUrls.find(i => i.type === 'stems')?.url || secondaryUrl,
                 licensePdfUrl: licensePdfUrl
             });
         }
@@ -440,6 +440,11 @@ exports.findAndFixOrders = onCall({
                 await batch.commit();
             }
         }
+        return { success: true, message: `Order ${orderId} synced. Status: ${localStatus}` };
+    } catch (error) {
+        throw new HttpsError('internal', error.message);
+    }
+});
 
 /**
  * debugBeat (Maintenance)
