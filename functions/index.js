@@ -114,6 +114,11 @@ exports.createOrder = onCall({
         // 4. Submit Order Request
         const response = await pesapalApi.submitOrderRequest(token, pesapalPayload);
 
+        if (!response || !response.order_tracking_id) {
+            console.error("Pesapal Submit Error Response:", response);
+            throw new Error(`Pesapal rejected the order: ${response?.error?.message || response?.message || JSON.stringify(response)}`);
+        }
+
         // Update tracking ID on order
         await orderRef.update({
             pesapalTrackingId: response.order_tracking_id
