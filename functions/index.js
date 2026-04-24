@@ -254,7 +254,7 @@ exports.getOrderedAssets = onCall({
             throw new Error("Unauthorized access to this order");
         }
 
-        const bucket = admin.storage().bucket();
+        const bucket = admin.storage().bucket('dboywebsite.firebasestorage.app');
         const assets = [];
 
         // Generate Assets per item
