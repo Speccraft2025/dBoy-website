@@ -7,7 +7,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { app } from '../lib/firebase';
 
 export default function CartDrawer() {
-    const { cart, isCartOpen, setIsCartOpen, removeFromCart, subtotal, discount, total, itemCount } = useCart();
+    const { cart, isCartOpen, setIsCartOpen, removeFromCart, subtotal, discount, total, itemCount, currency, formatPrice } = useCart();
     const [isProcessing, setIsProcessing] = useState(false);
 
     if (!isCartOpen) return null;
@@ -46,7 +46,8 @@ export default function CartDrawer() {
                     licenseType: i.licenseType
                 })),
                 userEmail: userEmail,
-                callbackUrl: `${window.location.origin}/success`
+                callbackUrl: `${window.location.origin}/success`,
+                currency: currency
             });
 
             const { redirectUrl, orderId } = response.data;
@@ -114,7 +115,7 @@ export default function CartDrawer() {
                                     <p className="text-xs text-[#facc15] uppercase tracking-wider font-semibold mt-0.5">
                                         {LICENSE_TIERS[item.licenseType]?.label} License
                                     </p>
-                                    <p className="text-xs text-gray-400 mt-1">KES {item.price}</p>
+                                    <p className="text-xs text-gray-400 mt-1">{formatPrice(item.price)}</p>
                                 </div>
                                 <button 
                                     onClick={() => removeFromCart(item.beatId)}
@@ -134,17 +135,17 @@ export default function CartDrawer() {
                         <div className="space-y-2 text-sm">
                             <div className="flex justify-between text-gray-400">
                                 <span>Subtotal</span>
-                                <span>KES {subtotal}</span>
+                                <span>{currency === 'KES' ? 'KES' : '$'} {subtotal}</span>
                             </div>
                             {discount > 0 && (
                                 <div className="flex justify-between text-green-400 font-medium">
                                     <span>Promo Discount (Buy 1 Get 2)</span>
-                                    <span>- KES {discount}</span>
+                                    <span>- {currency === 'KES' ? 'KES' : '$'} {discount}</span>
                                 </div>
                             )}
                             <div className="flex justify-between text-white text-lg font-black pt-2 border-t border-white/10">
                                 <span>Total</span>
-                                <span className="text-[#facc15]">KES {total}</span>
+                                <span className="text-[#facc15]">{currency === 'KES' ? 'KES' : '$'} {total}</span>
                             </div>
                         </div>
 

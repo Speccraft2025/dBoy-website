@@ -7,19 +7,23 @@ const pesapalApi = require("./src/pesapal");
 admin.initializeApp();
 const db = getFirestore();
 
+const EXCHANGE_RATE = 130; // 1 USD = 130 KES
+
 // Helper to calculate exact order totals on the server to prevent spoofing
-function calculateOrderTotal(items) {
+function calculateOrderTotal(items, currency) {
     let subtotal = 0;
     let discount = 0;
     
     const premiumItems = [];
     const otherItems = [];
 
+    const rate = currency === 'KES' ? EXCHANGE_RATE : 1;
+
     items.forEach(item => {
         // Enforce server-side pricing structure based on tier
         if (item.licenseType === 'basic') item.price = 0;
-        else if (item.licenseType === 'premium') item.price = 50;
-        else if (item.licenseType === 'exclusive') item.price = 100;
+        else if (item.licenseType === 'premium') item.price = 50 * rate;
+        else if (item.licenseType === 'exclusive') item.price = 100 * rate;
 
         if (item.licenseType === 'premium') premiumItems.push(item);
         else otherItems.push(item);
@@ -45,14 +49,14 @@ exports.createOrder = onCall({
     secrets: ["PESAPAL_CONSUMER_KEY", "PESAPAL_CONSUMER_SECRET", "PESAPAL_ENV"]
 }, async (request) => {
     try {
-        const { items, userEmail, callbackUrl } = request.data;
+        const { items, userEmail, callbackUrl, currency = 'USD' } = request.data;
         const uid = request.auth ? request.auth.uid : 'guest';
 
         if (!items || items.length === 0) {
             throw new Error("Cart is empty");
         }
 
-        const totalAmount = calculateOrderTotal(items);
+        const totalAmount = calculateOrderTotal(items, currency);
 
         // Track order in Firestore before attempting Pesapal (state: pending)
         const orderRef = db.collection("orders").doc();
@@ -61,7 +65,7 @@ exports.createOrder = onCall({
         await orderRef.set({
             items,
             totalAmount,
-            currency: 'KES',
+            currency: currency,
             status: 'pending',
             userEmail: userEmail || 'guest@example.com',
             userId: uid,
@@ -79,7 +83,7 @@ exports.createOrder = onCall({
         // 3. Build Pesapal payload
         const pesapalPayload = {
             id: orderId,
-            currency: "KES",
+            currency: currency,
             amount: totalAmount,
             description: `Beat Licensing x${items.length}`,
             callback_url: callbackUrl,

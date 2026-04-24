@@ -42,7 +42,7 @@ export default function PublicStore() {
     const [albums,   setAlbums]   = useState([]);
     const [featured, setFeatured] = useState([]);
     const [loading,  setLoading]  = useState(true);
-    const { addToCart, setIsCartOpen, itemCount } = useCart();
+    const { addToCart, setIsCartOpen, itemCount, currency, setCurrency, formatPrice } = useCart();
     const [selectedLicenses, setSelectedLicenses] = useState({});
     const [liked,    setLiked]    = useState(getLikedSet);
 
@@ -196,7 +196,7 @@ export default function PublicStore() {
             item_id: beat.id,
             item_name: beat.title,
             value: Number(beat.price || 50),
-            currency: 'KES'
+            currency: currency
         };
         trackEvent('view_item', itemData);
         trackEvent('play_audio', itemData);
@@ -250,16 +250,28 @@ export default function PublicStore() {
                             <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform flex-shrink-0" />
                             <span className="text-sm font-medium uppercase tracking-widest truncate">Back to Main Page</span>
                         </button>
-                        <button 
-                            onClick={() => setIsCartOpen(true)}
-                            className="flex items-center gap-2 bg-[#facc15] text-[#0f172a] hover:bg-yellow-400 px-4 py-2 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105"
-                        >
-                            <ShoppingBag size={18} />
-                            <span className="hidden sm:inline">Cart</span>
-                            {itemCount > 0 && (
-                                <span className="bg-[#0f172a] text-[#facc15] px-2 py-0.5 rounded-full text-xs">{itemCount}</span>
-                            )}
-                        </button>
+                        
+                        <div className="flex items-center gap-3">
+                            <select
+                                value={currency}
+                                onChange={(e) => setCurrency(e.target.value)}
+                                className="bg-[#0f172a] text-[#facc15] border border-[#facc15]/40 rounded-full px-3 py-1.5 text-xs font-bold outline-none cursor-pointer hover:bg-[#1e293b] appearance-none text-center"
+                            >
+                                <option value="USD">USD</option>
+                                <option value="KES">KES</option>
+                            </select>
+
+                            <button 
+                                onClick={() => setIsCartOpen(true)}
+                                className="flex items-center gap-2 bg-[#facc15] text-[#0f172a] hover:bg-yellow-400 px-4 py-2 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:scale-105"
+                            >
+                                <ShoppingBag size={18} />
+                                <span className="hidden sm:inline">Cart</span>
+                                {itemCount > 0 && (
+                                    <span className="bg-[#0f172a] text-[#facc15] px-2 py-0.5 rounded-full text-xs">{itemCount}</span>
+                                )}
+                            </button>
+                        </div>
                     </div>
                     <div className="flex flex-col items-center text-center max-w-full">
                         <h1 className="text-3xl sm:text-6xl font-black text-[#facc15] tracking-[4px] sm:tracking-[8px] uppercase drop-shadow-[0_0_15px_rgba(250,204,21,0.3)] mb-2 max-w-full break-normal text-center whitespace-normal">
@@ -524,7 +536,7 @@ export default function PublicStore() {
                                                 className="bg-[#0f172a] text-xs text-[#facc15] border border-[#facc15]/40 rounded-l-lg px-2 py-2.5 h-full outline-none cursor-pointer appearance-none text-center font-bold"
                                             >
                                                 {Object.entries(LICENSE_TIERS).map(([key, tier]) => (
-                                                    <option key={key} value={key}>{tier.label} ${tier.price}</option>
+                                                    <option key={key} value={key}>{tier.label} {formatPrice(tier.price)}</option>
                                                 ))}
                                             </select>
                                             <button
@@ -576,14 +588,14 @@ export default function PublicStore() {
                 {/* ── Licenses ── */}
                 <div className="flex flex-col md:flex-row justify-center gap-6 md:gap-8 mt-20 sm:mt-32 w-full box-border">
                     {[
-                        { label: 'Basic',    price: 'Free', format: 'Mp3',        perks: ['Contains Audio Tags', '1000 sales', '50,000 streams', 'Non exclusive Rights'] },
-                        { label: 'Premium',  price: '$50',  format: 'MP3 + WAV',  perks: ['Contains 1 Audio Tag', '50,000 sales', '250,000 streams', 'Non exclusive Rights'], promo: 'Buy 1 Get 2 Free' },
-                        { label: 'Exclusive', price: '$100', format: 'MP3 + WAV', perks: ['Contains 1 Producer Tag', 'Unlimited Sales', 'Unlimited Streams', 'Exclusive Rights'] },
+                        { label: 'Basic',    price: 0, format: 'Mp3',        perks: ['Contains Audio Tags', '1000 sales', '50,000 streams', 'Non exclusive Rights'] },
+                        { label: 'Premium',  price: 50,  format: 'MP3 + WAV',  perks: ['Contains 1 Audio Tag', '50,000 sales', '250,000 streams', 'Non exclusive Rights'], promo: 'Buy 1 Get 2 Free' },
+                        { label: 'Exclusive', price: 100, format: 'MP3 + WAV', perks: ['Contains 1 Producer Tag', 'Unlimited Sales', 'Unlimited Streams', 'Exclusive Rights'] },
                     ].map(tier => (
                         <div key={tier.label} className="flex-1 bg-[#1e293b]/40 backdrop-blur-md border border-[#facc15]/10 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:border-[#facc15]/40 flex flex-col items-center w-full group/tier">
                             <div className="w-full bg-[#facc15] text-[#0f172a] py-5 text-center shadow-inner">
                                 <div className="font-bold text-xs uppercase tracking-[3px] opacity-80 mb-1">{tier.label}</div>
-                                <div className="text-3xl font-black italic">{tier.price}</div>
+                                <div className="text-3xl font-black italic">{formatPrice(tier.price)}</div>
                             </div>
                             <div className="py-8 px-6 text-center w-full">
                                 <div className="text-sm font-black text-white/90 mb-6 uppercase tracking-widest border-b border-[#facc15]/20 pb-2 inline-block">FOR {tier.format}</div>
