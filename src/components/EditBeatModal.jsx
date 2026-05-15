@@ -4,7 +4,7 @@ import { db, storage } from '../lib/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-const CATEGORIES = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion'];
+const CATEGORIES = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion', 'Lofi Beats'];
 
 export default function EditBeatModal({ beat, onClose, onSaved }) {
     const [title, setTitle] = useState(beat.title || '');

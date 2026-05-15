@@ -3,7 +3,7 @@ import { X, Save, Loader, Tag, Music2, FileText } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { doc, updateDoc, writeBatch, arrayUnion } from 'firebase/firestore';
 
-const CATEGORIES = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion'];
+const CATEGORIES = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion', 'Lofi Beats'];
 
 /**
  * BulkEditModal

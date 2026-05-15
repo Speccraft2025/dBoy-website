@@ -14,7 +14,7 @@ import Fade from 'embla-carousel-fade';
 import { useCart, LICENSE_TIERS } from '../contexts/CartContext';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-const CATEGORIES  = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion'];
+const CATEGORIES  = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion', 'Lofi Beats'];
 const KEYS    = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B','Cm','C#m','Dm','D#m','Em','Fm','F#m','Gm','G#m','Am','A#m','Bm'];
 
 /** Returns or creates a persistent anonymous UUID stored in localStorage */
@@ -445,13 +445,25 @@ export default function PublicStore() {
                     )}
                 </div>
 
-                {/* ── Security Message ── */}
-                <div className="mb-6 p-4 sm:p-5 bg-red-900/20 border border-red-500/20 rounded-xl text-center shadow-lg backdrop-blur-sm max-w-3xl mx-auto">
-                    <p className="text-red-400 text-xs sm:text-sm font-medium tracking-wide leading-relaxed">
-                        <span className="font-bold uppercase mr-1">Warning:</span>
-                        Uploading songs using unlicensed beats may result in takedowns or loss of monetization. 
-                        All licenses from <span className="text-[#facc15] font-bold">Beats Unlimited</span> are safe for official release.
-                    </p>
+                {/* ── Quick Categories ── */}
+                <div className="mb-6 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    <div className="flex gap-2 min-w-max">
+                        <button
+                            onClick={() => { setFilterCategory(''); setCurrentPage(1); }}
+                            className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${!filterCategory ? 'bg-[#facc15] text-black shadow-[0_0_15px_rgba(250,204,21,0.4)]' : 'bg-[#1e293b]/60 text-gray-400 hover:text-white border border-[#facc15]/10 hover:border-[#facc15]/30'}`}
+                        >
+                            All
+                        </button>
+                        {CATEGORIES.map(cat => (
+                            <button
+                                key={cat}
+                                onClick={() => { setFilterCategory(cat); setCurrentPage(1); }}
+                                className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${filterCategory === cat ? 'bg-[#facc15] text-black shadow-[0_0_15px_rgba(250,204,21,0.4)]' : 'bg-[#1e293b]/60 text-gray-400 hover:text-white border border-[#facc15]/10 hover:border-[#facc15]/30'}`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* ── Tracklist ── */}
