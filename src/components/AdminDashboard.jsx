@@ -17,7 +17,7 @@ import BulkEditModal from './BulkEditModal';
 
 const MAX_FILES = 20;
 
-const GENRES = ['Hip-Hop', 'Trap', 'Afrobeat', 'R&B', 'Pop', 'Drill', 'Jazz', 'Electronic', 'Gospel', 'Lo-fi', 'Other'];
+const CATEGORIES = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion'];
 const KEYS   = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B',
                  'Cm', 'C#m', 'Dm', 'D#m', 'Em', 'Fm', 'F#m', 'Gm', 'G#m', 'Am', 'A#m', 'Bm'];
 
@@ -64,7 +64,7 @@ export default function AdminDashboard() {
     const [beatKey, setBeatKey]   = useState('');
     const [tags, setTags]         = useState('');
     const [price, setPrice]       = useState('50');
-    const [genre, setGenre]       = useState('');
+    const [category, setCategory]       = useState('');
     const [description, setDescription] = useState('');
     const [audioFiles, setAudioFiles]   = useState([]);
     const [coverFile, setCoverFile]     = useState(null);
@@ -76,7 +76,7 @@ export default function AdminDashboard() {
     const [filterBpmMin, setFilterBpmMin] = useState('');
     const [filterBpmMax, setFilterBpmMax] = useState('');
     const [filterKey, setFilterKey]     = useState('');
-    const [filterGenre, setFilterGenre] = useState('');
+    const [filterCategory, setFilterCategory] = useState('');
     const [filterFeatured, setFilterFeatured] = useState('all'); // 'all' | 'yes' | 'no'
 
     // ── Multi-select ──
@@ -97,25 +97,25 @@ export default function AdminDashboard() {
         return beats.filter(b => {
             if (filterText) {
                 const q = filterText.toLowerCase();
-                const haystack = [b.title, b.genre, b.description, ...(b.tags || [])].join(' ').toLowerCase();
+                const haystack = [b.title, b.category || b.genre, b.description, ...(b.tags || [])].join(' ').toLowerCase();
                 if (!haystack.includes(q)) return false;
             }
             if (filterBpmMin && b.bpm < Number(filterBpmMin)) return false;
             if (filterBpmMax && b.bpm > Number(filterBpmMax)) return false;
             if (filterKey && b.key !== filterKey) return false;
-            if (filterGenre && b.genre !== filterGenre) return false;
+            if (filterCategory && (b.category || b.genre) !== filterCategory) return false;
             if (filterFeatured === 'yes' && !b.isStarred) return false;
             if (filterFeatured === 'no'  && b.isStarred)  return false;
             return true;
         });
-    }, [beats, filterText, filterBpmMin, filterBpmMax, filterKey, filterGenre, filterFeatured]);
+    }, [beats, filterText, filterBpmMin, filterBpmMax, filterKey, filterCategory, filterFeatured]);
 
-    const activeFilterCount = [filterText, filterBpmMin, filterBpmMax, filterKey, filterGenre]
+    const activeFilterCount = [filterText, filterBpmMin, filterBpmMax, filterKey, filterCategory]
         .filter(Boolean).length + (filterFeatured !== 'all' ? 1 : 0);
 
     const clearFilters = () => {
         setFilterText(''); setFilterBpmMin(''); setFilterBpmMax('');
-        setFilterKey(''); setFilterGenre(''); setFilterFeatured('all');
+        setFilterKey(''); setFilterCategory(''); setFilterFeatured('all');
     };
 
     // ── Checkbox helpers ──
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
                                     key: beatKey || '',
                                     tags: tagsArray,
                                     price: Number(price) || 50,
-                                    genre: genre.trim() || '',
+                                    category: category.trim() || '',
                                     description: description.trim() || '',
                                     likes: 0,
                                     coverUrl, audioUrl,
@@ -240,7 +240,7 @@ export default function AdminDashboard() {
 
             setTimeout(() => {
                 setTitle(''); setBpm(''); setBeatKey(''); setTags('');
-                setGenre(''); setDescription('');
+                setCategory(''); setDescription('');
                 setAudioFiles([]); setCoverFile(null); setFileQueue([]);
                 document.getElementById('uploadForm')?.reset();
                 fetchBeats();
@@ -383,16 +383,16 @@ export default function AdminDashboard() {
                                 </div>
                             </div>
 
-                            {/* Genre */}
+                            {/* Category */}
                             <div>
-                                <label className="block text-gray-400 mb-1 flex items-center gap-1"><Music2 size={12} /> Genre</label>
+                                <label className="block text-gray-400 mb-1 flex items-center gap-1"><Music2 size={12} /> Category</label>
                                 <select
-                                    value={genre}
-                                    onChange={e => setGenre(e.target.value)}
+                                    value={category}
+                                    onChange={e => setCategory(e.target.value)}
                                     className="w-full p-3 bg-[#0f172a] border border-gray-700 rounded focus:border-[#facc15] outline-none transition text-white"
                                 >
-                                    <option value="">Select genre...</option>
-                                    {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
+                                    <option value="">Select category...</option>
+                                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
 
@@ -485,10 +485,10 @@ export default function AdminDashboard() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="text-gray-500 mb-1 block">Genre</label>
-                                    <select value={filterGenre} onChange={e => setFilterGenre(e.target.value)} className="w-full p-2 bg-[#1e293b] border border-gray-700 rounded focus:border-[#facc15] outline-none text-white transition">
-                                        <option value="">Any genre</option>
-                                        {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
+                                    <label className="text-gray-500 mb-1 block">Category</label>
+                                    <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="w-full p-2 bg-[#1e293b] border border-gray-700 rounded focus:border-[#facc15] outline-none text-white transition">
+                                        <option value="">Any category</option>
+                                        {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                 </div>
                                 <div>
@@ -550,7 +550,7 @@ export default function AdminDashboard() {
                                             <th className="pb-3 font-medium">Cover</th>
                                             <th className="pb-3 font-medium">Title</th>
                                             <th className="pb-3 font-medium hidden sm:table-cell">BPM / Key</th>
-                                            <th className="pb-3 font-medium hidden md:table-cell">Genre</th>
+                                            <th className="pb-3 font-medium hidden md:table-cell">Category</th>
                                             <th className="pb-3 font-medium hidden md:table-cell">Tags</th>
                                             <th className="pb-3 font-medium text-center">♥</th>
                                             <th className="pb-3 font-medium text-center">⭐</th>
@@ -590,7 +590,7 @@ export default function AdminDashboard() {
                                                         )}
                                                     </td>
                                                     <td className="py-3 text-gray-400 hidden sm:table-cell">{beat.bpm || '—'} / {beat.key || '—'}</td>
-                                                    <td className="py-3 text-gray-400 hidden md:table-cell text-xs">{beat.genre || '—'}</td>
+                                                    <td className="py-3 text-gray-400 hidden md:table-cell text-xs">{beat.category || beat.genre || '—'}</td>
                                                     <td className="py-3 hidden md:table-cell">
                                                         <div className="flex flex-wrap gap-1 max-w-[120px]">
                                                             {(beat.tags || []).slice(0, 3).map((tag, i) => (
