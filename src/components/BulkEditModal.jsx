@@ -3,7 +3,7 @@ import { X, Save, Loader, Tag, Music2, FileText } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { doc, updateDoc, writeBatch, arrayUnion } from 'firebase/firestore';
 
-const GENRES = ['Hip-Hop', 'Trap', 'Afrobeat', 'R&B', 'Pop', 'Drill', 'Jazz', 'Electronic', 'Gospel', 'Lo-fi', 'Other'];
+const CATEGORIES = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion'];
 
 /**
  * BulkEditModal
@@ -15,7 +15,7 @@ const GENRES = ['Hip-Hop', 'Trap', 'Afrobeat', 'R&B', 'Pop', 'Drill', 'Jazz', 'E
 export default function BulkEditModal({ selectedIds, onClose, onSaved }) {
     const [tagsInput, setTagsInput] = useState('');
     const [tagsMode, setTagsMode]   = useState('append'); // 'append' | 'replace'
-    const [genre, setGenre]         = useState('');
+    const [category, setCategory]         = useState('');
     const [description, setDescription] = useState('');
     const [saving, setSaving]       = useState(false);
 
@@ -23,7 +23,7 @@ export default function BulkEditModal({ selectedIds, onClose, onSaved }) {
         if (selectedIds.length === 0) return;
 
         const newTags = tagsInput.split(',').map(t => t.trim()).filter(Boolean);
-        const anyUpdate = genre || description || newTags.length > 0;
+        const anyUpdate = category || description || newTags.length > 0;
 
         if (!anyUpdate) {
             alert('Fill in at least one field to update.');
@@ -37,7 +37,7 @@ export default function BulkEditModal({ selectedIds, onClose, onSaved }) {
                 const batch = writeBatch(db);
                 selectedIds.forEach(id => {
                     const updates = {};
-                    if (genre) updates.genre = genre.trim();
+                    if (category) updates.category = category.trim();
                     if (description) updates.description = description.trim();
                     if (newTags.length > 0) updates.tags = newTags;
                     if (Object.keys(updates).length > 0) batch.update(doc(db, 'beats', id), updates);
@@ -48,7 +48,7 @@ export default function BulkEditModal({ selectedIds, onClose, onSaved }) {
                 const batch = writeBatch(db);
                 selectedIds.forEach(id => {
                     const updates = {};
-                    if (genre) updates.genre = genre.trim();
+                    if (category) updates.category = category.trim();
                     if (description) updates.description = description.trim();
                     if (newTags.length > 0) updates.tags = arrayUnion(...newTags);
                     if (Object.keys(updates).length > 0) batch.update(doc(db, 'beats', id), updates);
@@ -106,18 +106,18 @@ export default function BulkEditModal({ selectedIds, onClose, onSaved }) {
                         </div>
                     </div>
 
-                    {/* Genre */}
+                    {/* Category */}
                     <div>
                         <label className="flex items-center gap-1.5 text-gray-400 text-sm mb-2">
-                            <Music2 size={13} /> Genre
+                            <Music2 size={13} /> Category
                         </label>
                         <select
-                            value={genre}
-                            onChange={e => setGenre(e.target.value)}
+                            value={category}
+                            onChange={e => setCategory(e.target.value)}
                             className="w-full p-3 bg-[#0f172a] border border-gray-700 rounded-lg focus:border-[#facc15] outline-none text-white text-sm transition"
                         >
-                            <option value="">— skip genre —</option>
-                            {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
+                            <option value="">— skip category —</option>
+                            {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                     </div>
 

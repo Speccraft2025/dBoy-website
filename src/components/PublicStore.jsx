@@ -14,7 +14,7 @@ import Fade from 'embla-carousel-fade';
 import { useCart, LICENSE_TIERS } from '../contexts/CartContext';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-const GENRES  = ['Hip-Hop', 'Trap', 'Afrobeat', 'R&B', 'Pop', 'Drill', 'Jazz', 'Electronic', 'Gospel', 'Lo-fi', 'Other'];
+const CATEGORIES  = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion'];
 const KEYS    = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B','Cm','C#m','Dm','D#m','Em','Fm','F#m','Gm','G#m','Am','A#m','Bm'];
 
 /** Returns or creates a persistent anonymous UUID stored in localStorage */
@@ -60,7 +60,7 @@ export default function PublicStore() {
     const [filterBpmMin,  setFilterBpmMin]  = useState('');
     const [filterBpmMax,  setFilterBpmMax]  = useState('');
     const [filterKey,     setFilterKey]     = useState('');
-    const [filterGenre,   setFilterGenre]   = useState('');
+    const [filterCategory,   setFilterCategory]   = useState('');
     const [filterTag,     setFilterTag]     = useState('');
     const [currentPage,   setCurrentPage]   = useState(1);
     const beatsPerPage = 10;
@@ -148,26 +148,26 @@ export default function PublicStore() {
         return beats.filter(b => {
             if (searchText) {
                 const q = searchText.toLowerCase();
-                const hay = [b.title, b.genre, b.description, b.key, String(b.bpm || ''), ...(b.tags || [])].join(' ').toLowerCase();
+                const hay = [b.title, b.category || b.genre, b.description, b.key, String(b.bpm || ''), ...(b.tags || [])].join(' ').toLowerCase();
                 if (!hay.includes(q)) return false;
             }
             if (filterBpmMin && b.bpm < Number(filterBpmMin)) return false;
             if (filterBpmMax && b.bpm > Number(filterBpmMax)) return false;
             if (filterKey   && b.key !== filterKey)            return false;
-            if (filterGenre && b.genre !== filterGenre)        return false;
+            if (filterCategory && (b.category || b.genre) !== filterCategory)        return false;
             if (filterTag) {
                 const t = filterTag.toLowerCase();
                 if (!(b.tags || []).some(tag => tag.toLowerCase().includes(t))) return false;
             }
             return true;
         });
-    }, [beats, searchText, filterBpmMin, filterBpmMax, filterKey, filterGenre, filterTag]);
+    }, [beats, searchText, filterBpmMin, filterBpmMax, filterKey, filterCategory, filterTag]);
 
-    const activeFilters = [filterBpmMin, filterBpmMax, filterKey, filterGenre, filterTag].filter(Boolean).length;
-    const clearFilters = () => { setFilterBpmMin(''); setFilterBpmMax(''); setFilterKey(''); setFilterGenre(''); setFilterTag(''); setSearchText(''); setCurrentPage(1); };
+    const activeFilters = [filterBpmMin, filterBpmMax, filterKey, filterCategory, filterTag].filter(Boolean).length;
+    const clearFilters = () => { setFilterBpmMin(''); setFilterBpmMax(''); setFilterKey(''); setFilterCategory(''); setFilterTag(''); setSearchText(''); setCurrentPage(1); };
 
     // ── Pagination ──
-    useEffect(() => { setCurrentPage(1); }, [searchText, filterBpmMin, filterBpmMax, filterKey, filterGenre, filterTag]);
+    useEffect(() => { setCurrentPage(1); }, [searchText, filterBpmMin, filterBpmMax, filterKey, filterCategory, filterTag]);
     
     const paginatedBeats = useMemo(() => {
         const pageCount = Math.max(1, Math.ceil(filteredBeats.length / beatsPerPage));
@@ -320,7 +320,7 @@ export default function PublicStore() {
                                                     </h3>
                                                     <p className="text-[#facc15]/80 text-[10px] sm:text-sm font-bold uppercase tracking-widest mb-3 sm:mb-4 truncate">
                                                         {item.type === 'beat'
-                                                            ? `${item.bpm ? item.bpm + ' BPM' : ''} ${item.key ? '| ' + item.key : ''} ${item.genre ? '| ' + item.genre : ''}`
+                                                            ? `${item.bpm ? item.bpm + ' BPM' : ''} ${item.key ? '| ' + item.key : ''} ${(item.category || item.genre) ? '| ' + (item.category || item.genre) : ''}`
                                                             : `${item.beatIds?.length || 0} Tracks`}
                                                     </p>
                                                     {item.type === 'beat' && (
@@ -378,7 +378,7 @@ export default function PublicStore() {
                                 type="text"
                                 value={searchText}
                                 onChange={e => setSearchText(e.target.value)}
-                                placeholder="Search beats by title, tag, genre, key, BPM..."
+                                placeholder="Search beats by title, tag, category, key, BPM..."
                                 className="w-full pl-10 pr-4 py-3 bg-[#1e293b]/60 backdrop-blur border border-[#facc15]/10 hover:border-[#facc15]/30 focus:border-[#facc15]/60 rounded-xl outline-none text-white text-sm transition"
                             />
                         </div>
@@ -431,10 +431,10 @@ export default function PublicStore() {
                                 </select>
                             </div>
                             <div>
-                                <label className="text-gray-500 mb-1.5 block uppercase tracking-wider text-[10px]">Genre</label>
-                                <select value={filterGenre} onChange={e => setFilterGenre(e.target.value)} className="w-full p-2.5 bg-[#0f172a] border border-gray-700 rounded-lg focus:border-[#facc15] outline-none text-white transition">
+                                <label className="text-gray-500 mb-1.5 block uppercase tracking-wider text-[10px]">Category</label>
+                                <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="w-full p-2.5 bg-[#0f172a] border border-gray-700 rounded-lg focus:border-[#facc15] outline-none text-white transition">
                                     <option value="">Any</option>
-                                    {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
+                                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                                 </select>
                             </div>
                             <div>
@@ -502,7 +502,7 @@ export default function PublicStore() {
                                             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs sm:text-sm text-[#facc15]/70 font-medium">
                                                 {beat.bpm && beat.bpm !== 0 && beat.bpm !== '0' && <span>{beat.bpm} BPM</span>}
                                                 {beat.key && beat.key.trim() !== '' && beat.key !== '-' && <><span className="text-gray-600">|</span><span>{beat.key}</span></>}
-                                                {beat.genre && beat.genre.trim() !== '' && beat.genre !== '-' && <><span className="text-gray-600">|</span><span>{beat.genre}</span></>}
+                                                {(beat.category || beat.genre) && (beat.category || beat.genre).trim() !== '' && (beat.category || beat.genre) !== '-' && <><span className="text-gray-600">|</span><span>{beat.category || beat.genre}</span></>}
                                             </div>
                                             {/* Tags */}
                                             {(beat.tags || []).length > 0 && (
@@ -670,7 +670,7 @@ export default function PublicStore() {
                                     {[
                                         (currentTrack.bpm && currentTrack.bpm !== 0 && currentTrack.bpm !== '0') ? `${currentTrack.bpm} BPM` : null, 
                                         (currentTrack.key && currentTrack.key.trim() !== '' && currentTrack.key !== '-') ? currentTrack.key : null, 
-                                        (currentTrack.genre && currentTrack.genre.trim() !== '' && currentTrack.genre !== '-') ? currentTrack.genre : null
+                                        ((currentTrack.category || currentTrack.genre) && (currentTrack.category || currentTrack.genre).trim() !== '' && (currentTrack.category || currentTrack.genre) !== '-') ? (currentTrack.category || currentTrack.genre) : null
                                     ].filter(Boolean).join(' · ') || 'dBoy'}
                                 </div>
                             </div>

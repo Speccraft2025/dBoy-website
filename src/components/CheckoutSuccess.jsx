@@ -143,17 +143,29 @@ export default function CheckoutSuccess() {
                                             </div>
                                             <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                                                 {link.audioUrl && (
-                                                    <a href={link.audioUrl} target="_blank" rel="noreferrer" className="bg-[#facc15] text-black hover:bg-yellow-400 font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition flex-1 sm:flex-none justify-center">
+                                                    <a 
+                                                        href={link.audioUrl} 
+                                                        download={`${link.title.replace(/\s+/g, '_')}.mp3`}
+                                                        className="bg-[#facc15] text-black hover:bg-yellow-400 font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition flex-1 sm:flex-none justify-center"
+                                                    >
                                                         <Download size={14} /> Audio
                                                     </a>
                                                 )}
                                                 {link.stemsUrl && (
-                                                    <a href={link.stemsUrl} target="_blank" rel="noreferrer" className="bg-purple-500 text-white hover:bg-purple-400 font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition flex-1 sm:flex-none justify-center">
+                                                    <a 
+                                                        href={link.stemsUrl} 
+                                                        download={`${link.title.replace(/\s+/g, '_')}_Stems.zip`}
+                                                        className="bg-purple-500 text-white hover:bg-purple-400 font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition flex-1 sm:flex-none justify-center"
+                                                    >
                                                         <Download size={14} /> Stems ZIP
                                                     </a>
                                                 )}
                                                 {link.licensePdfUrl && (
-                                                    <a href={link.licensePdfUrl} target="_blank" rel="noreferrer" className="bg-[#3b82f6] text-white hover:bg-blue-500 font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition flex-1 sm:flex-none justify-center">
+                                                    <a 
+                                                        href={link.licensePdfUrl} 
+                                                        download={`License_${link.title.replace(/\s+/g, '_')}.pdf`}
+                                                        className="bg-[#3b82f6] text-white hover:bg-blue-500 font-bold px-4 py-2 rounded-lg flex items-center gap-2 transition flex-1 sm:flex-none justify-center"
+                                                    >
                                                         <FileText size={14} /> License PDF
                                                     </a>
                                                 )}

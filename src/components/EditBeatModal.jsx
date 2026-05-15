@@ -4,7 +4,7 @@ import { db, storage } from '../lib/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-const GENRES = ['Hip-Hop', 'Trap', 'Afrobeat', 'R&B', 'Pop', 'Drill', 'Jazz', 'Electronic', 'Gospel', 'Lo-fi', 'Other'];
+const CATEGORIES = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion'];
 
 export default function EditBeatModal({ beat, onClose, onSaved }) {
     const [title, setTitle] = useState(beat.title || '');
@@ -12,7 +12,7 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
     const [beatKey, setBeatKey] = useState(beat.key || '');
     const [tags, setTags] = useState((beat.tags || []).join(', '));
     const [price, setPrice] = useState(beat.price ?? 50);
-    const [genre, setGenre] = useState(beat.genre || '');
+    const [category, setCategory] = useState(beat.category || beat.genre || '');
     const [description, setDescription] = useState(beat.description || '');
 
     const [newCoverFile, setNewCoverFile] = useState(null);
@@ -56,7 +56,7 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
                 key: beatKey.trim(),
                 tags: tags.split(',').map(t => t.trim()).filter(Boolean),
                 price: Number(price) || 50,
-                genre: genre.trim(),
+                category: category.trim(),
                 description: description.trim(),
             };
 
@@ -212,16 +212,16 @@ export default function EditBeatModal({ beat, onClose, onSaved }) {
                         </div>
                     </div>
 
-                    {/* Genre */}
+                    {/* Category */}
                     <div>
-                        <label className="block text-gray-400 text-sm mb-1 flex items-center gap-1"><Music2 size={13} /> Genre</label>
+                        <label className="block text-gray-400 text-sm mb-1 flex items-center gap-1"><Music2 size={13} /> Category</label>
                         <select
-                            value={genre}
-                            onChange={e => setGenre(e.target.value)}
+                            value={category}
+                            onChange={e => setCategory(e.target.value)}
                             className="w-full p-3 bg-[#0f172a] border border-gray-700 rounded-lg focus:border-[#facc15] outline-none text-white text-sm transition"
                         >
-                            <option value="">Select genre...</option>
-                            {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
+                            <option value="">Select category...</option>
+                            {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                     </div>
 

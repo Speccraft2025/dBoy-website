@@ -311,7 +311,10 @@ exports.getOrderedAssets = onCall({
                     
                     if (exists) {
                         const [url] = await file.getSignedUrl({
-                            version: 'v4', action: 'read', expires: Date.now() + 1000 * 60 * 60 * 24 * 7 // 7 days
+                            version: 'v4', 
+                            action: 'read', 
+                            expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+                            responseDisposition: `attachment; filename="${f.path.split('/').pop()}"`
                         });
                         itemUrls.push({ type: f.type, url });
                     } else {
@@ -370,7 +373,10 @@ exports.getOrderedAssets = onCall({
                 await pdfFile.save(pdfBuffer, { contentType: 'application/pdf' });
                 
                 const [url] = await pdfFile.getSignedUrl({
-                    version: 'v4', action: 'read', expires: Date.now() + 1000 * 60 * 60 * 24 * 7
+                    version: 'v4', 
+                    action: 'read', 
+                    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+                    responseDisposition: `attachment; filename="License_${item.title.replace(/\s+/g, '_')}.pdf"`
                 });
                 licensePdfUrl = url;
 
