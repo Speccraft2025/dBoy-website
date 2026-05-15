@@ -100,7 +100,8 @@ export default function AlbumManager({ beats, onBeatsUpdated }) {
             const newIds = pickerSelected;
 
             // Beats removed from album
-            oldIds.filter(id => !newIds.includes(id)).forEach(beatId => {
+            const validOldIds = oldIds.filter(id => beats.some(b => b.id === id));
+            validOldIds.filter(id => !newIds.includes(id)).forEach(beatId => {
                 batch.update(doc(db, 'beats', beatId), { albumId: null });
             });
 
@@ -129,7 +130,8 @@ export default function AlbumManager({ beats, onBeatsUpdated }) {
         if (!window.confirm(`Delete album "${album.name}"? Beats will not be deleted, just unlinked.`)) return;
         try {
             const batch = writeBatch(db);
-            (album.beatIds || []).forEach(beatId => {
+            const validBeatIds = (album.beatIds || []).filter(id => beats.some(b => b.id === id));
+            validBeatIds.forEach(beatId => {
                 batch.update(doc(db, 'beats', beatId), { albumId: null });
             });
             batch.delete(doc(db, 'albums', album.id));
