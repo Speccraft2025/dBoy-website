@@ -556,7 +556,9 @@ export default function PublicStore() {
                                                 onChange={(e) => setSelectedLicenses(prev => ({...prev, [beat.id]: e.target.value}))}
                                                 className="bg-[#0f172a] text-xs text-[#facc15] border border-[#facc15]/40 rounded-l-lg px-2 py-2.5 h-full outline-none cursor-pointer appearance-none text-center font-bold"
                                             >
-                                                {Object.entries(LICENSE_TIERS).map(([key, tier]) => (
+                                                {Object.entries(LICENSE_TIERS)
+                                                    .filter(([key]) => key !== 'custom')
+                                                    .map(([key, tier]) => (
                                                     <option key={key} value={key}>{tier.label} {formatPrice(tier.price)}</option>
                                                 ))}
                                             </select>
@@ -631,7 +633,8 @@ export default function PublicStore() {
                             label: 'Custom', 
                             price: 10000, 
                             format: 'MP3 + WAV + STEMS', 
-                            perks: ['Fully custom beat', 'Max 250,000 streams', 'Monetization allowed', 'Includes 2 revisions'] 
+                            perks: ['Fully custom beat', 'Max 250,000 streams', 'Monetization allowed', 'Includes 2 revisions'],
+                            promo: 'Contact To Discuss'
                         },
                     ].map(tier => (
                         <div key={tier.label} className={`flex-1 bg-[#1e293b]/40 backdrop-blur-md border ${tier.popular ? 'border-[#facc15] shadow-[0_0_20px_rgba(250,204,21,0.2)] transform md:-translate-y-4' : 'border-[#facc15]/10'} rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:border-[#facc15]/40 flex flex-col items-center w-full group/tier relative`}>
@@ -659,9 +662,6 @@ export default function PublicStore() {
                                     </div>
                                 )}
                             </div>
-                            <button className={`mt-auto w-full ${tier.popular ? 'bg-[#facc15] text-[#0f172a] hover:bg-yellow-400' : 'group-hover/tier:bg-[#facc15] group-hover/tier:text-[#0f172a] text-[#facc15] border-t border-[#facc15]/20'} transition-all duration-300 py-4 font-black uppercase tracking-widest text-xs`}>
-                                Choose {tier.label}
-                            </button>
                         </div>
                     ))}
                 </div>
