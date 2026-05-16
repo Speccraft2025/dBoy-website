@@ -465,4 +465,35 @@ exports.debugBeat = onCall({ cors: true }, async (request) => {
     } catch (e) {
         return { error: e.message };
     }
+/**
+ * saveLeadData (Callable)
+ * Captures user lead info before a free download (OTP verification bypassed for now)
+ */
+exports.saveLeadData = onCall({ cors: true }, async (request) => {
+    try {
+        const { name, email, phone, beatId, beatTitle } = request.data;
+        if (!name || !email || !phone) throw new Error("Missing required fields");
+
+        const safePhoneId = phone.replace(/\D/g, '') || `unknown_${Date.now()}`;
+        const leadRef = db.collection("leads").doc(safePhoneId);
+        
+        await leadRef.set({
+            name,
+            email,
+            phone,
+            lastDownloadedBeat: beatId,
+            lastDownloadedAt: FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        await leadRef.collection("downloads").add({
+            beatId: beatId,
+            beatTitle: beatTitle,
+            downloadedAt: FieldValue.serverTimestamp()
+        });
+
+        return { success: true, message: "Lead saved successfully" };
+    } catch (e) {
+        console.error("saveLeadData Error:", e);
+        throw new HttpsError('internal', e.message);
+    }
 });
