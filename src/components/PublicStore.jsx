@@ -12,6 +12,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
 import { useCart, LICENSE_TIERS } from '../contexts/CartContext';
+import FreeDownloadModal from './FreeDownloadModal';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const CATEGORIES  = ['Amapiano/EDM', 'Dancehall', 'Trap/drill', 'Boombap', '2025', 'Afrofusion', 'Lofi Beats'];
@@ -45,6 +46,7 @@ export default function PublicStore() {
     const { addToCart, setIsCartOpen, itemCount, currency, setCurrency, formatPrice } = useCart();
     const [selectedLicenses, setSelectedLicenses] = useState({});
     const [liked,    setLiked]    = useState(getLikedSet);
+    const [selectedFreeBeat, setSelectedFreeBeat] = useState(null);
 
     // Audio Player
     const [currentTrack, setCurrentTrack] = useState(null);
@@ -226,13 +228,33 @@ export default function PublicStore() {
         return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
     };
 
-    const handleDownload = (beat) => {
+    const handleDownload = async (beat) => {
         if (!beat.audioUrl) return;
-        const a = document.createElement('a');
-        a.href = beat.audioUrl;
-        a.download = `${beat.title || 'beat'}.mp3`;
-        a.target = '_blank';
-        a.click();
+        try {
+            // Fetch the audio file as a Blob to force a local download prompt
+            // instead of opening the Firebase Storage URL in a new browser tab.
+            const response = await fetch(beat.audioUrl);
+            if (!response.ok) throw new Error("Network response was not ok");
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${beat.title || 'dBoy_Beat'}.mp3`;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error("Forced download failed (likely CORS), falling back to new tab:", error);
+            const a = document.createElement('a');
+            a.href = beat.audioUrl;
+            a.target = '_blank';
+            a.click();
+        }
     };
 
     // ─── Render ────────────────────────────────────────────────────────────────
@@ -543,7 +565,7 @@ export default function PublicStore() {
                                         </button>
 
                                         <button
-                                            onClick={(e) => { e.stopPropagation(); handleDownload(beat); }}
+                                            onClick={(e) => { e.stopPropagation(); setSelectedFreeBeat(beat); }}
                                             className="flex-1 sm:flex-none flex items-center justify-center gap-2 border border-[#facc15]/40 text-[#facc15] hover:bg-[#facc15] hover:text-[#0f172a] px-4 py-2 rounded-lg transition-all duration-300 font-medium text-sm"
                                         >
                                             <Download size={16} />
@@ -723,6 +745,15 @@ export default function PublicStore() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {/* ── Free Download OTP Modal ── */}
+            {selectedFreeBeat && (
+                <FreeDownloadModal 
+                    beat={selectedFreeBeat} 
+                    onClose={() => setSelectedFreeBeat(null)} 
+                    onDownload={handleDownload} 
+                />
             )}
         </div>
     );
