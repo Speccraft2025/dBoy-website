@@ -1,0 +1,82 @@
+[debug] [2026-05-16T08:09:41.107Z] ----------------------------------------------------------------------
+[debug] [2026-05-16T08:09:41.108Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only functions:saveLeadData
+[debug] [2026-05-16T08:09:41.108Z] CLI Version:   15.15.0
+[debug] [2026-05-16T08:09:41.108Z] Platform:      darwin
+[debug] [2026-05-16T08:09:41.108Z] Node Version:  v22.19.0
+[debug] [2026-05-16T08:09:41.108Z] Time:          Sat May 16 2026 11:09:41 GMT+0300 (East Africa Time)
+[debug] [2026-05-16T08:09:41.108Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-05-16T08:09:41.429Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-05-16T08:09:41.429Z] > authorizing via signed-in user (specmediastudio@gmail.com)
+[debug] [2026-05-16T08:09:41.429Z] [iam] checking project dboywebsite for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2026-05-16T08:09:41.430Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:41.430Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:41.430Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite:testIamPermissions [none]
+[debug] [2026-05-16T08:09:41.430Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite:testIamPermissions  x-goog-user-project=dboywebsite
+[debug] [2026-05-16T08:09:41.430Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-05-16T08:09:42.909Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite:testIamPermissions 200
+[debug] [2026-05-16T08:09:42.910Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-05-16T08:09:42.910Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:42.910Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:42.910Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/dboywebsite/serviceAccounts/dboywebsite@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2026-05-16T08:09:42.910Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/dboywebsite/serviceAccounts/dboywebsite@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2026-05-16T08:09:44.335Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/dboywebsite/serviceAccounts/dboywebsite@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2026-05-16T08:09:44.335Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/dboywebsite/serviceAccounts/dboywebsite@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'dboywebsite'...
+[info] 
+[info] i  deploying functions 
+[debug] [2026-05-16T08:09:44.338Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:44.339Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:44.339Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite [none]
+[debug] [2026-05-16T08:09:44.634Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite 200
+[debug] [2026-05-16T08:09:44.634Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/dboywebsite {"projectNumber":"865131472051","projectId":"dboywebsite","lifecycleState":"ACTIVE","name":"dBoyWebsite","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-03-07T05:11:35.258722Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-05-16T08:09:44.635Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:44.635Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:44.635Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig [none]
+[debug] [2026-05-16T08:09:45.361Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig 200
+[debug] [2026-05-16T08:09:45.361Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dboywebsite/adminSdkConfig {"projectId":"dboywebsite","storageBucket":"dboywebsite.firebasestorage.app"}
+[debug] [2026-05-16T08:09:45.361Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:45.361Z] Checked if tokens are valid: true, expires at: 1778921071435
+[debug] [2026-05-16T08:09:45.362Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/dboywebsite/configs [none]
+[debug] [2026-05-16T08:09:45.829Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/dboywebsite/configs 200
+[debug] [2026-05-16T08:09:45.829Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/dboywebsite/configs {}
+[debug] [2026-05-16T08:09:45.830Z] Validating nodejs source
+[warn] ⚠  functions: Runtime Node.js 20 was deprecated on 2026-04-30 and will be decommissioned on 2026-10-30, after which you will not be able to deploy without upgrading. Consider upgrading now to avoid disruption. See https://cloud.google.com/functions/docs/runtime-support for full details on the lifecycle policy 
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-05-16T08:09:46.663Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^5.0.0",
+    "pdfkit": "^0.18.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2026-05-16T08:09:46.663Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2026-05-16T08:09:46.663Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-05-16T08:09:46.668Z] Found firebase-functions binary at '/Users/speccraftmedialtd./Documents/Web/dBoy Website/dBoy-website/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8186
+
+[debug] [2026-05-16T08:09:46.868Z] Got response from /__/functions.yaml {"endpoints":{"createOrder":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","secretEnvironmentVariables":[{"key":"PESAPAL_CONSUMER_KEY"},{"key":"PESAPAL_CONSUMER_SECRET"},{"key":"PESAPAL_ENV"}],"labels":{},"callableTrigger":{},"entryPoint":"createOrder"},"pesapalIpnCallback":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","secretEnvironmentVariables":[{"key":"PESAPAL_CONSUMER_KEY"},{"key":"PESAPAL_CONSUMER_SECRET"},{"key":"PESAPAL_ENV"}],"labels":{},"httpsTrigger":{},"entryPoint":"pesapalIpnCallback"},"getOrderedAssets":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","secretEnvironmentVariables":[{"key":"PESAPAL_CONSUMER_KEY"},{"key":"PESAPAL_CONSUMER_SECRET"},{"key":"PESAPAL_ENV"}],"labels":{},"callableTrigger":{},"entryPoint":"getOrderedAssets"},"findAndFixOrders":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","secretEnvironmentVariables":[{"key":"PESAPAL_CONSUMER_KEY"},{"key":"PESAPAL_CONSUMER_SECRET"},{"key":"PESAPAL_ENV"}],"labels":{},"callableTrigger":{},"entryPoint":"findAndFixOrders"},"debugBeat":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"debugBeat"},"saveLeadData":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"saveLeadData"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{},"params":[{"type":"secret","name":"PESAPAL_CONSUMER_KEY"},{"type":"secret","name":"PESAPAL_CONSUMER_SECRET"},{"type":"secret","name":"PESAPAL_ENV"}]}
