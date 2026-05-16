@@ -465,6 +465,8 @@ exports.debugBeat = onCall({ cors: true }, async (request) => {
     } catch (e) {
         return { error: e.message };
     }
+});
+
 /**
  * saveLeadData (Callable)
  * Captures user lead info before a free download (OTP verification bypassed for now)
