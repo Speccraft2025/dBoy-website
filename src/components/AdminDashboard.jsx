@@ -304,6 +304,12 @@ export default function AdminDashboard() {
                     <p className="text-gray-400 text-sm mt-1">Manage your catalog, albums, and profile</p>
                 </div>
                 <div className="flex items-center gap-3">
+                    <button 
+                        onClick={() => import('../lib/tempUpdate').then(m => m.runUpdate(beats))}
+                        className="flex items-center gap-2 px-6 py-2 bg-green-500 text-white font-bold rounded animate-pulse"
+                    >
+                        CLICK HERE TO FIX BEATS
+                    </button>
                     <button onClick={() => navigate('/admin2')} className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 transition rounded text-sm text-gray-300">
                         Go to Artist Portal
                     </button>
